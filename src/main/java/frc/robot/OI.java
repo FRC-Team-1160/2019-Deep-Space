@@ -60,7 +60,7 @@ public class OI implements RobotMap{
 
     private void tieButtons(){
       setOn.whenPressed(new SetDrive(true));
-      setOff.whenPressed(new SetDrive(true));
+      setOff.whenPressed(new SetDrive(false));
       LiftUp.whileHeld(new SetLift(0.25));
       LiftDown.whileHeld(new SetLift(-0.25));
       ArmUp.whileHeld(new SetUpArm(0.25));
