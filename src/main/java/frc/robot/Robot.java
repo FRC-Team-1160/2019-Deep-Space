@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -17,6 +20,8 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Tester;
+import frc.robot.commands.SetChooser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,10 +36,15 @@ public class Robot extends TimedRobot implements RobotMap {
   public static Lift lt;
   public static OI oi;
   public static Arm am;
+  public static Tester t;
   public Command autonomousCommand;
+  public static NetworkTable table;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  NetworkTableEntry xEntry;
+  NetworkTableEntry yEntry;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,10 +55,20 @@ public class Robot extends TimedRobot implements RobotMap {
     am = Arm.getInstance();
     dt = DriveTrain.getInstance();
     lt = Lift.getInstance();
+    t = Tester.getInstance();
     oi = OI.getInstance();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    table = inst.getTable("datatable");
+    xEntry = table.getEntry("X");
+    yEntry = table.getEntry("Y");
+
+    //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    //SmartDashboard.putData("Auto mode", m_chooser);
+    m_chooser.setDefaultOption("Forward", new SetChooser(1));
+    m_chooser.addOption("Backwards", new SetChooser(-1));
+    SmartDashboard.putData("Test", m_chooser);
   }
   double x = 0;
   double y = 0;
@@ -93,6 +113,7 @@ public class Robot extends TimedRobot implements RobotMap {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
 
+
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -129,8 +150,11 @@ public class Robot extends TimedRobot implements RobotMap {
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {
+  public void teleopPeriodic(){
     Scheduler.getInstance().run();
+    xEntry.setDouble(x);
+    yEntry.setDouble(y);
+    y += 0.1;
   }
 
   /**

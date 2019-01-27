@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.Drive.ManualDrive;
 import frc.robot.commands.Drive.SetDrive;
 import frc.robot.commands.Lift.SetLift;
 import frc.robot.commands.Arm.SetUpArm;
@@ -26,7 +25,7 @@ public class OI implements RobotMap{
     private static OI instance;
     Joystick mainStick;
     Joystick altStick;
-    JoystickButton setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn;
+    JoystickButton setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, testButton;
 
     public static OI getInstance(){
       if(instance == null){
@@ -48,9 +47,10 @@ public class OI implements RobotMap{
       LiftDown = new JoystickButton(mainStick, 4);
       ArmUp = new JoystickButton(mainStick, 5);
       ArmDown = new JoystickButton(mainStick, 6);
-      ArmIn = new JoystickButton(mainStick, 7);
-      ArmOut = new JoystickButton(mainStick, 8);
+      testButton = new JoystickButton(mainStick, 7);
 
+      ArmIn = new JoystickButton(altStick, 7);
+      ArmOut = new JoystickButton(altStick, 8);
       PistonOut = new JoystickButton(altStick, 5);
       PistonIn = new JoystickButton(altStick, 6);
 
@@ -67,9 +67,12 @@ public class OI implements RobotMap{
       ArmDown.whileHeld(new SetUpArm(-0.25));
       ArmIn.whileHeld(new SetInArm(0.25));
       ArmOut.whileHeld(new SetInArm(-0.25));
-      PistonOut.whileHeld(new SetPiston(true));
-      PistonIn.whileHeld(new SetPiston(false));
+      PistonOut.whenPressed(new SetPiston(true));
+      PistonIn.whenPressed(new SetPiston(false));
     }
+
+    
+    
 
     public Joystick getMainstick(){
       return mainStick;
