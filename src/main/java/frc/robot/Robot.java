@@ -22,8 +22,8 @@ import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Tester;
 import frc.robot.commands.SetChooser;
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.cscore.UsbCamera;
+import frc.robot.subsystems.CameraSwitcher;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -41,8 +41,7 @@ public class Robot extends TimedRobot implements RobotMap {
   public static Tester t;
   public Command autonomousCommand;
   public static NetworkTable table;
-  public static CameraServer cs;
-  public static UsbCamera usb_camera;
+  public static CameraSwitcher cs;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -60,11 +59,10 @@ public class Robot extends TimedRobot implements RobotMap {
     dt = DriveTrain.getInstance();
     lt = Lift.getInstance();
     t = Tester.getInstance();
+    cs = CameraSwitcher.getInstance();
     oi = OI.getInstance();
 
-    cs = CameraServer.getInstance();
-    cs.addAxisCamera("axis", "axis-camera.local");
-    cs.addServer("axis");
+   
 
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();

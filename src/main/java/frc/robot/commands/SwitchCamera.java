@@ -9,29 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
+
 
 
 public class SwitchCamera extends Command {
-  private String camera_type;
-  public SwitchCamera(String camera_type) {
+  public SwitchCamera() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.camera_type = camera_type;
+    requires(Robot.cs);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if(camera_type.equalsIgnoreCase("axis")){
-      Robot.cs.addAxisCamera("axis", "axis-camera.local" );
-      Robot.cs.addServer("axis");
-    }
-    if(camera_type.equalsIgnoreCase("usb")){
-      Robot.usb_camera = CameraServer.getInstance().startAutomaticCapture();
-    }
-
+    Robot.cs.Switch();
   }
 
   // Called repeatedly when this Command is scheduled to run
