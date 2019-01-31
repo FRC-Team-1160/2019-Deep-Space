@@ -14,6 +14,7 @@ import frc.robot.commands.Lift.SetLift;
 import frc.robot.commands.Arm.SetUpArm;
 import frc.robot.commands.Arm.SetInArm;
 import frc.robot.commands.Lift.SetPiston;
+import frc.robot.commands.SwitchCamera;
 
 
 
@@ -25,7 +26,7 @@ public class OI implements RobotMap{
     private static OI instance;
     Joystick mainStick;
     Joystick altStick;
-    JoystickButton setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, testButton;
+    JoystickButton setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, testButton, camSwitch;
 
     public static OI getInstance(){
       if(instance == null){
@@ -47,12 +48,13 @@ public class OI implements RobotMap{
       LiftDown = new JoystickButton(mainStick, 4);
       ArmUp = new JoystickButton(mainStick, 5);
       ArmDown = new JoystickButton(mainStick, 6);
-      testButton = new JoystickButton(mainStick, 7);
+      PistonOut = new JoystickButton(mainStick, 7);
+      PistonIn = new JoystickButton(mainStick, 8);
 
+      testButton = new JoystickButton(altStick, 1);
+      camSwitch = new JoystickButton(altStick, 2);
       ArmIn = new JoystickButton(altStick, 7);
       ArmOut = new JoystickButton(altStick, 8);
-      PistonOut = new JoystickButton(altStick, 5);
-      PistonIn = new JoystickButton(altStick, 6);
 
       System.out.println("Hello");
       tieButtons();
@@ -69,6 +71,7 @@ public class OI implements RobotMap{
       ArmOut.whileHeld(new SetInArm(-0.25));
       PistonOut.whenPressed(new SetPiston(true));
       PistonIn.whenPressed(new SetPiston(false));
+      camSwitch.whenPressed(new SwitchCamera());
     }
 
     

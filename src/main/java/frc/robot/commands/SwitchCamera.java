@@ -15,7 +15,7 @@ import frc.robot.Robot;
 public class SwitchCamera extends Command {
   public SwitchCamera() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    // eg. requires(chassxis);
     requires(Robot.cs);
   }
 

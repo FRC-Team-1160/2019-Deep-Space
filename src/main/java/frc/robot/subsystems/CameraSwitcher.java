@@ -46,7 +46,7 @@ public class CameraSwitcher extends Subsystem {
       System.out.println("Usb Camera");
     }
     if(buttonPressed == 1){//Switch back to axis camera
-      usbCamera = null;//I could not find any method to remove the usbCamera or stop captruing
+      usbCamera = null;//I could not find any method to remove the usbCamera or stop capturing
       cs.addServer("axis");
       buttonPressed = 0;
       System.out.println("Axis Camera");
