@@ -30,11 +30,10 @@ public class Lift extends Subsystem implements RobotMap{
     }
     return instance;
   }
-
   private Lift(){
     leftTalon = new WPI_TalonSRX(LIFT_LEFT);
     rightTalon = new WPI_TalonSRX(LIFT_RIGHT);
-    piston = new DoubleSolenoid(PISTON_SOLENOID_1, PISTON_SOLENOID_2);
+    piston = new DoubleSolenoid(PCM, PISTON_SOLENOID_1, PISTON_SOLENOID_2);
   }
 
   public void setLift(double input){

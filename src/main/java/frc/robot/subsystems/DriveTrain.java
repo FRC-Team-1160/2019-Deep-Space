@@ -90,7 +90,7 @@ public class DriveTrain extends Subsystem implements RobotMap {
   }
 
   public void setOn(){
-    driveSwitch.set(DoubleSolenoid.Value.kReverse);
+    driveSwitch.set(DoubleSolenoid.Value.kForward);
   }
 
   @Override

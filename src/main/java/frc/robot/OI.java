@@ -45,14 +45,16 @@ public class OI implements RobotMap{
       setOff = new JoystickButton(mainStick, 2);
       LiftUp = new JoystickButton(mainStick, 3);
       LiftDown = new JoystickButton(mainStick, 4);
-      ArmUp = new JoystickButton(mainStick, 5);
-      ArmDown = new JoystickButton(mainStick, 6);
-      testButton = new JoystickButton(mainStick, 7);
+      PistonOut = new JoystickButton(mainStick, 5);
+      PistonIn = new JoystickButton(mainStick, 6);
+      ArmUp = new JoystickButton(mainStick, 7);
+      ArmDown = new JoystickButton(mainStick, 8);
 
+
+      testButton = new JoystickButton(altStick, 1);
       ArmIn = new JoystickButton(altStick, 7);
       ArmOut = new JoystickButton(altStick, 8);
-      PistonOut = new JoystickButton(altStick, 5);
-      PistonIn = new JoystickButton(altStick, 6);
+
 
       System.out.println("Hello");
       tieButtons();
