@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.RobotMap;
 
 /**
@@ -21,8 +22,8 @@ public class Lift extends Subsystem implements RobotMap{
   private static Lift instance;
 
   private DoubleSolenoid piston;
-  private WPI_TalonSRX leftTalon;
-  private WPI_TalonSRX rightTalon;
+  private WPI_TalonSRX leftMotor;
+  private WPI_VictorSPX rightMotor;
 
   public static Lift getInstance(){
     if(instance == null){
@@ -31,19 +32,19 @@ public class Lift extends Subsystem implements RobotMap{
     return instance;
   }
   private Lift(){
-    leftTalon = new WPI_TalonSRX(LIFT_LEFT);
-    rightTalon = new WPI_TalonSRX(LIFT_RIGHT);
+    leftMotor = new WPI_TalonSRX(LIFT_LEFT);
+    rightMotor = new WPI_VictorSPX(LIFT_RIGHT);
     piston = new DoubleSolenoid(PCM, PISTON_SOLENOID_1, PISTON_SOLENOID_2);
   }
 
   public void setLift(double input){
-    leftTalon.set(input);
-    rightTalon.set(input);
+    leftMotor.set(input);
+    rightMotor.set(input);
   }
 
   public void stopLift(){
-    leftTalon.set(0);
-    rightTalon.set(0);
+    leftMotor.set(0);
+    rightMotor.set(0);
   }
 
   public void extendPiston(){

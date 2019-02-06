@@ -31,8 +31,8 @@ public class DriveTrain extends Subsystem implements RobotMap {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static DriveTrain instance;
-  private WPI_VictorSPX frontLeft, frontRight;
-  private WPI_TalonSRX middleLeft, middleRight, backLeft, backRight;
+  private WPI_VictorSPX frontLeft, frontRight, middleLeft, middleRight;
+  private WPI_TalonSRX backLeft, backRight;
 
   private AHRS gyro;
 
@@ -54,12 +54,13 @@ public class DriveTrain extends Subsystem implements RobotMap {
   }
 
   private DriveTrain(){
-    frontLeft = new WPI_VictorSPX(DT_LEFT_1);
-    middleLeft = new WPI_TalonSRX(DT_LEFT_2);
-    backLeft = new WPI_TalonSRX(DT_LEFT_3);
-    frontRight = new WPI_VictorSPX(DT_RIGHT_1);
-    middleRight = new WPI_TalonSRX(DT_RIGHT_2);
-    backRight = new WPI_TalonSRX(DT_RIGHT_3);
+    backLeft = new WPI_TalonSRX(DT_BACK_LEFT);
+    backRight = new WPI_TalonSRX(DT_BACK_RIGHT);
+    middleLeft = new WPI_VictorSPX(DT_MIDDLE_LEFT);
+    middleRight = new WPI_VictorSPX(DT_MIDDLE_RIGHT);
+    frontLeft = new WPI_VictorSPX(DT_FRONT_LEFT);
+    frontRight = new WPI_VictorSPX(DT_FRONT_RIGHT);
+    
     driveSwitch = new DoubleSolenoid(PCM, DT_SOLENOID_0, DT_SOLENOID_1);
     gyro = new AHRS(Port.kMXP);
     NetworkTableInstance inst = NetworkTableInstance.getDefault();

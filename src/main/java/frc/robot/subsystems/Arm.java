@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.RobotMap;
 
 /**
@@ -18,7 +19,8 @@ public class Arm extends Subsystem implements RobotMap {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static Arm instance;
-  private WPI_TalonSRX UpLeft, UpRight, InLeft, InRight;
+  private WPI_TalonSRX UpLeft;
+  private WPI_VictorSPX UpRight, InLeft, InRight;
 
   public static Arm getInstance(){
     if(instance == null){
@@ -29,9 +31,9 @@ public class Arm extends Subsystem implements RobotMap {
 
   private Arm(){
     UpLeft = new WPI_TalonSRX(ARM_UP_LEFT);
-    UpRight = new WPI_TalonSRX(ARM_UP_RIGHT);
-    InLeft = new WPI_TalonSRX(ARM_IN_LEFT);
-    InRight = new WPI_TalonSRX(ARM_IN_RIGHT);
+    UpRight = new WPI_VictorSPX(ARM_UP_RIGHT);
+    InLeft = new WPI_VictorSPX(ARM_IN_LEFT);
+    InRight = new WPI_VictorSPX(ARM_IN_RIGHT);
   }
 
   public void setUp(double input){

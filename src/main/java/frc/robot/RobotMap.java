@@ -14,20 +14,21 @@ package frc.robot;
  * floating around.
  */
 public interface RobotMap {
-  public static int DT_LEFT_1 =1;
-  public static int DT_LEFT_2 = 2;
-  public static int DT_LEFT_3 = 3;
-  public static int DT_RIGHT_1 = 4;
-  public static int DT_RIGHT_2 = 5;
-  public static int DT_RIGHT_3 = 6;
-  public static int PCM = 10;
-  public static int LIFT_LEFT = 0;//temporary
-  public static int LIFT_RIGHT = 8;
-  public static int ARM_UP_LEFT = 0;//temporary
-  public static int ARM_UP_RIGHT = 0; // temporary
-  public static int ARM_IN_LEFT = 0;//temporary
-  public static int ARM_IN_RIGHT = 0;//temporary
-  public static int CHOOSER_TESTER = 7;
+  public static int DT_BACK_LEFT = 1;//Talon
+  public static int DT_MIDDLE_LEFT = 2;//Victor
+  public static int DT_FRONT_LEFT = 3;//Victor
+  public static int DT_BACK_RIGHT = 4;//Talon
+  public static int DT_MIDDLE_RIGHT = 5;//Victor
+  public static int DT_FRONT_RIGHT = 6;//Victor
+  public static int PCM = 15;
+  public static int LIFT_LEFT = 7;//Talon
+  public static int LIFT_RIGHT = 8;//Victor
+  public static int ARM_UP_LEFT = 9;//Talon
+  public static int ARM_UP_RIGHT = 10;//Victor
+  public static int ARM_IN_LEFT = 11;//Victor
+  public static int ARM_IN_RIGHT = 12;//Victor
+
+  public static int CHOOSER_TESTER = 0;//Temporary
 
   public static final int DT_SOLENOID_0 = 0;
   public static final int DT_SOLENOID_1 = 7;
