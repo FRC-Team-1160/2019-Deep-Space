@@ -24,7 +24,8 @@ import frc.robot.commands.Lift.SetPiston;
 public class OI implements RobotMap{
     private static OI instance;
     Joystick mainStick;
-    Joystick altStick;
+    Joystick armStick;
+    Joystick liftStick;
     JoystickButton setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, testButton;
 
     public static OI getInstance(){
@@ -36,48 +37,58 @@ public class OI implements RobotMap{
 
     private OI(){
       mainStick = new Joystick(0);
-      altStick = new Joystick(1);
+      armStick = new Joystick(1);
+      liftStick = new Joystick(2);
       createButtons();
     }
 
     private void createButtons(){ 
-      setOn = new JoystickButton(mainStick, 1);
-      setOff = new JoystickButton(mainStick, 2);
-      LiftUp = new JoystickButton(mainStick, 3);
-      LiftDown = new JoystickButton(mainStick, 4);
-      PistonOut = new JoystickButton(mainStick, 5);
-      PistonIn = new JoystickButton(mainStick, 6);
-      ArmUp = new JoystickButton(mainStick, 7);
-      ArmDown = new JoystickButton(mainStick, 8);
 
+      //Drivetrain Commands
+      //setOn = new JoystickButton(mainStick, 1);
+      //setOff = new JoystickButton(mainStick, 2);
+      
+      //Arm Commands
+      //ArmUp = new JoystickButton(armStick, 6);
+      //ArmDown = new JoystickButton(armStick, 7);
+      ArmIn = new JoystickButton(armStick, 3);
+      ArmOut = new JoystickButton(armStick, 1);
 
-      testButton = new JoystickButton(altStick, 1);
-      ArmIn = new JoystickButton(altStick, 7);
-      ArmOut = new JoystickButton(altStick, 8);
+      //Lift commands
+      //LiftUp = new JoystickButton(liftStick, 6);
+      //LiftDown = new JoystickButton(liftStick, 7);
+      PistonOut = new JoystickButton(liftStick, 1);
+      PistonIn = new JoystickButton(liftStick, 3);
 
-
-      System.out.println("Hello");
+      //testButton = new JoystickButton(altStick, 1);
       tieButtons();
     }
 
     private void tieButtons(){
-      setOn.whenPressed(new SetDrive(true));
-      setOff.whenPressed(new SetDrive(false));
-      LiftUp.whileHeld(new SetLift(0.25));
-      LiftDown.whileHeld(new SetLift(-0.25));
-      ArmUp.whileHeld(new SetUpArm(0.25));
-      ArmDown.whileHeld(new SetUpArm(-0.25));
-      ArmIn.whileHeld(new SetInArm(0.25));
-      ArmOut.whileHeld(new SetInArm(-0.25));
-      PistonOut.whenPressed(new SetPiston(true));
-      PistonIn.whenPressed(new SetPiston(false));
+      //setOn.whenPressed(new SetDrive(true)); //won't do anything
+      //setOff.whenPressed(new SetDrive(false)); //the pnuematics aren't attached to the gearbox
+
+      //ArmUp.whileHeld(new SetUpArm(1));
+      //ArmDown.whileHeld(new SetUpArm(-1))      
+      ArmIn.whileHeld(new SetInArm(1)); //intakes the cargo
+      ArmOut.whileHeld(new SetInArm(-1)); //spits the cargo
+      
+      //LiftUp.whileHeld(new SetLift(1));
+      //LiftDown.whileHeld(new SetLift(-1));
+      PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
+      PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
     }
 
-    
-    
-
-    public Joystick getMainstick(){
+    public Joystick getMainStick(){
       return mainStick;
+    }
+
+    public Joystick getLiftStick(){
+      return liftStick;
+    }
+
+    public Joystick getArmStick(){
+      return armStick;
     }
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a

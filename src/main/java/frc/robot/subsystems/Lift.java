@@ -7,11 +7,21 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.RobotMap;
+import frc.robot.Robot;
+import frc.robot.commands.Lift.controlLift;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import frc.robot.RobotMap;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
+
+
 
 /**
  * Add your docs here.
@@ -37,6 +47,11 @@ public class Lift extends Subsystem implements RobotMap{
     piston = new DoubleSolenoid(PCM, PISTON_SOLENOID_1, PISTON_SOLENOID_2);
   }
 
+  public void controlLift(){
+    leftMotor.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getLiftStick().getY()), 1)));
+    SmartDashboard.putNumber("Lift Encoder",leftMotor.getSelectedSensorPosition());
+  }
+
   public void setLift(double input){
     leftMotor.set(input);
     rightMotor.set(input);
@@ -58,6 +73,6 @@ public class Lift extends Subsystem implements RobotMap{
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new controlLift());
   }
 }

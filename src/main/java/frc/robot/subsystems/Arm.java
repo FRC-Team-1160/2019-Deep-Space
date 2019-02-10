@@ -8,9 +8,19 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import frc.robot.Robot;
+import frc.robot.commands.Arm.controlArm;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.RobotMap;
+
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * Add your docs here.
@@ -19,8 +29,8 @@ public class Arm extends Subsystem implements RobotMap {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static Arm instance;
-  private WPI_TalonSRX UpLeft;
-  private WPI_VictorSPX UpRight, InLeft, InRight;
+  private WPI_TalonSRX upLeft;
+  private WPI_VictorSPX upRight, inLeft, inRight;
 
   public static Arm getInstance(){
     if(instance == null){
@@ -30,30 +40,35 @@ public class Arm extends Subsystem implements RobotMap {
   }
 
   private Arm(){
-    UpLeft = new WPI_TalonSRX(ARM_UP_LEFT);
-    UpRight = new WPI_VictorSPX(ARM_UP_RIGHT);
-    InLeft = new WPI_VictorSPX(ARM_IN_LEFT);
-    InRight = new WPI_VictorSPX(ARM_IN_RIGHT);
+    upLeft = new WPI_TalonSRX(ARM_UP_LEFT);
+    upRight = new WPI_VictorSPX(ARM_UP_RIGHT);
+    inLeft = new WPI_VictorSPX(ARM_IN_LEFT);
+    inRight = new WPI_VictorSPX(ARM_IN_RIGHT);
+  }
+
+  public void controlArm(){
+    upLeft.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getArmStick().getY()), 1)));
+    SmartDashboard.putNumber("Arm Encoder",upLeft.getSelectedSensorPosition());
   }
 
   public void setUp(double input){
-    UpLeft.set(input);
-    UpRight.set(input);
+    upLeft.set(input);
+    upRight.set(input);
   }
 
   public void setIn(double input){
-    InLeft.set(input);
-    InRight.set(-input);
+    inLeft.set(input);
+    inRight.set(-input);
   }
   
   public void stopUp(){
-    UpLeft.set(0);
-    UpRight.set(0);
+    upLeft.set(0);
+    upRight.set(0);
   }
 
   public void stopIn(){
-    InLeft.set(0);
-    InRight.set(0);
+    inLeft.set(0);
+    inRight.set(0);
   }
 
   
@@ -61,6 +76,6 @@ public class Arm extends Subsystem implements RobotMap {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new controlArm());
   }
 }

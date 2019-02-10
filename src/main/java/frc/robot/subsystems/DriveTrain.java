@@ -65,8 +65,8 @@ public class DriveTrain extends Subsystem implements RobotMap {
     gyro = new AHRS(Port.kMXP);
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     table = inst.getTable("datatable");
-    xEntry = table.getEntry("X");
-    yEntry = table.getEntry("Y");
+    //xEntry = table.getEntry("X");
+    //yEntry = table.getEntry("Y");
     setFollower();
   }
 
@@ -78,12 +78,14 @@ public class DriveTrain extends Subsystem implements RobotMap {
   }
 
   public void manualDrive(){
-    backLeft.set(ControlMode.PercentOutput, (Math.pow(-(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()), 1)));
-    backRight.set(ControlMode.PercentOutput, (Math.pow(-(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()), 1)));
+    backLeft.set(ControlMode.PercentOutput, (Math.pow(-(Robot.oi.getMainStick().getZ() - Robot.oi.getMainStick().getY()), 2)));
+    backRight.set(ControlMode.PercentOutput, (Math.pow(-(Robot.oi.getMainStick().getZ() + Robot.oi.getMainStick().getY()), 2)));
     SmartDashboard.putNumber("Angle", gyro.getAngle());
     SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
     SmartDashboard.putNumber("Accel Y", gyro.getWorldLinearAccelY());
     SmartDashboard.putNumber("Accel Z", gyro.getWorldLinearAccelZ());
+    SmartDashboard.putNumber("Right Drivetrain Encoder",backRight.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Drivetrain Encoder",backLeft.getSelectedSensorPosition());
   }
 
   public void setOff(){
