@@ -29,8 +29,8 @@ public class Arm extends Subsystem implements RobotMap {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static Arm instance;
-  private WPI_TalonSRX upLeft;
-  private WPI_VictorSPX upRight, inLeft, inRight;
+  private WPI_TalonSRX upLeft, inLeft, inRight;
+  private WPI_VictorSPX upRight;
 
   public static Arm getInstance(){
     if(instance == null){
@@ -42,8 +42,10 @@ public class Arm extends Subsystem implements RobotMap {
   private Arm(){
     upLeft = new WPI_TalonSRX(ARM_UP_LEFT);
     upRight = new WPI_VictorSPX(ARM_UP_RIGHT);
-    inLeft = new WPI_VictorSPX(ARM_IN_LEFT);
-    inRight = new WPI_VictorSPX(ARM_IN_RIGHT);
+    inLeft = new WPI_TalonSRX(ARM_IN_LEFT);
+    inRight = new WPI_TalonSRX(ARM_IN_RIGHT);
+
+    upRight.follow(upLeft);
   }
 
   public void controlArm(){
@@ -54,6 +56,10 @@ public class Arm extends Subsystem implements RobotMap {
   public void setUp(double input){
     upLeft.set(input);
     upRight.set(input);
+  }
+
+  public void setPercentOutputArm(double input){
+    upLeft.set(ControlMode.PercentOutput,input);
   }
 
   public void setIn(double input){
@@ -71,7 +77,9 @@ public class Arm extends Subsystem implements RobotMap {
     inRight.set(0);
   }
 
-  
+  public int getPosition(){
+    return upLeft.getSelectedSensorPosition();
+  }
 
   @Override
   public void initDefaultCommand() {

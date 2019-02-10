@@ -45,6 +45,8 @@ public class Lift extends Subsystem implements RobotMap{
     leftMotor = new WPI_TalonSRX(LIFT_LEFT);
     rightMotor = new WPI_VictorSPX(LIFT_RIGHT);
     piston = new DoubleSolenoid(PCM, PISTON_SOLENOID_1, PISTON_SOLENOID_2);
+
+    rightMotor.follow(leftMotor);
   }
 
   public void controlLift(){
@@ -54,12 +56,14 @@ public class Lift extends Subsystem implements RobotMap{
 
   public void setLift(double input){
     leftMotor.set(input);
-    rightMotor.set(input);
+  }
+
+  public void setPercentOutputLift(double input){
+    leftMotor.set(ControlMode.PercentOutput,input);
   }
 
   public void stopLift(){
     leftMotor.set(0);
-    rightMotor.set(0);
   }
 
   public void extendPiston(){
@@ -68,6 +72,10 @@ public class Lift extends Subsystem implements RobotMap{
 
   public void retractPiston(){
     piston.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public int getPosition(){
+    return leftMotor.getSelectedSensorPosition();
   }
 
   @Override

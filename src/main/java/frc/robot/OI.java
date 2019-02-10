@@ -77,6 +77,7 @@ public class OI implements RobotMap{
       //LiftDown.whileHeld(new SetLift(-1));
       PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
+      
     }
 
     public Joystick getMainStick(){
