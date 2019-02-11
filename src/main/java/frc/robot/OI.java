@@ -70,8 +70,8 @@ public class OI implements RobotMap{
 
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1))      
-      ArmIn.whileHeld(new SetInArm(1)); //intakes the cargo
-      ArmOut.whileHeld(new SetInArm(-1)); //spits the cargo
+      ArmIn.whileHeld(new SetInArm(.5)); //intakes the cargo
+      ArmOut.whileHeld(new SetInArm(-.5)); //spits the cargo
       
       //LiftUp.whileHeld(new SetLift(1));
       //LiftDown.whileHeld(new SetLift(-1));

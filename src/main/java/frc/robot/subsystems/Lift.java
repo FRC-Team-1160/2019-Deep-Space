@@ -11,6 +11,9 @@ import frc.robot.RobotMap;
 import frc.robot.Robot;
 import frc.robot.commands.Lift.controlLift;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
@@ -47,11 +49,15 @@ public class Lift extends Subsystem implements RobotMap{
     piston = new DoubleSolenoid(PCM, PISTON_SOLENOID_1, PISTON_SOLENOID_2);
 
     rightMotor.follow(leftMotor);
+    leftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+
   }
 
   public void controlLift(){
     leftMotor.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getLiftStick().getY()), 1)));
     SmartDashboard.putNumber("Lift Encoder",leftMotor.getSelectedSensorPosition());
+
+    
   }
 
   public void setLift(double input){

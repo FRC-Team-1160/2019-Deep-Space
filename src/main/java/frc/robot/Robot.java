@@ -20,8 +20,12 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.PID;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Tester;
 import frc.robot.commands.SetChooser;
+import edu.wpi.first.wpilibj.Compressor;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,11 +38,15 @@ public class Robot extends TimedRobot implements RobotMap {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static DriveTrain dt;
   public static Lift lt;
-  public static OI oi;
+  public static Vision vs;
+  public static PID pid;
   public static Arm am;
   public static Tester t;
+  public static OI oi;
   public Command autonomousCommand;
   public static NetworkTable table;
+  
+  private Compressor comp;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -56,8 +64,11 @@ public class Robot extends TimedRobot implements RobotMap {
     dt = DriveTrain.getInstance();
     lt = Lift.getInstance();
     t = Tester.getInstance();
+    pid = PID.getInstance(dt.getLeftMaster(), dt.getRightMaster());
+    vs = Vision.getInstance();
+    comp = new Compressor(15);
+    comp.start();
     oi = OI.getInstance();
-
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     table = inst.getTable("datatable");
     xEntry = table.getEntry("X");

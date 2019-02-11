@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.Robot;
@@ -14,6 +15,8 @@ import frc.robot.commands.Arm.controlArm;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 import frc.robot.RobotMap;
 
 
@@ -31,6 +34,12 @@ public class Arm extends Subsystem implements RobotMap {
   private static Arm instance;
   private WPI_TalonSRX upLeft, inLeft, inRight;
   private WPI_VictorSPX upRight;
+  private Timer time;
+
+  private double deltaTime;
+  private double lastEncoder;
+  private double currentEncoder;
+  
 
   public static Arm getInstance(){
     if(instance == null){
@@ -44,13 +53,34 @@ public class Arm extends Subsystem implements RobotMap {
     upRight = new WPI_VictorSPX(ARM_UP_RIGHT);
     inLeft = new WPI_TalonSRX(ARM_IN_LEFT);
     inRight = new WPI_TalonSRX(ARM_IN_RIGHT);
+    time = new Timer();
+    time.start();
+
+    upLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 
     upRight.follow(upLeft);
   }
 
   public void controlArm(){
-    upLeft.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getArmStick().getY()), 1)));
     SmartDashboard.putNumber("Arm Encoder",upLeft.getSelectedSensorPosition());
+    deltaTime = time.get();
+    currentEncoder = upLeft.getSelectedSensorPosition();
+
+    //Trying to dampen the falling of the arm.
+    double derivative = 0;
+    if(currentEncoder > lastEncoder){
+      derivative = ARM_RETARD*((currentEncoder - lastEncoder)/deltaTime);
+    }
+    if(derivative > 0.3){
+      derivative = 0.3;
+    }
+    derivative = 0;
+
+
+    upLeft.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getArmStick().getY()), 1)) + derivative);
+
+    time.reset();
+    time.start();
   }
 
   public void setUp(double input){
