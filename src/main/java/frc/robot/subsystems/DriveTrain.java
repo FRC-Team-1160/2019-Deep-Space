@@ -100,8 +100,8 @@ public class DriveTrain extends Subsystem implements RobotMap {
   public void manualDrive(){
 
     
-    backLeft.set(ControlMode.PercentOutput, ((Robot.oi.getMainStick().getY()/Math.abs(Robot.oi.getMainStick().getY())*(Math.pow((Robot.oi.getMainStick().getY()), 2))) - Robot.oi.getMainStick().getZ()));
-    backRight.set(ControlMode.PercentOutput, -((Robot.oi.getMainStick().getY()/Math.abs(Robot.oi.getMainStick().getY())*(Math.pow((Robot.oi.getMainStick().getY()), 2))) + Robot.oi.getMainStick().getZ()));
+    backLeft.set(ControlMode.PercentOutput, (((Robot.oi.getMainStick().getY()/Math.abs(Robot.oi.getMainStick().getY()))*(Math.pow((Robot.oi.getMainStick().getY()), 2))) - (Math.pow(Robot.oi.getMainStick().getZ(),2) * (Robot.oi.getMainStick().getZ()/Math.abs(Robot.oi.getMainStick().getZ())))));
+    backRight.set(ControlMode.PercentOutput, -(((Robot.oi.getMainStick().getY()/Math.abs(Robot.oi.getMainStick().getY()))*(Math.pow((Robot.oi.getMainStick().getY()), 2))) + (Math.pow(Robot.oi.getMainStick().getZ(),2) * (Robot.oi.getMainStick().getZ()/Math.abs(Robot.oi.getMainStick().getZ())))));
     SmartDashboard.putNumber("Angle", gyro.getAngle());
     SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
     SmartDashboard.putNumber("Accel Y", gyro.getWorldLinearAccelY());
