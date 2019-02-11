@@ -18,13 +18,15 @@ public class BangBangLiftFramework extends Command implements RobotMap{
   private double setpoint;
 	private double error;
 	private int errorDirection; //-1 or 1
-	private double speedCap;
-  public BangBangLiftFramework(double setpoint,double speedCap) {
+    private double speedCap;
+    private boolean driveDirection;
+  public BangBangLiftFramework(double setpoint,double speedCap, boolean direction) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.lt);
     	this.setpoint = setpoint;
-    	this.speedCap = speedCap;
+        this.speedCap = speedCap;
+        this.driveDirection = direction;
     }
 
     // Called just before this Command runs the first time
@@ -35,8 +37,12 @@ public class BangBangLiftFramework extends Command implements RobotMap{
     protected void execute() {
     	error = setpoint - Robot.lt.getPosition();
     	errorDirection = (int)(error / Math.abs(error));
-    	if (errorDirection*0.3 > 0) { //Only go up!
+    	if ((errorDirection*0.3 > 0) || (driveDirection)) { //Go up
     		Robot.lt.setPercentOutputLift(-errorDirection*speedCap);
+        }
+        
+        else if ((errorDirection*0.3 < 0) || (!(driveDirection))) { //Go down
+    		Robot.lt.setPercentOutputLift(errorDirection*speedCap);
     	}
     }
 

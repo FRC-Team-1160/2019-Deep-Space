@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -37,6 +38,8 @@ public class Lift extends Subsystem implements RobotMap{
   private WPI_TalonSRX leftMotor;
   private WPI_VictorSPX rightMotor;
 
+  private Timer timer;
+
   public static Lift getInstance(){
     if(instance == null){
       instance = new Lift();
@@ -51,6 +54,8 @@ public class Lift extends Subsystem implements RobotMap{
     rightMotor.follow(leftMotor);
     leftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 
+    timer = new Timer();
+    timer.start();
   }
 
   public void controlLift(){
@@ -59,6 +64,29 @@ public class Lift extends Subsystem implements RobotMap{
 
     
   }
+
+  /*
+	 * Timer Methods
+	 */
+	public void resetTime(){
+		timer.reset();
+	}
+	
+	public void startTime(){
+		timer.start();
+	}
+	
+	public void stopTime(){
+		timer.stop();
+	}
+	
+	public double getTime(){
+		return timer.get();
+	}
+	
+	public boolean done(double finishTime) {
+		return (timer.get() >= finishTime);
+	}
 
   public void setLift(double input){
     leftMotor.set(input);

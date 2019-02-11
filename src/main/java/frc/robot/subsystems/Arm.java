@@ -34,7 +34,7 @@ public class Arm extends Subsystem implements RobotMap {
   private static Arm instance;
   private WPI_TalonSRX upLeft, inLeft, inRight;
   private WPI_VictorSPX upRight;
-  private Timer time;
+  private Timer timer;
 
   private double deltaTime;
   private double lastEncoder;
@@ -53,8 +53,8 @@ public class Arm extends Subsystem implements RobotMap {
     upRight = new WPI_VictorSPX(ARM_UP_RIGHT);
     inLeft = new WPI_TalonSRX(ARM_IN_LEFT);
     inRight = new WPI_TalonSRX(ARM_IN_RIGHT);
-    time = new Timer();
-    time.start();
+    timer = new Timer();
+    timer.start();
 
     upLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 
@@ -63,7 +63,7 @@ public class Arm extends Subsystem implements RobotMap {
 
   public void controlArm(){
     SmartDashboard.putNumber("Arm Encoder",upLeft.getSelectedSensorPosition());
-    deltaTime = time.get();
+    deltaTime = timer.get();
     currentEncoder = upLeft.getSelectedSensorPosition();
 
     //Trying to dampen the falling of the arm.
@@ -79,9 +79,33 @@ public class Arm extends Subsystem implements RobotMap {
 
     upLeft.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getArmStick().getY()), 1)) + derivative);
 
-    time.reset();
-    time.start();
+    timer.reset();
+    timer.start();
   }
+
+  	/*
+	 * Timer Methods
+	 */
+	public void resetTime(){
+		timer.reset();
+	}
+	
+	public void startTime(){
+		timer.start();
+	}
+	
+	public void stopTime(){
+		timer.stop();
+	}
+	
+	public double getTime(){
+		return timer.get();
+	}
+	
+	public boolean done(double finishTime) {
+		return (timer.get() >= finishTime);
+	}
+	
 
   public void setUp(double input){
     upLeft.set(input);
