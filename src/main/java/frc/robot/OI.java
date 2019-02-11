@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.Lift.*;
+import frc.robot.commands.Vision.*;
 import frc.robot.commands.Auto.CargoDelivery;
 import frc.robot.commands.Auto.HatchPanelDelivery;
 import frc.robot.commands.Auto.Arm.*;
@@ -28,7 +29,7 @@ public class OI implements RobotMap{
     Joystick mainStick;
     Joystick armStick;
     Joystick liftStick;
-    JoystickButton setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, ResetLift, LiftLevel1, LiftLevel2, LiftLevel3, ArmCargoShipDelivery, ArmRocketLevel1Delivery;
+    JoystickButton runVision, setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, ResetLift, LiftLevel1, LiftLevel2, LiftLevel3, ArmCargoShipDelivery, ArmRocketLevel1Delivery;
 
     public static OI getInstance(){
       if(instance == null){
@@ -46,25 +47,27 @@ public class OI implements RobotMap{
 
     private void createButtons(){ 
 
-      //Drivetrain Commands
-      setOn = new JoystickButton(mainStick, 6);
-      setOff = new JoystickButton(mainStick, 7);
+      //MainStick Commands
+      runVision = new JoystickButton(mainStick,1); 
+
+      setOn = new JoystickButton(mainStick, 5);
+      setOff = new JoystickButton(mainStick, 6);
       
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
-      ArmCargoShipDelivery = new JoystickButton(armStick,2);//temporary button
-      ArmRocketLevel1Delivery = new JoystickButton(armStick,4);//temporary button
+      ArmCargoShipDelivery = new JoystickButton(armStick,3);//temporary button
+      ArmRocketLevel1Delivery = new JoystickButton(armStick,5);//temporary button
       ArmIn = new JoystickButton(armStick, 3);
       ArmOut = new JoystickButton(armStick, 1);
 
       //Lift commands
       //LiftUp = new JoystickButton(liftStick, 6);
       //LiftDown = new JoystickButton(liftStick, 7);
-      ResetLift = new JoystickButton(liftStick, 5);//temporary button
+      ResetLift = new JoystickButton(liftStick, 2);//temporary button
       LiftLevel1 = new JoystickButton(liftStick, 6);//temporary button
-      LiftLevel2 = new JoystickButton(liftStick, 2);//temporary button
-      LiftLevel3 = new JoystickButton(liftStick, 4);//temporary button
+      LiftLevel2 = new JoystickButton(liftStick, 4);//temporary button
+      LiftLevel3 = new JoystickButton(liftStick, 5);//temporary button
       
       PistonOut = new JoystickButton(liftStick, 1);
       PistonIn = new JoystickButton(liftStick, 3);
@@ -74,9 +77,12 @@ public class OI implements RobotMap{
     }
 
     private void tieButtons(){
+      //MainStick Buttons
+      runVision.whenPressed(new runVision());
       //setOn.whenPressed(new SetDrive(true)); //won't do anything
       //setOff.whenPressed(new SetDrive(false)); //the pnuematics aren't attached to the gearbox
 
+      //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1))      
       ArmCargoShipDelivery.whenPressed(new CargoDelivery(100));//temporary value - needs to be tuned.
@@ -84,6 +90,7 @@ public class OI implements RobotMap{
       ArmIn.whileHeld(new SetInArm(.5)); //intakes the cargo
       ArmOut.whileHeld(new SetInArm(-.5)); //spits the cargo
       
+      //Lift Buttons
       //LiftUp.whileHeld(new SetLift(1));
       //LiftDown.whileHeld(new SetLift(-1));
       LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
