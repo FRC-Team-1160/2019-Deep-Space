@@ -23,6 +23,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.PID;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Tester;
+import frc.robot.subsystems.Minimap;
 import frc.robot.commands.SetChooser;
 import edu.wpi.first.wpilibj.Compressor;
 
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot implements RobotMap {
   public static Arm am;
   public static Tester t;
   public static OI oi;
+  public static Minimap mm;
   public Command autonomousCommand;
   public static NetworkTable table;
   

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team1160.robot.commands.minimap;
+package frc.robot.commands.Minimap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
