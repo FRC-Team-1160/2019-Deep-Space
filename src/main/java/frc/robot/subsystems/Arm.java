@@ -68,7 +68,7 @@ public class Arm extends Subsystem implements RobotMap {
 
     //Trying to dampen the falling of the arm.
     double derivative = 0;
-    if(currentEncoder > lastEncoder){
+    if(currentEncoder < lastEncoder){
       derivative = ARM_RETARD*((currentEncoder - lastEncoder)/deltaTime);
     }
     if(derivative > 0.3){

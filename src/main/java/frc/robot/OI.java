@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.Lift.*;
 import frc.robot.commands.Vision.*;
+import frc.robot.commands.Drive.*;
 import frc.robot.commands.Auto.CargoDelivery;
 import frc.robot.commands.Auto.HatchPanelDelivery;
 import frc.robot.commands.Auto.Arm.*;
@@ -69,8 +70,8 @@ public class OI implements RobotMap{
       LiftLevel2 = new JoystickButton(liftStick, 4);//temporary button
       LiftLevel3 = new JoystickButton(liftStick, 5);//temporary button
       
-      PistonOut = new JoystickButton(liftStick, 1);
-      PistonIn = new JoystickButton(liftStick, 3);
+      PistonOut = new JoystickButton(mainStick, 8);
+      PistonIn = new JoystickButton(mainStick, 7);
 
       //testButton = new JoystickButton(altStick, 1);
       tieButtons();
@@ -79,16 +80,16 @@ public class OI implements RobotMap{
     private void tieButtons(){
       //MainStick Buttons
       runVision.whenPressed(new runVision());
-      //setOn.whenPressed(new SetDrive(true)); //won't do anything
-      //setOff.whenPressed(new SetDrive(false)); //the pnuematics aren't attached to the gearbox
+      setOn.whenPressed(new SetDrive(true)); //won't do anything
+      setOff.whenPressed(new SetDrive(false)); //the pnuematics aren't attached to the gearbox
 
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1))      
       ArmCargoShipDelivery.whenPressed(new CargoDelivery(100));//temporary value - needs to be tuned.
       ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(200));//temporary value - needs to be tuned.
-      ArmIn.whileHeld(new SetInArm(.5)); //intakes the cargo
-      ArmOut.whileHeld(new SetInArm(-.5)); //spits the cargo
+      ArmIn.whileHeld(new SetInArm(.2)); //intakes the cargo
+      ArmOut.whileHeld(new SetInArm(-.7)); //spits the cargo
       
       //Lift Buttons
       //LiftUp.whileHeld(new SetLift(1));
