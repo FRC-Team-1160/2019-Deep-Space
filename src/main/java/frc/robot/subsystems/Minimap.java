@@ -6,20 +6,34 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+import frc.robot.Robot;
 import java.net.*;
 import java.util.Timer;
 import java.io.*; 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.Minimap.sendData;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.AnalogAccelerometer;
+import java.util.*;
 
 /**
  * Add your docs here.
  */
-public class Minimap extends Subsystem {
-  static Timer timer = new Timer();
+public class Minimap extends Subsystem{
+    
   public static Minimap instance;
+  static double coordinates[] = new double[3];
+   
+   Socket socket = null; 
+   DataOutputStream out = null; 
+  
+   double angle;
 
+
+   
   public Minimap(){
+    coordinates[0] = 0.0;
+    coordinates[1] = 0.0;
+    coordinates[2] = 0.0;
   }
 
   public static Minimap getInstance(){
@@ -29,57 +43,72 @@ public class Minimap extends Subsystem {
     return instance;
   }
 
-  static double f(double x) {
-    return Math.exp(- x * x / 2) / Math.sqrt(2 * Math.PI);
-  }
 
-/**********************************************************************
- * Integrate f from a to b using the trapezoidal rule.
- * Increase N for more precision.
+  // establish a connection 
+  public void makeSocket(){
+  
+  }
+  
+  /**********************************************************************
+ * Finds a new position by integrating acceleration (multiply accel by time twice)
+ * Then it updates it to the coordinate array
+ * Still needs to confirm: ability to display 
  **********************************************************************/
- static double integrate(double a, double b, int N) {
-    double h = (b - a) / N;              // step size
-    double sum = 0.5 * (f(a) + f(b));    // area
-    for (int i = 1; i < N; i++) {
-       double x = a + h * i;
-       sum = sum + f(x);
-    }
 
-    return sum * h;
+ //initialize the coordinate array
+ static void updatePosition() { 
+    //begins the timer
+    Robot.dt.startTime();
+    double timeValue = Robot.dt.getTime();
+
+    //creates an instance of the accelerometer to get the accel values
+    BuiltInAccelerometer accel = new BuiltInAccelerometer();
+    double xValue = accel.getX();
+    double yValue = accel.getY();
+    double zValue = accel.getZ();
+
+    //multiply acceleration by time to get velocity
+    double changeXVelocity = xValue * timeValue;
+    double changeYVelocity = yValue * timeValue;
+    double changeZVelocity = zValue * timeValue;
+
+    //save position into the coordinates
+    coordinates[0] = coordinates[0] + changeXVelocity;
+    coordinates[1] = coordinates[1] + changeYVelocity;
+    coordinates[2] = coordinates[2] + changeZVelocity;
+
   }
-  public void sendData()
-  { 
-      //Client client = new Client("127.0.0.1", 12345); 
-      Socket socket = null; 
-      DataOutputStream out = null; 
-      // establish a connection 
-      try
-      { 
-          socket = new Socket("127.0.0.1", 5800); 
-          System.out.println("Connected"); 
-          
-          // sends output to the socket 
-          out = new DataOutputStream(socket.getOutputStream()); 
+  public void sendData() { 
+      try{ 
+        socket = new Socket("127.0.0.1", 12345); 
+        System.out.println("Connected"); 
+        
+        // sends output to the socket 
+        out = new DataOutputStream(socket.getOutputStream()); 
       } 
       catch(UnknownHostException u) 
-      { 
-          System.out.println(u); 
-      } 
+        { 
+            System.out.println(u); 
+        } 
       catch(IOException i) 
-      { 
-          System.out.println(i); 
+        { 
+            System.out.println(i); 
       }
-      
       int j = 0;
-      float xDis = 50, yDis = 70, angle = 45;
+      
       while (j < 9999999)
       {
-        
-        
+        updatePosition();
+        angle = Robot.dt.getGyro().getYaw();
+        if(angle < 0) angle +=360;
         long time = System.currentTimeMillis();
         while (System.currentTimeMillis() - time < 1000) {}
-        //out.writeBytes(xDis + " " + yDis + " " + angle + "\n");
-        xDis+=5;
+        try{
+          out.writeBytes(coordinates[0] + " " + coordinates[1]+ " " + angle + "\n");
+        }catch(IOException i) 
+        { 
+            System.out.println(i); 
+      }
         j++;
       }
       
@@ -98,6 +127,5 @@ public class Minimap extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new sendData());
   }
 }
