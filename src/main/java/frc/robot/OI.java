@@ -18,7 +18,7 @@ import frc.robot.commands.Auto.HatchPanelDelivery;
 import frc.robot.commands.Auto.Arm.*;
 import frc.robot.commands.Auto.Lift.*;
 import frc.robot.commands.Auto.Drivetrain.*;
-
+import frc.robot.commands.Minimap.sendData;
 
 
 /**
@@ -30,7 +30,7 @@ public class OI implements RobotMap{
     Joystick mainStick;
     Joystick armStick;
     Joystick liftStick;
-    JoystickButton runVision, setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, ResetLift, LiftLevel1, LiftLevel2, LiftLevel3, ArmCargoShipDelivery, ArmRocketLevel1Delivery;
+    JoystickButton sendData, runVision, setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, ResetLift, LiftLevel1, LiftLevel2, LiftLevel3, ArmCargoShipDelivery, ArmRocketLevel1Delivery;
 
     public static OI getInstance(){
       if(instance == null){
@@ -54,6 +54,7 @@ public class OI implements RobotMap{
       setOn = new JoystickButton(mainStick, 5);
       setOff = new JoystickButton(mainStick, 6);
       
+      sendData = new JoystickButton(mainStick, 9);
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
@@ -97,9 +98,11 @@ public class OI implements RobotMap{
       LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
       LiftLevel1.whenPressed(new HatchPanelDelivery(0));//temporary value - needs to be tuned.
       LiftLevel2.whenPressed(new HatchPanelDelivery(100));//temporary value - needs to be tuned.
-      LiftLevel3.whenPressed(new HatchPanelDelivery(200));//temporary value - needs to be tuned.
+      LiftLevel3.whenPressed(new HatchPanelDelivery(-50000));//temporary value - needs to be tuned.
       PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
+
+      sendData.whenPressed(new sendData());
       
     }
 

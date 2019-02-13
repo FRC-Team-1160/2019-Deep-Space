@@ -13,7 +13,6 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 
-
 public class BangBangLiftFramework extends Command implements RobotMap{
   private double setpoint;
 	private double error;
@@ -35,14 +34,14 @@ public class BangBangLiftFramework extends Command implements RobotMap{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	error = setpoint - Robot.lt.getPosition();
+    	error = Math.abs(setpoint - Robot.lt.getPosition());
     	errorDirection = (int)(error / Math.abs(error));
-    	if ((errorDirection*0.3 > 0) || (driveDirection)) { //Go up
-    		Robot.lt.setPercentOutputLift(-errorDirection*speedCap);
+    	if ((driveDirection)) { //Go up
+    		Robot.lt.setPercentOutputLift(speedCap);
         }
         
-        else if ((errorDirection*0.3 < 0) || (!(driveDirection))) { //Go down
-    		Robot.lt.setPercentOutputLift(errorDirection*speedCap);
+        else if ((!(driveDirection))) { //Go down
+    		Robot.lt.setPercentOutputLift(-speedCap);
     	}
     }
 

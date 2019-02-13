@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.AnalogAccelerometer;
 import java.util.*;
 
+import frc.robot.commands.Minimap.sendData;
+
 /**
  * Add your docs here.
  */
@@ -34,6 +36,7 @@ public class Minimap extends Subsystem{
     coordinates[0] = 0.0;
     coordinates[1] = 0.0;
     coordinates[2] = 0.0;
+    System.out.println("minimap made");
   }
 
   public static Minimap getInstance(){
@@ -83,9 +86,10 @@ public class Minimap extends Subsystem{
     coordinates[2] = coordinates[2] + changeZVelocity;
 
   }
+
   public void sendData() { 
       try{ 
-        socket = new Socket("127.0.0.1", 12345); 
+        socket = new Socket("127.0.0.1", 5800); 
         System.out.println("Connected"); 
         
         // sends output to the socket 
@@ -132,5 +136,6 @@ public class Minimap extends Subsystem{
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new sendData());
   }
 }
