@@ -72,7 +72,12 @@ public class Minimap extends Subsystem{
     double changeYVelocity = yValue * timeValue;
     double changeZVelocity = zValue * timeValue;
 
-    //save position into the coordinates
+    /*TL;DR: save velocity into the coordinates - this works because 
+      the initial velocity at time 0 is 0, then you add your 
+      new v to that. That becomes your C for the next incremement
+      so position is already solved for
+      Message Will C. or Edmond W. if clarity is needed
+    */
     coordinates[0] = coordinates[0] + changeXVelocity;
     coordinates[1] = coordinates[1] + changeYVelocity;
     coordinates[2] = coordinates[2] + changeZVelocity;
