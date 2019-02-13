@@ -96,8 +96,8 @@ public class OI implements RobotMap{
       //LiftUp.whileHeld(new SetLift(1));
       //LiftDown.whileHeld(new SetLift(-1));
       LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
-      LiftLevel1.whenPressed(new HatchPanelDelivery(0));//temporary value - needs to be tuned.
-      LiftLevel2.whenPressed(new HatchPanelDelivery(100));//temporary value - needs to be tuned.
+      LiftLevel1.whenPressed(new HatchPanelDelivery(-5000));//temporary value - needs to be tuned.
+      LiftLevel2.whenPressed(new HatchPanelDelivery(-10000));//temporary value - needs to be tuned.
       LiftLevel3.whenPressed(new HatchPanelDelivery(-50000));//temporary value - needs to be tuned.
       PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
