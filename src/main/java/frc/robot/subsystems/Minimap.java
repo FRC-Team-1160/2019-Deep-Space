@@ -85,7 +85,7 @@ public class Minimap extends Subsystem{
   }
   public void sendData() { 
       try{ 
-        socket = new Socket("127.0.0.1", 12345); 
+        socket = new Socket("127.0.0.1", 5800); 
         System.out.println("Connected"); 
         
         // sends output to the socket 
