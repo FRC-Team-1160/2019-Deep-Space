@@ -71,6 +71,7 @@ public class Robot extends TimedRobot implements RobotMap {
     comp = new Compressor(15);
     comp.start();
     oi = OI.getInstance();
+    mm = Minimap.getInstance();
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     table = inst.getTable("datatable");
     xEntry = table.getEntry("X");
