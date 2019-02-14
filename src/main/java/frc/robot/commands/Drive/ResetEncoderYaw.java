@@ -5,37 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Auto.Drivetrain;
-import frc.robot.Robot;
-import frc.robot.RobotMap;
+package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-public class DriveForward extends Command {
-  private double leftDistance, rightDistance;
-  public DriveForward(double d) {
+public class ResetEncoderYaw extends Command {
+  public ResetEncoderYaw() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.pid);
     requires(Robot.dt);
-    requires(Robot.vs);
-    this.leftDistance = d + Robot.dt.getLeftMaster().getSelectedSensorPosition();
-    this.rightDistance = d + Robot.dt.getRightMaster().getSelectedSensorPosition();
-
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("The distance is: "+ leftDistance);
-
-    Robot.dt.resetGyro();
-    Robot.dt.resetTurnAngleIntegral();
-    Robot.dt.resetTime();
-    Robot.dt.startTime();
-
-    //System.out.println("Im Stupid");
-    Robot.pid.goDistance(leftDistance*.9, rightDistance*.9);
+    Robot.dt.resetPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -46,20 +31,12 @@ public class DriveForward extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if((Math.abs(Robot.dt.getLeftMaster().getClosedLoopError(0)) < 100 ) && ((Math.abs(Robot.dt.getRightMaster().getClosedLoopError(0)) < 100))){
-      System.out.println("Im finished Driving from input");
-  
-      return true;
-    }
-    System.out.println("Im still Driving from input");
-
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    
   }
 
   // Called when another command which requires one or more of the same

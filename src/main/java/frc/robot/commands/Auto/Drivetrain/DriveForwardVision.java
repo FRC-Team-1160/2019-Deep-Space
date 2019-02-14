@@ -12,31 +12,28 @@ import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveForwardVision extends Command {
-  private double distance;
+  private double lDistance, rDistance;
   public DriveForwardVision(double d) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.pid);
     requires(Robot.dt);
     requires(Robot.vs);
-    this.distance = d;
+    this.lDistance = Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    this.rDistance = Robot.dt.getRightMaster().getSelectedSensorPosition();
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     //System.out.println("The distance is: "+distance);
-    Robot.dt.resetPosition();
     Robot.dt.resetGyro();
     Robot.dt.resetTurnAngleIntegral();
     Robot.dt.resetTime();
     Robot.dt.startTime();
-    while(Math.abs(Robot.dt.getLeftMaster().getSelectedSensorPosition()) > 0.1 || Robot.dt.getRightMaster().getSelectedSensorPosition() > 0.1){
-      //System.err.println("The reset method lies");
-      Robot.dt.resetPosition();
-    }
+
     //System.out.println("Im Stupid");
-    Robot.pid.goDistance(Robot.vs.distanceToTarget*.90);
+    Robot.pid.goDistance((Robot.vs.distanceToTarget + lDistance)*.90, (Robot.vs.distanceToTarget +rDistance)*.90);
   }
 
   // Called repeatedly when this Command is scheduled to run

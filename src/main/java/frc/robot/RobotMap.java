@@ -43,9 +43,9 @@ public interface RobotMap {
 
   //Drivetrain Control Constants
   public static final double WHEEL_DIAMETER = 6;
-  public static final double CONTROLLER_CONSTANT_L = 2355/(WHEEL_DIAMETER/Math.PI);
-  public static final double CONTROLLER_CONSTANT_R = 2355/(WHEEL_DIAMETER/Math.PI);
-    //Turnangle Constantc
+  public static final double CONTROLLER_CONSTANT_L = 2239/(WHEEL_DIAMETER/Math.PI);
+  public static final double CONTROLLER_CONSTANT_R = 2261/(WHEEL_DIAMETER/Math.PI);
+    //Turnangle Constant
   public static final double GYRO_KP_2 = 0.025; 
   public static final double GYRO_KI = 0.0005;
   public static final double GYRO_KD = 0.000001;
@@ -62,6 +62,14 @@ public interface RobotMap {
 
   //Lift Control Constants
 
-
+  /*
+  // --- IGNORE ---
+  // Drive Train Encoder Value
+  // left forward 1 turn = -2228 2 turns = -4485 1 turn = -2249
+  // -2228, -2242, -2249
+  // right forward 1 turn = 2266 2 turn = 4516 3 turn = 6775
+  // 2266, 2258, 2258
+  // --- End Ignore ---
+  */
 
 }

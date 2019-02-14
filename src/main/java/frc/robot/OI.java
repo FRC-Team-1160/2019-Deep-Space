@@ -30,7 +30,14 @@ public class OI implements RobotMap{
     Joystick mainStick;
     Joystick armStick;
     Joystick liftStick;
-    JoystickButton sendData, runVision, setOn, setOff, LiftUp, LiftDown, ArmUp, ArmDown, ArmIn, ArmOut, PistonOut, PistonIn, ResetLift, LiftLevel1, LiftLevel2, LiftLevel3, ArmCargoShipDelivery, ArmRocketLevel1Delivery;
+    JoystickButton sendData, runVision, setOn, setOff, resetEncoderYaw,
+
+     ArmUp,ArmDown, ArmIn, ArmOut, PistonOut, PistonIn,
+      ArmCargoShipDelivery, ArmRocketLevel1Delivery,
+
+     LiftUp, LiftDown, ResetLift, LiftLevel1,  LiftLevel2, LiftLevel3, 
+
+      driveForward ;
 
     public static OI getInstance(){
       if(instance == null){
@@ -54,7 +61,10 @@ public class OI implements RobotMap{
       setOn = new JoystickButton(mainStick, 5);
       setOff = new JoystickButton(mainStick, 6);
       
-      sendData = new JoystickButton(mainStick, 9);
+      driveForward = new JoystickButton(mainStick , 4);
+
+      resetEncoderYaw = new JoystickButton(mainStick, 10);
+     // sendData = new JoystickButton(mainStick, 9);
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
@@ -84,6 +94,9 @@ public class OI implements RobotMap{
       setOn.whenPressed(new SetDrive(true)); //won't do anything
       setOff.whenPressed(new SetDrive(false)); //the pnuematics aren't attached to the gearbox
 
+      driveForward.whenPressed(new DriveForward(30));
+
+      resetEncoderYaw.whenPressed(new ResetEncoderYaw());
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1))      
@@ -103,7 +116,6 @@ public class OI implements RobotMap{
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
 
       //sendData.whenPressed(new sendData());
-      
     }
 
     public Joystick getMainStick(){

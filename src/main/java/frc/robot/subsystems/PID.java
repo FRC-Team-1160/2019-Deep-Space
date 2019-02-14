@@ -22,7 +22,6 @@ public class PID extends Subsystem implements RobotMap{
 	private static PID instance;
 	private double proportion, integral, derivative, distance_difference, distance_difference_now, deltaTime, current_distance;
 
-
 	private PID(WPI_TalonSRX lController, WPI_TalonSRX rController) {
 		leftController = lController;
 		rightController = rController;
@@ -32,12 +31,12 @@ public class PID extends Subsystem implements RobotMap{
     	leftController.configAllowableClosedloopError(0, 75, 0);
     	rightController.configAllowableClosedloopError(0, 75, 0);
 
-		leftController.config_kP(0, .5005, 0);
-		leftController.config_kI(0, 0.0001, 0);
-		leftController.config_kD(0, -0.05, 0);
-		rightController.config_kP(0, 0.5, 0);
-		rightController.config_kI(0, 0.0001, 0);
-    	rightController.config_kD(0, -0.05, 0);
+		leftController.config_kP(0, .0005, 0);
+		leftController.config_kI(0, 0.000, 0);
+		leftController.config_kD(0, 0.000, 0);
+		rightController.config_kP(0, 0.0005, 0);
+		rightController.config_kI(0, 0.000, 0);
+    	rightController.config_kD(0, 0.000, 0);
 	}
 	
 	public static PID getInstance(WPI_TalonSRX lController, WPI_TalonSRX rController) {
@@ -47,14 +46,14 @@ public class PID extends Subsystem implements RobotMap{
 		return instance;
 	}
 	
-	public void goDistance(double targetDistance) {
+	public void goDistance(double lTargetDistance, double rTargetDistance) {
 		SmartDashboard.putNumber("Back Left Encoder", leftController.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Back Right Encoder", rightController.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Back Left Error", leftController.getClosedLoopError());
 		SmartDashboard.putNumber("Back Right Error", rightController.getClosedLoopError());
 	
-		leftController.set(ControlMode.Position, -1*(targetDistance*RobotMap.CONTROLLER_CONSTANT_L));
-		rightController.set(ControlMode.Position,(targetDistance*RobotMap.CONTROLLER_CONSTANT_R));
+		leftController.set(ControlMode.Position, (lTargetDistance*RobotMap.CONTROLLER_CONSTANT_L));
+		rightController.set(ControlMode.Position,(rTargetDistance*RobotMap.CONTROLLER_CONSTANT_R));
  	}
 	
     public void initDefaultCommand() {
