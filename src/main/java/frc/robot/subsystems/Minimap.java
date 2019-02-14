@@ -23,7 +23,7 @@ import frc.robot.commands.Minimap.sendData;
 public class Minimap extends Subsystem{
     
   public static Minimap instance;
-  static double coordinates[] = new double[3];
+  static double coordinates[] = {0.0, 0.0, 0.0};
    
    Socket socket = null; 
    DataOutputStream out = null; 
@@ -37,10 +37,25 @@ public class Minimap extends Subsystem{
     coordinates[1] = 0.0;
     coordinates[2] = 0.0;
     System.out.println("minimap made");
+    try{ 
+      socket = new Socket("127.0.0.1", 5800); 
+      System.out.println("Connected"); 
+      
+      // sends output to the socket 
+      out = new DataOutputStream(socket.getOutputStream()); 
+    } 
+    catch(UnknownHostException u) 
+      { 
+          System.out.println(u); 
+      } 
+    catch(IOException i) 
+      { 
+          System.out.println(i); 
+     }
   }
 
   public static Minimap getInstance(){
-    if(instance != null){
+    if(instance == null){
       instance = new Minimap();
     }
     return instance;
@@ -88,39 +103,23 @@ public class Minimap extends Subsystem{
   }
 
   public void sendData() { 
-      try{ 
-        socket = new Socket("127.0.0.1", 5800); 
-        System.out.println("Connected"); 
-        
-        // sends output to the socket 
-        out = new DataOutputStream(socket.getOutputStream()); 
-      } 
-      catch(UnknownHostException u) 
-        { 
-            System.out.println(u); 
-        } 
-      catch(IOException i) 
-        { 
-            System.out.println(i); 
-      }
-      int j = 0;
-      
-      while (j < 9999999)
-      {
-        updatePosition();
-        angle = Robot.dt.getGyro().getYaw();
+     
+      updatePosition();
+        angle = 0;//Robot.dt.getGyro().getYaw();
         if(angle < 0) angle +=360;
         long time = System.currentTimeMillis();
         while (System.currentTimeMillis() - time < 1000) {}
         try{
+
+
+
+          //.
           out.writeBytes(coordinates[0] + " " + coordinates[1]+ " " + angle + "\n");
         }catch(IOException i) 
         { 
             System.out.println(i); 
-      }
-        j++;
-      }
-      
+        }
+
       System.out.println("ended");
       // close the connection 
       try
