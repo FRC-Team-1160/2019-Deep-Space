@@ -43,9 +43,14 @@ public class Robot extends TimedRobot implements RobotMap {
   public static PID pid;
   public static Arm am;
   public static Tester t;
+<<<<<<< HEAD
   public static Minimap mm;
   public static OI oi;
 
+=======
+  public static Minimap mm; 
+  public static OI oi;
+>>>>>>> 43e36ac1175b81f73544c79206d50099c318ba8f
   public Command autonomousCommand;
   public static NetworkTable table;
   
