@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveForwardVision extends Command {
+public class DriveForwardVision extends Command implements RobotMap{
   private double lDistance, rDistance;
   public DriveForwardVision(double d) {
     // Use requires() here to declare subsystem dependencies
@@ -33,7 +33,7 @@ public class DriveForwardVision extends Command {
     Robot.dt.startTime();
 
     //System.out.println("Im Stupid");
-    Robot.pid.goDistance((Robot.vs.distanceToTarget + lDistance)*.90, (Robot.vs.distanceToTarget +rDistance)*.90);
+    Robot.pid.goDistance((Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_L + lDistance)*.90, (Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_R + rDistance)*.90);
   }
 
   // Called repeatedly when this Command is scheduled to run

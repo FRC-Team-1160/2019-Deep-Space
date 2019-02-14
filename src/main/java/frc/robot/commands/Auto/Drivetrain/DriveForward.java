@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveForward extends Command {
+public class DriveForward extends Command implements RobotMap{
   private double leftDistance, rightDistance;
   public DriveForward(double d) {
     // Use requires() here to declare subsystem dependencies
@@ -19,15 +19,15 @@ public class DriveForward extends Command {
     requires(Robot.pid);
     requires(Robot.dt);
     requires(Robot.vs);
-    this.leftDistance = d + Robot.dt.getLeftMaster().getSelectedSensorPosition();
-    this.rightDistance = d + Robot.dt.getRightMaster().getSelectedSensorPosition();
+    this.leftDistance = d*CONTROLLER_CONSTANT_L + Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    this.rightDistance = d*(CONTROLLER_CONSTANT_R) + Robot.dt.getRightMaster().getSelectedSensorPosition();
 
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("The distance is: "+ leftDistance);
+    //System.out.println("The distance is: "+ leftDistance);
 
     Robot.dt.resetGyro();
     Robot.dt.resetTurnAngleIntegral();
@@ -35,7 +35,7 @@ public class DriveForward extends Command {
     Robot.dt.startTime();
 
     //System.out.println("Im Stupid");
-    Robot.pid.goDistance(leftDistance*.9, rightDistance*.9);
+    Robot.pid.goDistance(leftDistance, rightDistance);
   }
 
   // Called repeatedly when this Command is scheduled to run
