@@ -58,7 +58,7 @@ public class OI implements RobotMap{
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
-      ArmCargoShipDelivery = new JoystickButton(armStick,3);//temporary button
+      ArmCargoShipDelivery = new JoystickButton(armStick,4);//temporary button
       ArmRocketLevel1Delivery = new JoystickButton(armStick,5);//temporary button
       ArmIn = new JoystickButton(armStick, 3);
       ArmOut = new JoystickButton(armStick, 1);
@@ -87,10 +87,10 @@ public class OI implements RobotMap{
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1))      
-      ArmCargoShipDelivery.whenPressed(new CargoDelivery(100));//temporary value - needs to be tuned.
-      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(200));//temporary value - needs to be tuned.
-      ArmIn.whileHeld(new SetInArm(.2)); //intakes the cargo
-      ArmOut.whileHeld(new SetInArm(-.7)); //spits the cargo
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(1000));//temporary value - needs to be tuned.
+      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(1000));//temporary value - needs to be tuned.
+      ArmIn.whileHeld(new SetInArmTele(.2)); //intakes the cargo
+      ArmOut.whileHeld(new SetInArmTele(-.2)); //spits the cargo
       
       //Lift Buttons
       //LiftUp.whileHeld(new SetLift(1));
@@ -102,7 +102,7 @@ public class OI implements RobotMap{
       PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
 
-      sendData.whenPressed(new sendData());
+      //sendData.whenPressed(new sendData());
       
     }
 

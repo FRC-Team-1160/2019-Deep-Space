@@ -40,6 +40,7 @@ public class Arm extends Subsystem implements RobotMap {
   private double lastEncoder;
   private double currentEncoder;
   
+  private Timer doneTimer;
 
   public static Arm getInstance(){
     if(instance == null){
@@ -49,12 +50,15 @@ public class Arm extends Subsystem implements RobotMap {
   }
 
   private Arm(){
+    
     upLeft = new WPI_TalonSRX(ARM_UP_LEFT);
     upRight = new WPI_VictorSPX(ARM_UP_RIGHT);
     inLeft = new WPI_TalonSRX(ARM_IN_LEFT);
     inRight = new WPI_TalonSRX(ARM_IN_RIGHT);
     timer = new Timer();
     timer.start();
+    doneTimer = new Timer();
+    doneTimer.start();
 
     upLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 
@@ -63,30 +67,61 @@ public class Arm extends Subsystem implements RobotMap {
 
   public void controlArm(){
     SmartDashboard.putNumber("Arm Encoder",upLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Timer: ", timer.get());
+    SmartDashboard.putNumber("doneTimer: ", doneTimer.get());
+
     deltaTime = timer.get();
     currentEncoder = upLeft.getSelectedSensorPosition();
 
     //Trying to dampen the falling of the arm.
     double derivative = 0;
     if(currentEncoder < lastEncoder){
-      derivative = ARM_RETARD*((currentEncoder - lastEncoder)/deltaTime);
+      derivative = ARM_SLOWYDOWNY*((currentEncoder - lastEncoder)/deltaTime);
+    }
+    if(derivative < -0.3){
+      derivative = -0.3;
     }
     if(derivative > 0.3){
       derivative = 0.3;
     }
-    derivative = 0;
+    //derivative = 0;
 
 
-    upLeft.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getArmStick().getY()), 1)) + derivative);
+    upLeft.set(ControlMode.PercentOutput, -(Math.pow((Robot.oi.getArmStick().getY()), 1)) + derivative);
 
     timer.reset();
     timer.start();
+    lastEncoder = currentEncoder;
   }
 
   	/*
 	 * Timer Methods
 	 */
-	public void resetTime(){
+
+  public void holdArm(){
+    deltaTime = timer.get();
+    currentEncoder = upLeft.getSelectedSensorPosition();
+
+    //Trying to hold the the arm.
+    double derivative = 0;
+    if(currentEncoder < lastEncoder){
+      derivative = 0.1*((currentEncoder - lastEncoder)/deltaTime);
+    }
+    if(derivative < -0.3){
+      derivative = -0.3;
+    }
+    if(derivative > 0.3){
+      derivative = 0.3;
+    }
+
+    upLeft.set(ControlMode.PercentOutput, derivative);
+    timer.reset();
+    timer.start();
+    lastEncoder = currentEncoder;
+  }
+  
+  
+  public void resetTime(){
 		timer.reset();
 	}
 	
@@ -101,9 +136,22 @@ public class Arm extends Subsystem implements RobotMap {
 	public double getTime(){
 		return timer.get();
 	}
+  
+  public void resetDoneTime(){
+		doneTimer.reset();
+	}
 	
-	public boolean done(double finishTime) {
-		return (timer.get() >= finishTime);
+	public void startDoneTime(){
+		doneTimer.start();
+  }
+  
+  public double getDoneTime(){
+		return doneTimer.get();
+	}
+  
+	public boolean done(double finishTime){
+    boolean isDone = (getDoneTime() >= finishTime);
+    return isDone;
 	}
 	
 

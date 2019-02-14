@@ -58,7 +58,7 @@ public interface RobotMap {
 
 
   //Arm Control Constants
-  public static final double ARM_RETARD = .02;
+  public static final double ARM_SLOWYDOWNY = .00009;
 
   //Lift Control Constants
 

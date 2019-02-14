@@ -9,17 +9,15 @@ package frc.robot.commands.Auto.Arm;
 
 import frc.robot.Robot;
 
-
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ArmWait extends Command {
+public class holdArm extends Command {
   private double time;
-  public ArmWait(double finishTime) {
+  public holdArm(double finishTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.am);
     time = finishTime;
-
   }
 
   // Called just before this Command runs the first time
@@ -27,11 +25,13 @@ public class ArmWait extends Command {
   protected void initialize() {
     Robot.am.resetDoneTime();
     Robot.am.startDoneTime();
+     
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.am.holdArm();
   }
 
   // Make this return true when this Command no longer needs to run execute()
