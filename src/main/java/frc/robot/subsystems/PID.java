@@ -31,12 +31,12 @@ public class PID extends Subsystem implements RobotMap{
     	leftController.configAllowableClosedloopError(0, 75, 0);
     	rightController.configAllowableClosedloopError(0, 75, 0);
 
-		leftController.config_kP(0, 0.0005, 0);
-		leftController.config_kI(0, 0.000, 0);
-		leftController.config_kD(0, 0.000, 0);
-		rightController.config_kP(0, 0.0005, 0);
-		rightController.config_kI(0, 0.000, 0);
-    	rightController.config_kD(0, 0.000, 0);
+		leftController.config_kP(0, 0.09, 0);
+		leftController.config_kI(0, 0.0001, 0);
+		leftController.config_kD(0, 50, 0);
+		rightController.config_kP(0, 0.09, 0);
+		rightController.config_kI(0, 0.0001, 0);
+    	rightController.config_kD(0, 50, 0);
 	}
 	
 	public static PID getInstance(WPI_TalonSRX lController, WPI_TalonSRX rController) {

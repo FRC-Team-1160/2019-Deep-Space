@@ -19,8 +19,8 @@ public class DriveForward extends Command implements RobotMap{
     requires(Robot.pid);
     requires(Robot.dt);
     requires(Robot.vs);
-    this.leftDistance = d*CONTROLLER_CONSTANT_L + Robot.dt.getLeftMaster().getSelectedSensorPosition();
-    this.rightDistance = d*(CONTROLLER_CONSTANT_R) + Robot.dt.getRightMaster().getSelectedSensorPosition();
+    this.leftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    this.rightDistance = d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
 
   }
   
@@ -35,7 +35,7 @@ public class DriveForward extends Command implements RobotMap{
     Robot.dt.startTime();
 
     //System.out.println("Im Stupid");
-    Robot.pid.goDistance(leftDistance, rightDistance);
+    Robot.pid.goDistance(leftDistance+ Robot.dt.getLeftMaster().getSelectedSensorPosition(), rightDistance + Robot.dt.getRightMaster().getSelectedSensorPosition());
   }
 
   // Called repeatedly when this Command is scheduled to run

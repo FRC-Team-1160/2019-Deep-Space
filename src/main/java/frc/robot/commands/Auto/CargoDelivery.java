@@ -16,13 +16,13 @@ public class CargoDelivery extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public CargoDelivery(double input) {
+  public CargoDelivery(double input, double strength) {
 
     addSequential(new BangBangArmFramework(input, 0.4));
-    addSequential(new SetInArm(-0.2));
+    addSequential(new SetInArm(-strength));
     
     //addSequential(new ArmWait(.5));
-    addSequential(new holdArm(2));
+    addSequential(new holdArm(1));
     addSequential(new SetInArm(0));
   
 

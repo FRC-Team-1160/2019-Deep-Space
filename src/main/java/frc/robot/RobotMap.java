@@ -43,8 +43,8 @@ public interface RobotMap {
 
   //Drivetrain Control Constants
   public static final double WHEEL_DIAMETER = 6;
-  public static final double CONTROLLER_CONSTANT_L = 2239/(WHEEL_DIAMETER/Math.PI);
-  public static final double CONTROLLER_CONSTANT_R = 2261/(WHEEL_DIAMETER/Math.PI);
+  public static final double CONTROLLER_CONSTANT_L = 2239/(WHEEL_DIAMETER*Math.PI);
+  public static final double CONTROLLER_CONSTANT_R = 2261*.98/(WHEEL_DIAMETER*Math.PI);
     //Turnangle Constant
   public static final double GYRO_KP_2 = 0.025; 
   public static final double GYRO_KI = 0.0005;
