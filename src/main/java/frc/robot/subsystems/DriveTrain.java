@@ -108,7 +108,10 @@ public class DriveTrain extends Subsystem implements RobotMap {
     SmartDashboard.putNumber("Accel Z", gyro.getWorldLinearAccelZ());
     SmartDashboard.putNumber("Right Drivetrain Encoder",backRight.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Drivetrain Encoder",backLeft.getSelectedSensorPosition());
-  }
+		SmartDashboard.putNumber("Pitch", gyro.getPitch());
+		SmartDashboard.putNumber("Yaw", gyro.getYaw());
+		SmartDashboard.putNumber("Roll", gyro.getRoll());
+	}
 
   public void resetAngleDifference() {
 		angle_difference = 0;
@@ -189,7 +192,7 @@ public class DriveTrain extends Subsystem implements RobotMap {
   public void resetPosition() {
 		backLeft.setSelectedSensorPosition(0,0,100);
 		backRight.setSelectedSensorPosition(0,0,100);
-				
+		resetGyro();
 	}
 
   	/*

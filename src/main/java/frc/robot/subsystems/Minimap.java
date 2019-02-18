@@ -8,18 +8,21 @@
 package frc.robot.subsystems;
 import frc.robot.Robot;
 import java.net.*;
-import java.util.Timer;
+import edu.wpi.first.wpilibj.Timer;
 import java.io.*; 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.AnalogAccelerometer;
 import java.util.*;
-
+import java.text.SimpleDateFormat;
 import frc.robot.commands.Minimap.sendData;
 
 /**
  * Add your docs here.
  */
+
+
+ // 1 G = 32 ft/sec
 public class Minimap extends Subsystem{
     
   public static Minimap instance;
@@ -30,26 +33,33 @@ public class Minimap extends Subsystem{
   
    double angle;
 
+   Timer time = new Timer();
 
-   
-  public Minimap(){
+   double cur_time = time.get();
+
+  private Minimap(){
     coordinates[0] = 0.0;
     coordinates[1] = 0.0;
     coordinates[2] = 0.0;
+    angle = 0;
     System.out.println("minimap made");
     try{ 
-      socket = new Socket("127.0.0.1", 5800); 
+      socket = new Socket("10.11.60.25", 5800); //the name matters: has to be address
       System.out.println("Connected"); 
       
       // sends output to the socket 
       out = new DataOutputStream(socket.getOutputStream()); 
+     // out.writeBytes("0 0 0\n");
+      System.out.println("sent successfully");
     } 
     catch(UnknownHostException u) 
       { 
+        System.out.println("unknown host");
           System.out.println(u); 
       } 
     catch(IOException i) 
       { 
+        System.out.println("io exception");
           System.out.println(i); 
      }
   }
@@ -102,39 +112,99 @@ public class Minimap extends Subsystem{
 
   }
 
-  public void sendData() { 
-     
-      updatePosition();
-        angle = 0;//Robot.dt.getGyro().getYaw();
-        if(angle < 0) angle +=360;
-        long time = System.currentTimeMillis();
-        while (System.currentTimeMillis() - time < 1000) {}
+  public void sendData(){ 
+     /*
+      //Client client = new Client("127.0.0.1", 12345); 
+
+        //Create text file to represent all the errors that occur during this run of the program. Includes date, time, and name
+        PrintWriter errorPrinter = null;
+          String fileName = "errors.txt";
         try{
+          errorPrinter = new PrintWriter( new BufferedWriter(new FileWriter(fileName, true)));
+        }catch(IOException i)
+        {}
+          //Write current date and time to the file. 
+          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+          Date date = new Date();
 
+          errorPrinter.println(dateFormat.format(date) + "\n\n");
+      
+        Socket socket = null; 
+        DataOutputStream out = null; 
+        String IP = "10.11.60.25";
+        int port = 5800;
 
-
-          //.
-          out.writeBytes(coordinates[0] + " " + coordinates[1]+ " " + angle + "\n");
-        }catch(IOException i) 
+        // establish a connection 
+        try
+        { 
+            socket = new Socket(IP, port); 
+            System.out.println("Connected"); 
+            
+            // sends output to the socket 
+            out = new DataOutputStream(socket.getOutputStream()); 
+            System.out.println("out stream successfull made");
+        } 
+        catch(UnknownHostException u) 
+        { 
+            System.out.println(u); 
+            //errorPrinter.println("Tried to create socket object and sent data output stream to it, UnknownHostException occurred.");
+        } 
+        catch(IOException i) 
         { 
             System.out.println(i); 
+           // errorPrinter.println("Tried to create socket object and send data output stream to it, IOException occurred.");
         }
+        */
+        //int j = 0;
+        //float xDis = 50, yDis = 70, angle = 45;
+        updatePosition();
+        angle = Robot.dt.getGyro().getYaw();
+      //  double timenow = time.get();
+       // while ((Math.abs(timenow - time.get())) < 15)
+       // {
+	        
+	        
+	        
+          //while (System.currentTimeMillis() - time < 1000) {}
+        if(Math.abs(time.get() - cur_time) < 500){ // change this value to tune it out which is in optimal time to output
+          
+        }else{
+          try{
+            System.out.println("attempting to write: " + coordinates[0] + " " + coordinates[1] + " " + angle + "\n");
+            out.writeBytes(coordinates[0] + " " + coordinates[1] + " " + angle + "\n");
+            out.flush(); // remove this if not useful but based on my knowledge, flush removes past data which is not needed, slowing a program
+          } 
+          catch(IOException i) 
+          { 
+              System.out.println(i); 
+            // errorPrinter.println("Tried to create socket object and send data output stream to it, IOException occurred.");
+          }
+          cur_time = time.get();
+        }
+       // }
+        
+        System.out.println("ended");
+        /* close the connection 
+        try
+        { 
+            out.close(); 
+            socket.close(); 
+        } 
+        catch(IOException i) 
+        { 
+            System.err.println(i); 
+            //errorPrinter.println("Tried to close the data output stream and socket, IOException occurred");
+        } 
 
-      System.out.println("ended");
-      // close the connection 
-      try
-      { 
-          out.close(); 
-          socket.close(); 
-      } 
-      catch(IOException i) 
-      { 
-          System.out.println(i); 
-      } 
+        //Close the PrintWrite Object
+        //errorPrinter.close();
+
+        //write the messages to a single text file. 
+        */
   } 
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new sendData());
+    //setDefaultCommand(new sendData());
   }
 }

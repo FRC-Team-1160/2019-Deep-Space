@@ -30,14 +30,16 @@ public class OI implements RobotMap{
     Joystick mainStick;
     Joystick armStick;
     Joystick liftStick;
-    JoystickButton sendData, runVision, setOn, setOff, resetEncoderYaw,
+    JoystickButton  runVision, setOn, setOff, resetEncoderYaw,
 
      ArmUp,ArmDown, ArmIn, ArmOut, PistonOut, PistonIn,
       ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery,
 
      LiftUp, LiftDown, ResetLift, LiftLevel1,  LiftLevel2, LiftLevel3, 
 
-      driveForward ;
+      driveForward, turnAngle,
+
+      sendData;
 
     public static OI getInstance(){
       if(instance == null){
@@ -61,8 +63,10 @@ public class OI implements RobotMap{
       setOn = new JoystickButton(mainStick, 5);
       setOff = new JoystickButton(mainStick, 6);
       
+      //auto testing
       driveForward = new JoystickButton(mainStick , 4);
-
+      turnAngle = new JoystickButton(mainStick, 2);
+      //its useful
       resetEncoderYaw = new JoystickButton(mainStick, 10);
      // sendData = new JoystickButton(mainStick, 9);
       //Arm Commands
@@ -71,7 +75,7 @@ public class OI implements RobotMap{
       ArmCargoShipDelivery = new JoystickButton(armStick,6);//good button
       ArmRocketLevel1Delivery = new JoystickButton(armStick,10);//good button
       ArmRocketLevel2Delivery = new JoystickButton(armStick, 11);//still testing
-      ArmIn = new JoystickButton(armStick, 3);
+      ArmIn = new JoystickButton(mainStick, 8);
       ArmOut = new JoystickButton(armStick, 1);
 
       //Lift commands
@@ -79,7 +83,7 @@ public class OI implements RobotMap{
       //LiftDown = new JoystickButton(liftStick, 7);
       ResetLift = new JoystickButton(liftStick, 2);//temporary button
       LiftLevel1 = new JoystickButton(liftStick, 6);//temporary button
-      LiftLevel2 = new JoystickButton(liftStick, 10);//temporary button
+      LiftLevel2 = new J\oystickButton(liftStick, 10);//temporary button
       LiftLevel3 = new JoystickButton(liftStick, 11);//temporary button
       
       PistonOut = new JoystickButton(mainStick, 8);
@@ -95,7 +99,8 @@ public class OI implements RobotMap{
       setOn.whenPressed(new SetDrive(true)); //won't do anything
       setOff.whenPressed(new SetDrive(false)); //the pnuematics aren't attached to the gearbox
 
-      driveForward.whenPressed(new DriveForward(45));
+      driveForward.whenPressed(new DriveForward(45));//tuned well
+      turnAngle.whenPressed(new TurnAngle(5));//tuned
 
       resetEncoderYaw.whenPressed(new ResetEncoderYaw());
       //Arm Buttons
@@ -118,7 +123,7 @@ public class OI implements RobotMap{
       PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
 
-      //sendData.whenPressed(new sendData());
+     // sendData.whenPressed(new sendData());
     }
 
     public Joystick getMainStick(){

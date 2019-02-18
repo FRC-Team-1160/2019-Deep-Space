@@ -24,7 +24,7 @@ public class TurnAngle extends Command implements RobotMap{
         // eg. requires(chassis);
       requires(Robot.dt);
       requires(Robot.vs);
-      this.targetAngle = Robot.vs.angleindegrees;
+      this.targetAngle = 5;
     	//this.targetAngle = target;
     }
 
@@ -36,11 +36,11 @@ public class TurnAngle extends Command implements RobotMap{
     	Robot.dt.resetTurnAngleIntegral();
     	Robot.dt.resetTime();
       Robot.dt.startTime();
-      //while(Math.abs(Robot.dt.getGyro().getYaw()) > 0.1){
+      while(Math.abs(Robot.dt.getGyro().getYaw()) > 0.1){
         //System.err.println("The reset method lies");
-        //Robot.dt.resetGyro();
-      
-      this.targetAngle = Robot.vs.angleindegrees + Robot.dt.getGyro().getYaw();
+        Robot.dt.resetGyro();
+      }
+      this.targetAngle = 5;
       
 
     	
@@ -58,10 +58,10 @@ public class TurnAngle extends Command implements RobotMap{
       //System.out.println("Gyro Yaw is: " + Robot.dt.getGyro().getYaw() + " and the target angle is: " + targetAngle);
     	if ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE)) {
 			//Robot.dt.turnAngleCheck(targetAngle);
-        System.out.println("Im finished turning from Vision");
+       // System.out.println("Im finished turning from Vision");
         return true;
     }
-      System.out.println("Im still turning from Vision");
+     // System.out.println("Im still turning from Vision");
     	return false;
     	
     }
@@ -77,4 +77,4 @@ public class TurnAngle extends Command implements RobotMap{
     protected void interrupted() {
     	//Robot.dt.setPercentOutput(0);
     }
-}
+} 

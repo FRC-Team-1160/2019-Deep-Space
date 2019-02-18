@@ -14,13 +14,13 @@ public class sendData extends Command {
   public sendData() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //requires(Robot.mm);
+    requires(Robot.mm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    //Robot.mm.sendData();
+    Robot.mm.sendData();
   }
 
 
