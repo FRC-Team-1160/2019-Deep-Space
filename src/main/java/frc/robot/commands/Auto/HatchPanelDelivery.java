@@ -27,7 +27,7 @@ public class HatchPanelDelivery extends CommandGroup {
     addSequential(new SetPiston(false));
     addSequential(new LiftWait(0.5));
     addSequential(new SetPiston(true));
-    addSequential(new BangBangLiftFramework(-5000, 0.15, false));
+    addSequential(new BangBangLiftFramework(4000, 0.15, false));
     
 
     // To run multiple commands at the same time,
