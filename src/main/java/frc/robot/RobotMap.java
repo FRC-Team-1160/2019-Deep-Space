@@ -25,19 +25,20 @@ public interface RobotMap {
   public static int LIFT_LEFT = 7;//Talon
   public static int LIFT_RIGHT = 8;//Victor
   public static int ARM_UP_LEFT = 9;//Talon
-  public static int ARM_UP_RIGHT = 10;//Victor
+  public static int ARM_UP_RIGHT = 10;//Talon
   public static int ARM_IN_LEFT = 11;//Talon
   public static int ARM_IN_RIGHT = 12;//Talon
 
   //Electrical System CAN Locations
   public static int PCM = 15;
   public static int PDP = 16;
-
+  
   //Solenoid ports on PCM
-  public static final int DT_SOLENOID_0 = 1;
-  public static final int DT_SOLENOID_1 = 6;
-  public static final int PISTON_SOLENOID_1 = 0;
-  public static final int PISTON_SOLENOID_2 = 7;
+  //comments are Prac[Ti]ce ports; Galac[Ti]c s solenoid wiring is not inverse ie 0-7, 1-6
+  public static final int DT_SOLENOID_0 = 7; //1
+  public static final int DT_SOLENOID_1 = 5; //6
+  public static final int PISTON_SOLENOID_1 = 6; //0
+  public static final int PISTON_SOLENOID_2 = 4; //7
 
   public static int CHOOSER_TESTER = 0;//Temporary
 

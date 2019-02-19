@@ -33,14 +33,14 @@ public class BangBangArmFramework extends Command implements RobotMap{
     protected void execute() {
     	error = setpoint - Robot.am.getPosition();
     	errorDirection = (int)(error / Math.abs(error));
-    	if (errorDirection*0.3 > 0) { //Only go up!
-    		Robot.am.setPercentOutputArm(-errorDirection*speedCap);
+    	if (errorDirection*0.3 < 0) { //Only go up!
+    		Robot.am.setPercentOutputArm(errorDirection*speedCap);
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((Math.abs(error) < 500)); //arbitrary ceiling
+        return ((Math.abs(error) < 100)); //arbitrary ceiling
     }
 
     // Called once after isFinished returns true

@@ -101,20 +101,20 @@ public class OI implements RobotMap{
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1))      
-      ArmCargoShipDelivery.whenPressed(new CargoDelivery(950,0.4));//temporary value - needs to be tuned.
-      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(730,0.5));//good for practice robot.
-      ArmRocketLevel2Delivery.whenPressed(new CargoDelivery(1000,0.85));
-      ArmIn.whileHeld(new SetInArmTele(.2)); //intakes the cargo
-      ArmOut.whileHeld(new SetInArmTele(-1)); //spits the cargo
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-475,0.35));//temporary value - needs to be tuned.
+      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-350,0.5));//good for practice robot.
+      ArmRocketLevel2Delivery.whenPressed(new CargoDelivery(-610,0.60));
+      ArmIn.whileHeld(new SetInArmTele(-.3)); //intakes the cargo //PRACTICE - 0.2
+      ArmOut.whileHeld(new SetInArmTele(.7)); //spits the cargo //PRACTICE - -1
                                
       
       //Lift Buttons
       //LiftUp.whileHeld(new SetLift(1));
       //LiftDown.whileHeld(new SetLift(-1));
       //LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
-      LiftLevel1.whenPressed(new HatchPanelDelivery(-5000));//temporary value - needs to be tuned.
-      LiftLevel2.whenPressed(new HatchPanelDelivery(-50000));//temporary value - needs to be tuned.
-      LiftLevel3.whenPressed(new HatchPanelDelivery(-100000));//temporary value - needs to be tuned.
+      LiftLevel1.whenPressed(new HatchPanelDelivery(-3000));//temporary value - needs to be tuned.
+      LiftLevel2.whenPressed(new HatchPanelDelivery(-53600));//temporary value - needs to be tuned.
+      LiftLevel3.whenPressed(new HatchPanelDelivery(-103000));//temporary value - needs to be tuned.
       PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
 

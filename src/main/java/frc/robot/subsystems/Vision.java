@@ -8,7 +8,9 @@ import org.opencv.core.Point;
 import org.opencv.videoio.VideoCapture;
 
 import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -19,6 +21,7 @@ public class Vision extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public static GripPipeline gp;
+	private int switchButtonPressed;
 	public ArrayList<MatOfPoint> contours;
 	public CameraServer cs;
 	public static Vision instance;
@@ -26,6 +29,8 @@ public class Vision extends Subsystem {
 	Point[] Points2;
 	public Mat matrix;
 	public CvSink camera;
+	public UsbCamera usbCamera;
+	private VideoSink videoSink;
 
 	public static double angleindegrees;
 	public static double distanceToTarget;
@@ -34,16 +39,30 @@ public class Vision extends Subsystem {
 		gp = new GripPipeline();
 		cs.addAxisCamera("axis","axis-camera.local");
 		cs.addServer("axis");
+
+		//Initialize Usb Camera
+		usbCamera = CameraServer.getInstance().startAutomaticCapture();
+
+		
+		
+
 		camera = cs.getVideo();
 		matrix = new Mat();
 		angleindegrees = 0;
 		distanceToTarget = 0;
+		switchButtonPressed = 0;
 		//camera.grabFrame(matrix);
 		/*
 		for(Point p: Points) {
 			System.out.println(p.x + "  " + p.y);
 		}
 		*/
+
+		//Create videoSink
+		videoSink = CameraServer.getInstance().getServer();
+		videoSink.setSource(camera.getSource());//default camera is set to axis camera
+
+		
 		
 		
 	}
@@ -56,6 +75,20 @@ public class Vision extends Subsystem {
 		}
 		return instance;
 		
+		
+	}
+
+	public void switchCamera(){
+		if(switchButtonPressed == 0){//Switch to usb camera
+			System.out.println("Switching to usb camera");
+			videoSink.setSource(usbCamera);
+			switchButtonPressed = 1;
+		}
+		if(switchButtonPressed == 1){
+			System.out.println("Switching to axis camera");
+			videoSink.setSource(camera.getSource());
+			switchButtonPressed = 0;
+		}
 		
 	}
 	

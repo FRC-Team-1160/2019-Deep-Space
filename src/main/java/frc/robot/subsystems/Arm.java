@@ -33,7 +33,7 @@ public class Arm extends Subsystem implements RobotMap {
   // here. Call these from Commands.
   private static Arm instance;
   private WPI_TalonSRX upLeft, inLeft, inRight;
-  private WPI_VictorSPX upRight;
+  private WPI_TalonSRX upRight;
   private Timer timer;
 
   private double deltaTime;
@@ -52,7 +52,7 @@ public class Arm extends Subsystem implements RobotMap {
   private Arm(){
     
     upLeft = new WPI_TalonSRX(ARM_UP_LEFT);
-    upRight = new WPI_VictorSPX(ARM_UP_RIGHT);
+    upRight = new WPI_TalonSRX(ARM_UP_RIGHT);
     inLeft = new WPI_TalonSRX(ARM_IN_LEFT);
     inRight = new WPI_TalonSRX(ARM_IN_RIGHT);
     timer = new Timer();
@@ -105,14 +105,15 @@ public class Arm extends Subsystem implements RobotMap {
     //Trying to hold the the arm.
     double derivative = 0;
     if(currentEncoder < lastEncoder){
-      derivative = 0.1*((currentEncoder - lastEncoder)/deltaTime);
+      derivative = 0.003*((currentEncoder - lastEncoder)/deltaTime);
     }
-    if(derivative < -0.3){
-      derivative = -0.3;
+    if(derivative < -0.23){
+      derivative = -0.23;
     }
-    if(derivative > 0.3){
-      derivative = 0.3;
+    if(derivative > 0.23){
+      derivative = 0.23;
     }
+    
 
     upLeft.set(ControlMode.PercentOutput, derivative);
     timer.reset();
