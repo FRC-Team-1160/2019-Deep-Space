@@ -8,6 +8,7 @@
 package frc.robot.commands.Auto.Drivetrain;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.Vision;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -40,7 +41,7 @@ public class TurnAngle extends Command implements RobotMap{
         //System.err.println("The reset method lies");
         //Robot.dt.resetGyro();
       
-      this.targetAngle = Robot.vs.angleindegrees + Robot.dt.getGyro().getYaw();
+      this.targetAngle = Vision.angleindegrees + Robot.dt.getGyro().getYaw();
       
 
     	
