@@ -32,15 +32,13 @@ public class OI implements RobotMap{
     Joystick armStick;
     Joystick liftStick;
     JoystickButton 
-    sendData, runVision, setOn, setOff, resetEncoderYaw, breakoutMain,
+    sendData, runVision, setOn, setOff, resetEncoderYaw, breakoutMain, driveForward, turnAngle, 
 
      ArmUp,ArmDown, ArmIn, ArmOut, breakoutArm,
      ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery,
 
      LiftUp, LiftDown, PistonOut, PistonIn, ResetLift, breakoutLift,
-     LiftLevel1,  LiftLevel2, LiftLevel3, 
-
-      driveForward ;
+     LiftLevel1,  LiftLevel2, LiftLevel3;
 
     public static OI getInstance(){
       if(instance == null){
@@ -62,11 +60,14 @@ public class OI implements RobotMap{
       runVision = new JoystickButton(mainStick,1); 
 
       setOn = new JoystickButton(mainStick, 5); //High Gear
-      setOff = new JoystickButton(mainStick, 6); //Low Gear   
+      setOff = new JoystickButton(mainStick, 6); //Low Gear
+      breakoutMain = new JoystickButton(mainStick, 1);
+
       driveForward = new JoystickButton(mainStick , 4); //Drive Forward Auto Command
+      turnAngle = new JoystickButton(mainStick,2);
       resetEncoderYaw = new JoystickButton(mainStick, 10); // Resets the encoders
       //sendData = new JoystickButton(mainStick, 9);
-      breakoutMain = new JoystickButton(mainStick, 1);
+
 
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
@@ -74,7 +75,7 @@ public class OI implements RobotMap{
       ArmCargoShipDelivery = new JoystickButton(armStick,7);//good button
       ArmRocketLevel1Delivery = new JoystickButton(armStick,10);//good button
       ArmRocketLevel2Delivery = new JoystickButton(armStick, 11);//still testing
-      
+
       ArmIn = new JoystickButton(mainStick, 8);
       ArmOut = new JoystickButton(armStick, 1);
       breakoutMain = new JoystickButton(mainStick, 6);
@@ -104,6 +105,7 @@ public class OI implements RobotMap{
       breakoutMain.whenPressed(new Breakout()); //not tested, should cancel any command
 
       driveForward.whenPressed(new DriveForward(45)); //distance in inches
+      turnAngle.whenPressed(new TurnAngle(5));
       resetEncoderYaw.whenPressed(new ResetEncoderYaw());
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));

@@ -21,12 +21,13 @@ public class BangBangArmFramework extends Command implements RobotMap{
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.am);
-    	this.setpoint = setpoint + Robot.am.getPosition();
+    	this.setpoint = setpoint;
     	this.speedCap = speedCap;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        this.setpoint = this.setpoint + Robot.am.getPosition();
     }
 
     // Called repeatedly when this Command is scheduled to run
