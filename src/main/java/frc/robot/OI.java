@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.Breakout;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.Lift.*;
 import frc.robot.commands.Vision.*;
@@ -30,12 +31,14 @@ public class OI implements RobotMap{
     Joystick mainStick;
     Joystick armStick;
     Joystick liftStick;
-    JoystickButton sendData, runVision, setOn, setOff, resetEncoderYaw,
+    JoystickButton 
+    sendData, runVision, setOn, setOff, resetEncoderYaw, breakoutMain,
 
-     ArmUp,ArmDown, ArmIn, ArmOut, PistonOut, PistonIn,
-      ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery,
+     ArmUp,ArmDown, ArmIn, ArmOut, breakoutArm,
+     ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery,
 
-     LiftUp, LiftDown, ResetLift, LiftLevel1,  LiftLevel2, LiftLevel3, 
+     LiftUp, LiftDown, PistonOut, PistonIn, ResetLift, breakoutLift,
+     LiftLevel1,  LiftLevel2, LiftLevel3, 
 
       driveForward ;
 
@@ -58,21 +61,23 @@ public class OI implements RobotMap{
       //MainStick Commands
       runVision = new JoystickButton(mainStick,1); 
 
-      setOn = new JoystickButton(mainStick, 5);
-      setOff = new JoystickButton(mainStick, 6);
-      
-      driveForward = new JoystickButton(mainStick , 4);
+      setOn = new JoystickButton(mainStick, 5); //High Gear
+      setOff = new JoystickButton(mainStick, 6); //Low Gear   
+      driveForward = new JoystickButton(mainStick , 4); //Drive Forward Auto Command
+      resetEncoderYaw = new JoystickButton(mainStick, 10); // Resets the encoders
+      //sendData = new JoystickButton(mainStick, 9);
+      breakoutMain = new JoystickButton(mainStick, 1);
 
-      resetEncoderYaw = new JoystickButton(mainStick, 10);
-     // sendData = new JoystickButton(mainStick, 9);
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
       ArmCargoShipDelivery = new JoystickButton(armStick,7);//good button
       ArmRocketLevel1Delivery = new JoystickButton(armStick,10);//good button
       ArmRocketLevel2Delivery = new JoystickButton(armStick, 11);//still testing
+      
       ArmIn = new JoystickButton(mainStick, 8);
       ArmOut = new JoystickButton(armStick, 1);
+      breakoutMain = new JoystickButton(mainStick, 6);
 
       //Lift commands
       //LiftUp = new JoystickButton(liftStick, 6);
@@ -82,6 +87,7 @@ public class OI implements RobotMap{
       LiftLevel2 = new JoystickButton(liftStick, 10);//temporary button
       LiftLevel3 = new JoystickButton(liftStick, 11);//temporary button
       
+      breakoutMain = new JoystickButton(liftStick, 6);
       PistonOut = new JoystickButton(liftStick, 1);
       PistonIn = new JoystickButton(liftStick, 3);
 
@@ -92,11 +98,12 @@ public class OI implements RobotMap{
     private void tieButtons(){
       //MainStick Buttons
       runVision.whenPressed(new runVision());
-      setOn.whenPressed(new SetDrive(true)); //won't do anything
-      setOff.whenPressed(new SetDrive(false)); //the pnuematics aren't attached to the gearbox
 
-      driveForward.whenPressed(new DriveForward(45));
+      setOn.whenPressed(new SetDrive(true)); //only works on final
+      setOff.whenPressed(new SetDrive(false));
+      breakoutMain.whenPressed(new Breakout()); //not tested, should cancel any command
 
+      driveForward.whenPressed(new DriveForward(45)); //distance in inches
       resetEncoderYaw.whenPressed(new ResetEncoderYaw());
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
@@ -106,6 +113,7 @@ public class OI implements RobotMap{
       ArmRocketLevel2Delivery.whenPressed(new CargoDelivery(-610,0.60));
       ArmIn.whileHeld(new SetInArmTele(-.3)); //intakes the cargo //PRACTICE - 0.2
       ArmOut.whileHeld(new SetInArmTele(.7)); //spits the cargo //PRACTICE - -1
+      breakoutArm.whenPressed(new Breakout());
                                
       
       //Lift Buttons
@@ -117,6 +125,7 @@ public class OI implements RobotMap{
       LiftLevel3.whenPressed(new HatchPanelDelivery(-103000));//temporary value - needs to be tuned.
       PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
+      breakoutLift.whenPressed(new Breakout());
 
       //sendData.whenPressed(new sendData());
     }
