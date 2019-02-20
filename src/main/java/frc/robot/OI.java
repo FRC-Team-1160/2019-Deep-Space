@@ -16,6 +16,7 @@ import frc.robot.commands.Vision.*;
 import frc.robot.commands.Drive.*;
 import frc.robot.commands.Auto.CargoDelivery;
 import frc.robot.commands.Auto.HatchPanelDelivery;
+import frc.robot.commands.Auto.AutoAllign;
 import frc.robot.commands.Auto.Arm.*;
 import frc.robot.commands.Auto.Lift.*;
 import frc.robot.commands.Auto.Drivetrain.*;
@@ -61,7 +62,7 @@ public class OI implements RobotMap{
 
       setOn = new JoystickButton(mainStick, 5); //High Gear
       setOff = new JoystickButton(mainStick, 6); //Low Gear
-      breakoutMain = new JoystickButton(mainStick, 1);
+      breakoutMain = new JoystickButton(mainStick, 9);
 
       driveForward = new JoystickButton(mainStick , 4); //Drive Forward Auto Command
       turnAngle = new JoystickButton(mainStick,2);
@@ -78,7 +79,7 @@ public class OI implements RobotMap{
 
       ArmIn = new JoystickButton(mainStick, 8);
       ArmOut = new JoystickButton(armStick, 1);
-      breakoutMain = new JoystickButton(mainStick, 6);
+      breakoutArm = new JoystickButton(mainStick, 6);
 
       //Lift commands
       //LiftUp = new JoystickButton(liftStick, 6);
@@ -88,7 +89,7 @@ public class OI implements RobotMap{
       LiftLevel2 = new JoystickButton(liftStick, 10);//temporary button
       LiftLevel3 = new JoystickButton(liftStick, 11);//temporary button
       
-      breakoutMain = new JoystickButton(liftStick, 6);
+      breakoutLift = new JoystickButton(liftStick, 6);
       PistonOut = new JoystickButton(liftStick, 1);
       PistonIn = new JoystickButton(liftStick, 3);
 
@@ -104,8 +105,8 @@ public class OI implements RobotMap{
       setOff.whenPressed(new SetDrive(false));
       breakoutMain.whenPressed(new Breakout()); //not tested, should cancel any command
 
-      driveForward.whenPressed(new DriveForward(45)); //distance in inches
-      turnAngle.whenPressed(new TurnAngle(5));
+      driveForward.whenPressed(new AutoAllign()); //distance in inches
+      turnAngle.whenPressed(new TurnAngle(10));
       resetEncoderYaw.whenPressed(new ResetEncoderYaw());
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));

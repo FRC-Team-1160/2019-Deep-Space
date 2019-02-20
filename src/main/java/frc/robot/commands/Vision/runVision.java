@@ -14,11 +14,13 @@ public class runVision extends Command {
     public runVision() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.vs);
+        requires(Robot.vs);
+        requires(Robot.dt);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    Robot.dt.resetGyro();
     Robot.vs.runVision();
     }
     

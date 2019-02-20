@@ -17,7 +17,8 @@ public class AutoAllign extends CommandGroup {
    */
   public AutoAllign() {
     addSequential(new TurnAngle(Vision.angleindegrees));
-    addSequential(new DriveForwardVision(Vision.distanceToTarget));
+    addSequential(new DriveForwardVision());
+    
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

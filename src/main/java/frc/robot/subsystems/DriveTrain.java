@@ -119,19 +119,30 @@ public class DriveTrain extends Subsystem implements RobotMap {
 
 	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor 
 		double current_angle = gyro.getYaw();
-		angle_difference_now = (targetAngle - current_angle);
+		angle_difference_now = (-targetAngle + current_angle);
 		SmartDashboard.putNumber("Yaw", gyro.getYaw());
-		proportion = GYRO_KP_2 * angle_difference;
+		//if ((Math.abs(angle_difference_now) > 5))
+			proportion = GYRO_KP_2 * angle_difference_now;
+		
+		if(proportion > 0.3){
+			proportion = 0.3;
+		}
+		else if (proportion < -0.3){
+			proportion = -0.3;
+		}
+		
  		deltaTime = getTime();
- 		derivative = 0;//GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
- 		if (Math.abs(angle_difference_now) < 15) {
+		 derivative = GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
+		 
+
+ 		if (Math.abs(angle_difference_now) < 5) {
 		 integral += GYRO_KI*deltaTime*(angle_difference_now);
 		 }
 		if(integral > GYRO_KI_CAP) {
 			integral = GYRO_KI_CAP;
 		}
 
-		integral = 0;
+		//integral = 0;
 		//System.out.println("The angle difference is:\t " + angle_difference + "\t and the angle differenece now is: " + angle_difference_now);
 
  		angle_difference = angle_difference_now;
@@ -147,7 +158,7 @@ public class DriveTrain extends Subsystem implements RobotMap {
 		// if (proportion+derivative+integral <= GYRO_CAP) {
 			// if(targetAngle > 0){
 		backLeft.set(ControlMode.PercentOutput, (proportion+derivative+integral));
-	 	backRight.set(ControlMode.PercentOutput, -(proportion+derivative+integral));
+	 	backRight.set(ControlMode.PercentOutput, (proportion+derivative+integral));
 			 //}//else{
 			//	backLeft.set(ControlMode.PercentOutput, (proportion+derivative+integral));
 			//	backRight.set(ControlMode.PercentOutput, rightSideBoost*(proportion+derivative+integral));
@@ -230,10 +241,10 @@ public class DriveTrain extends Subsystem implements RobotMap {
   //Gyro Functions
 	public void resetGyro()
 	{
-		System.out.println(gyro.getYaw());
+		//System.out.println(gyro.getYaw());
 		gyro.reset();
 		gyro.zeroYaw();
-		System.out.println(gyro.getYaw());
+		//System.out.println(gyro.getYaw());
 	}
 	public void zeroGyro() {
 		gyro.zeroYaw();

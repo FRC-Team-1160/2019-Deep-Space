@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveForwardVision extends Command implements RobotMap{
   private double lDistance, rDistance;
-  public DriveForwardVision(double d) {
+  public DriveForwardVision() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.pid);
@@ -31,9 +31,11 @@ public class DriveForwardVision extends Command implements RobotMap{
     Robot.dt.resetTurnAngleIntegral();
     Robot.dt.resetTime();
     Robot.dt.startTime();
+    this.lDistance = Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    this.rDistance = Robot.dt.getRightMaster().getSelectedSensorPosition();
 
     //System.out.println("Im Stupid");
-    Robot.pid.goDistance((Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_L + lDistance)*.90, (Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_R + rDistance)*.90);
+    Robot.pid.goDistance(((Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_L) + lDistance - (6*CONTROLLER_CONSTANT_L)), ((-Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_R) + rDistance) + (6*CONTROLLER_CONSTANT_R));
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -57,6 +59,8 @@ public class DriveForwardVision extends Command implements RobotMap{
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.vs.resetVision();
+
     
   }
 

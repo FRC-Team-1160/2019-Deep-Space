@@ -43,9 +43,6 @@ public class Vision extends Subsystem {
 		//Initialize Usb Camera
 		usbCamera = CameraServer.getInstance().startAutomaticCapture();
 
-		
-		
-
 		camera = cs.getVideo();
 		matrix = new Mat();
 		angleindegrees = 0;
@@ -104,8 +101,7 @@ public class Vision extends Subsystem {
 			if(contours.size() == 2){
 			System.out.println("I GOT HERE!!!!" + contours.size());
 			//change this to a loop at some point so it doesn't break if it can't find 2 points
-			
-
+		
 			Points1 = contours.get(contours.size()-1).toArray();
 			Points2 = contours.get(contours.size()-2).toArray();
 			System.out.println("Did work");

@@ -24,7 +24,7 @@ public class BangBangArmFramework extends Command implements RobotMap{
     	this.setpoint = setpoint;
     	this.speedCap = speedCap;
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() {
         this.setpoint = this.setpoint + Robot.am.getPosition(); //This is important to be in the initialize because if it's in the constructor it will not update the position when the button is pressed.

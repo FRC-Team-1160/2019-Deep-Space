@@ -12,6 +12,7 @@ import frc.robot.subsystems.Vision;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -25,7 +26,7 @@ public class TurnAngle extends Command implements RobotMap{
         // eg. requires(chassis);
       requires(Robot.dt);
       requires(Robot.vs);
-      this.targetAngle = Robot.vs.angleindegrees;
+      this.targetAngle = Vision.angleindegrees;
     	//this.targetAngle = target;
     }
 
@@ -57,19 +58,20 @@ public class TurnAngle extends Command implements RobotMap{
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
       //System.out.println("Gyro Yaw is: " + Robot.dt.getGyro().getYaw() + " and the target angle is: " + targetAngle);
-    	if ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE)) {
+      if ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE)) {
 			//Robot.dt.turnAngleCheck(targetAngle);
         System.out.println("Im finished turning from Vision");
         return true;
     }
       System.out.println("Im still turning from Vision");
+      SmartDashboard.putNumber("error from isfinished", (Math.abs(Robot.dt.getGyro().getYaw() - targetAngle)));
     	return false;
     	
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.dt.setPercentOutput(0);
+      Robot.dt.setPercentOutput(0);
     	
     }
 
