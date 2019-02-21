@@ -83,7 +83,7 @@ public class OI implements RobotMap{
       //LiftDown = new JoystickButton(liftStick, 7);
       ResetLift = new JoystickButton(liftStick, 2);//temporary button
       LiftLevel1 = new JoystickButton(liftStick, 6);//temporary button
-      LiftLevel2 = new J\oystickButton(liftStick, 10);//temporary button
+      LiftLevel2 = new JoystickButton(liftStick, 10);//temporary button
       LiftLevel3 = new JoystickButton(liftStick, 11);//temporary button
       
       PistonOut = new JoystickButton(mainStick, 8);
