@@ -70,7 +70,7 @@ public class Robot extends TimedRobot implements RobotMap {
     vs = Vision.getInstance();
     comp = new Compressor(15);
     comp.start();
-    mm = Minimap.getInstance();
+    //mm = Minimap.getInstance();
     oi = OI.getInstance();
     
     NetworkTableInstance inst = NetworkTableInstance.getDefault();

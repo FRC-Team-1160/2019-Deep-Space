@@ -72,7 +72,7 @@ public class OI implements RobotMap{
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
-      ArmCargoShipDelivery = new JoystickButton(armStick,6);//good button
+      ArmCargoShipDelivery = new JoystickButton(armStick,7);//good button
       ArmRocketLevel1Delivery = new JoystickButton(armStick,10);//good button
       ArmRocketLevel2Delivery = new JoystickButton(armStick, 11);//still testing
       ArmIn = new JoystickButton(mainStick, 8);
@@ -83,11 +83,11 @@ public class OI implements RobotMap{
       //LiftDown = new JoystickButton(liftStick, 7);
       ResetLift = new JoystickButton(liftStick, 2);//temporary button
       LiftLevel1 = new JoystickButton(liftStick, 6);//temporary button
-      LiftLevel2 = new J\oystickButton(liftStick, 10);//temporary button
+      LiftLevel2 = new JoystickButton(liftStick, 10);//temporary button
       LiftLevel3 = new JoystickButton(liftStick, 11);//temporary button
       
-      PistonOut = new JoystickButton(mainStick, 8);
-      PistonIn = new JoystickButton(mainStick, 7);
+      PistonOut = new JoystickButton(liftStick, 3);
+      PistonIn = new JoystickButton(liftStick, 1);
 
       //testButton = new JoystickButton(altStick, 1);
       tieButtons();
@@ -106,11 +106,11 @@ public class OI implements RobotMap{
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1))      
-      ArmCargoShipDelivery.whenPressed(new CargoDelivery(950,0.4));//temporary value - needs to be tuned.
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(1000,0.4));//temporary value - needs to be tuned.
       ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(730,0.5));//good for practice robot.
       ArmRocketLevel2Delivery.whenPressed(new CargoDelivery(1000,0.85));
-      ArmIn.whileHeld(new SetInArmTele(.2)); //intakes the cargo
-      ArmOut.whileHeld(new SetInArmTele(-1)); //spits the cargo
+      ArmIn.whileHeld(new SetInArmTele(-.3)); //intakes the cargo
+      ArmOut.whileHeld(new SetInArmTele(1)); //spits the cargo
                                
       
       //Lift Buttons

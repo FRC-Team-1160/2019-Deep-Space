@@ -33,6 +33,12 @@ public class SetPiston extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if(In_or_out){
+      Robot.lt.extendPiston();
+    }
+    if(!In_or_out){
+      Robot.lt.retractPiston();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

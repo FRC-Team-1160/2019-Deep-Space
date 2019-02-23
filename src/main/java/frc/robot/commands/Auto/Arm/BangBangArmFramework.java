@@ -14,19 +14,23 @@ import frc.robot.RobotMap;
 
 public class BangBangArmFramework extends Command implements RobotMap{
   private double setpoint;
+  private double realsetpoint;
 	private double error;
 	private int errorDirection; //-1 or 1
 	private double speedCap;
   public BangBangArmFramework(double setpoint,double speedCap) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.am);
-    	this.setpoint = setpoint + Robot.am.getPosition();
-    	this.speedCap = speedCap;
+        requires(Robot.am);
+        this.speedCap = speedCap;
+        this.setpoint = setpoint;
+        this.realsetpoint = setpoint;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        setpoint = realsetpoint + Robot.am.getPosition();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run

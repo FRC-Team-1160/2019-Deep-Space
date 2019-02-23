@@ -7,6 +7,8 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.videoio.VideoCapture;
 
+
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -26,6 +28,7 @@ public class Vision extends Subsystem {
 	Point[] Points2;
 	public Mat matrix;
 	public CvSink camera;
+	public UsbCamera usbCamera;
 
 	public static double angleindegrees;
 	public static double distanceToTarget;
@@ -35,6 +38,9 @@ public class Vision extends Subsystem {
 		cs.addAxisCamera("axis","axis-camera.local");
 		cs.addServer("axis");
 		camera = cs.getVideo();
+
+		usbCamera = CameraServer.getInstance().startAutomaticCapture();
+
 		matrix = new Mat();
 		angleindegrees = 0;
 		distanceToTarget = 0;
