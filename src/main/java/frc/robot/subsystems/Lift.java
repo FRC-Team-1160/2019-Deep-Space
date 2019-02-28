@@ -40,6 +40,8 @@ public class Lift extends Subsystem implements RobotMap{
 
   private Timer timer;
 
+  private DoubleSolenoid led;
+
   public static Lift getInstance(){
     if(instance == null){
       instance = new Lift();
@@ -50,6 +52,7 @@ public class Lift extends Subsystem implements RobotMap{
     leftMotor = new WPI_TalonSRX(LIFT_LEFT);
     rightMotor = new WPI_VictorSPX(LIFT_RIGHT);
     piston = new DoubleSolenoid(PCM, PISTON_SOLENOID_1, PISTON_SOLENOID_2);
+    led = new DoubleSolenoid(PCM, LED_SOLENOID_1, LED_SOLENOID_2);
 
     rightMotor.follow(leftMotor);
     leftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
@@ -106,6 +109,14 @@ public class Lift extends Subsystem implements RobotMap{
 
   public void retractPiston(){
     piston.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void ledOn(){
+    led.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void ledOff(){
+    led.set(DoubleSolenoid.Value.kReverse);
   }
 
   public int getPosition(){

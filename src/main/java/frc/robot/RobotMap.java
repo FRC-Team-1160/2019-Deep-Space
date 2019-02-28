@@ -40,6 +40,9 @@ public interface RobotMap {
   public static final int PISTON_SOLENOID_1 = 6; //0
   public static final int PISTON_SOLENOID_2 = 4; //7
 
+  public static final int LED_SOLENOID_1 = 2; //7
+  public static final int LED_SOLENOID_2 = 1; //7
+
   public static int CHOOSER_TESTER = 0;//Temporary
 
   //Drivetrain Control Constants
