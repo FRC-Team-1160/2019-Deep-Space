@@ -10,6 +10,8 @@ package frc.robot.commands.Auto;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.Auto.Drivetrain.DriveForward;
 import frc.robot.commands.Auto.Lift.BangBangLiftFramework;
+import frc.robot.commands.Auto.Lift.LiftWait;
+import frc.robot.commands.Auto.Lift.ResetLiftEncoder;
 
 public class LiftUpBackDown extends CommandGroup {
   /**
@@ -32,9 +34,12 @@ public class LiftUpBackDown extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new BangBangLiftFramework(20000, 0.15, true));
-    addSequential(new DriveForward(-5));
-    addSequential(new BangBangLiftFramework(20000, 0.15, false));
+    addSequential(new BangBangLiftFramework(-20000, 0.8, true));
+    //addSequential(new DriveForward(5));
+    addSequential(new LiftWait(2));
+    // addSequential(new ResetLiftEncoder());
+    addSequential(new BangBangLiftFramework(-2000, 0.3, false));
     
+
   }
 }

@@ -87,7 +87,7 @@ public class Arm extends Subsystem implements RobotMap {
     //derivative = 0;
 
 
-    upLeft.set(ControlMode.PercentOutput, -(Math.pow((Robot.oi.getArmStick().getY()), 1)) + derivative);
+    upLeft.set(ControlMode.PercentOutput, (0.5*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + derivative);
 
     timer.reset();
     timer.start();
@@ -107,11 +107,11 @@ public class Arm extends Subsystem implements RobotMap {
     if(currentEncoder < lastEncoder){
       derivative = 0.003*((currentEncoder - lastEncoder)/deltaTime);
     }
-    if(derivative < -0.23){
-      derivative = -0.23;
+    if(derivative < -0.2){
+      derivative = -0.2;
     }
-    if(derivative > 0.23){
-      derivative = 0.23;
+    if(derivative > 0.2){
+      derivative = 0.2;
     }
     
 
@@ -182,6 +182,10 @@ public class Arm extends Subsystem implements RobotMap {
 
   public int getPosition(){
     return upLeft.getSelectedSensorPosition();
+  }
+
+  public void resetPosition(){
+    upLeft.setSelectedSensorPosition(0, 0, 10);
   }
 
   @Override

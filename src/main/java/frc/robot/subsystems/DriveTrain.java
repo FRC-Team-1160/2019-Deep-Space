@@ -100,8 +100,8 @@ public class DriveTrain extends Subsystem implements RobotMap {
   public void manualDrive(){
 
     
-    backLeft.set(ControlMode.PercentOutput, 0.7*(Math.pow((Robot.oi.getMainStick().getY()), 3) - (Math.pow(Robot.oi.getMainStick().getZ(),3) )));
-    backRight.set(ControlMode.PercentOutput, -0.7*(Math.pow((Robot.oi.getMainStick().getY()), 3) + (Math.pow(Robot.oi.getMainStick().getZ(),3))));
+    backLeft.set(ControlMode.PercentOutput, 1*(Math.pow((Robot.oi.getMainStick().getY()), 3) - (Math.pow(Robot.oi.getMainStick().getZ(),3) )));
+    backRight.set(ControlMode.PercentOutput, -0.94*(Math.pow((Robot.oi.getMainStick().getY()), 3) + (Math.pow(Robot.oi.getMainStick().getZ(),3))));
     SmartDashboard.putNumber("Angle", gyro.getAngle());
     SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
     SmartDashboard.putNumber("Accel Y", gyro.getWorldLinearAccelY());

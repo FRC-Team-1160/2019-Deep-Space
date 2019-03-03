@@ -71,6 +71,9 @@ public class Lift extends Subsystem implements RobotMap{
   /*
 	 * Timer Methods
 	 */
+  public WPI_TalonSRX getLeftTalon(){
+    return leftMotor;
+  }
 	public void resetTime(){
 		timer.reset();
 	}
@@ -122,7 +125,9 @@ public class Lift extends Subsystem implements RobotMap{
   public int getPosition(){
     return leftMotor.getSelectedSensorPosition();
   }
-
+  public void resetLiftEncoder(){
+    leftMotor.setSelectedSensorPosition(0,0,100);
+  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

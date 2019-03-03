@@ -22,7 +22,7 @@ public class CargoDelivery extends CommandGroup {
     addSequential(new SetInArm(strength));
     
     //addSequential(new ArmWait(.5));
-    addSequential(new holdArm(1));
+    addSequential(new holdArm(0.7));
     addSequential(new SetInArm(0));
   
 

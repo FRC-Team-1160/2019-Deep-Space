@@ -16,6 +16,7 @@ import frc.robot.commands.Vision.*;
 import frc.robot.commands.Drive.*;
 import frc.robot.commands.Auto.CargoDelivery;
 import frc.robot.commands.Auto.HatchPanelDelivery;
+import frc.robot.commands.Auto.LiftUpBackDown;
 import frc.robot.commands.Auto.AutoAllign;
 import frc.robot.commands.Auto.Arm.*;
 import frc.robot.commands.Auto.Lift.*;
@@ -33,10 +34,11 @@ public class OI implements RobotMap{
     Joystick armStick;
     Joystick liftStick;
     JoystickButton 
-    sendData, runVision, setOn, setOff, resetEncoderYaw, breakoutMain, driveForward, turnAngle, 
+     sendData, runVision, setOn, setOff, resetEncoderYaw, breakoutMain,
+     driveForward, turnAngle, hatchIntake, cargoHold,
 
      ArmUp,ArmDown, ArmIn, ArmOut, breakoutArm,
-     ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery,
+     ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery, resetArm,
 
      LiftUp, LiftDown, PistonOut, PistonIn, ResetLift, breakoutLift,
      LiftLevel1,  LiftLevel2, LiftLevel3;
@@ -68,8 +70,8 @@ public class OI implements RobotMap{
       turnAngle = new JoystickButton(mainStick,2);
       resetEncoderYaw = new JoystickButton(mainStick, 10); // Resets the encoders
       //sendData = new JoystickButton(mainStick, 9);
-
-
+      hatchIntake = new JoystickButton(mainStick, 7);
+      //cargoHold = new JoystickButton(mainStick,6);
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
@@ -77,9 +79,12 @@ public class OI implements RobotMap{
       ArmRocketLevel1Delivery = new JoystickButton(armStick,10);//good button
       ArmRocketLevel2Delivery = new JoystickButton(armStick, 11);//still testing
 
+      resetArm = new JoystickButton(armStick,8);
+
       ArmIn = new JoystickButton(mainStick, 8);
       ArmOut = new JoystickButton(armStick, 1);
       breakoutArm = new JoystickButton(mainStick, 6);
+
 
       //Lift commands
       //LiftUp = new JoystickButton(liftStick, 6);
@@ -108,12 +113,17 @@ public class OI implements RobotMap{
       driveForward.whenPressed(new AutoAllign()); //distance in inches
       turnAngle.whenPressed(new TurnAngle(10));
       resetEncoderYaw.whenPressed(new ResetEncoderYaw());
+      hatchIntake.whenPressed(new LiftUpBackDown());
+      //cargoHold.whenPressed(new HoldCargo());
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
-      //ArmDown.whileHeld(new SetUpArm(-1))      
-      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-475,0.35));//temporary value - needs to be tuned.
-      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-350,0.5));//good for practice robot.
+      //ArmDown.whileHeld(new SetUpArm(-1));
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-500,0.35));//temporary value - needs to be tuned.
+      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-360,0.4));//good for practice robot.
       ArmRocketLevel2Delivery.whenPressed(new CargoDelivery(-610,0.60));
+
+      resetArm.whenPressed(new resetArm());
+
       ArmIn.whileHeld(new SetInArmTele(-.3)); //intakes the cargo //PRACTICE - 0.2
       ArmOut.whileHeld(new SetInArmTele(.7)); //spits the cargo //PRACTICE - -1
       breakoutArm.whenPressed(new Breakout());
@@ -123,11 +133,11 @@ public class OI implements RobotMap{
       //LiftUp.whileHeld(new SetLift(1));
       //LiftDown.whileHeld(new SetLift(-1));
       //LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
-      LiftLevel1.whenPressed(new HatchPanelDelivery(-3000));//temporary value - needs to be tuned.
-      LiftLevel2.whenPressed(new HatchPanelDelivery(-53600));//temporary value - needs to be tuned.
-      LiftLevel3.whenPressed(new HatchPanelDelivery(-103000));//temporary value - needs to be tuned.
-      PistonOut.whenPressed(new SetPiston(true)); //delivers the hatch panel
-      PistonIn.whenPressed(new SetPiston(false)); //resets the pistons
+      LiftLevel1.whenPressed(new BangBangLiftFramework(-1000,0.15,false));//temporary value - needs to be tuned.
+      LiftLevel2.whenPressed(new HatchPanelDelivery(-120000));//temporary value - needs to be tuned.
+      LiftLevel3.whenPressed(new HatchPanelDelivery(-245000));//temporary value - needs to be tuned.
+      PistonOut.whenPressed(new SetPiston(false)); //delivers the hatch panel
+      PistonIn.whenPressed(new SetPiston(true)); //resets the pistons
       breakoutLift.whenPressed(new Breakout());
 
       //sendData.whenPressed(new sendData());

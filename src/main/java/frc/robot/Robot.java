@@ -167,9 +167,6 @@ public class Robot extends TimedRobot implements RobotMap {
   @Override
   public void teleopPeriodic(){
     Scheduler.getInstance().run();
-    xEntry.setDouble(x);
-    yEntry.setDouble(y);
-    y += 0.1;
   }
 
   /**

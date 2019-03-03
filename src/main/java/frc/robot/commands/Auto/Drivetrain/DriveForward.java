@@ -9,10 +9,14 @@ package frc.robot.commands.Auto.Drivetrain;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveForward extends Command implements RobotMap{
   private double leftDistance, rightDistance;
+  private double oldLeftDistance, oldRightDistance;
+  private double error;
   public DriveForward(double d) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -21,6 +25,8 @@ public class DriveForward extends Command implements RobotMap{
     requires(Robot.vs);
     this.leftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
     this.rightDistance = d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
+    this.oldLeftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    this.oldRightDistance = d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
 
   }
   
@@ -29,31 +35,33 @@ public class DriveForward extends Command implements RobotMap{
   protected void initialize() {
     //System.out.println("The distance is: "+ leftDistance);
 
-    Robot.dt.resetGyro();
-    Robot.dt.resetTurnAngleIntegral();
+    //Robot.dt.resetGyro();
+    //Robot.dt.resetTurnAngleIntegral();
     Robot.dt.resetTime();
     Robot.dt.startTime();
 
-    //System.out.println("Im Stupid");
-    Robot.pid.goDistance(leftDistance+ Robot.dt.getLeftMaster().getSelectedSensorPosition(), rightDistance + Robot.dt.getRightMaster().getSelectedSensorPosition());
+   this.leftDistance = this.oldLeftDistance + Robot.dt.getLeftMaster().getSelectedSensorPosition();
+   
+   this.rightDistance = this.oldRightDistance + Robot.dt.getRightMaster().getSelectedSensorPosition();
+
+   //System.out.println("Im Stupid");
+    //Robot.pid.goDistance(leftDistance+ Robot.dt.getLeftMaster().getSelectedSensorPosition(), rightDistance + Robot.dt.getRightMaster().getSelectedSensorPosition());
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+     error = leftDistance - Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    	if (error >= 0){
+        Robot.dt.getLeftMaster().set(ControlMode.PercentOutput, -0.5);
+        Robot.dt.getRightMaster().set(ControlMode.PercentOutput, 0.5);
+      }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if((Math.abs(Robot.dt.getLeftMaster().getClosedLoopError(0)) < 100 ) && ((Math.abs(Robot.dt.getRightMaster().getClosedLoopError(0)) < 100))){
-      System.out.println("Im finished Driving from input");
-  
-      return true;
-    }
-    System.out.println("Im still Driving from input");
-
-    return false;
+    return (leftDistance < Robot.dt.getLeftMaster().getSelectedSensorPosition());
   }
 
   // Called once after isFinished returns true
