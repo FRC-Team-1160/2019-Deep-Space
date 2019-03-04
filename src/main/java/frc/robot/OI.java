@@ -83,7 +83,7 @@ public class OI implements RobotMap{
 
       ArmIn = new JoystickButton(mainStick, 8);
       ArmOut = new JoystickButton(armStick, 1);
-      breakoutArm = new JoystickButton(mainStick, 6);
+      breakoutArm = new JoystickButton(armStick, 6);
 
 
       //Lift commands
