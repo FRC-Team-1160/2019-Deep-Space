@@ -42,6 +42,12 @@ public class Arm extends Subsystem implements RobotMap {
   
   private Timer doneTimer;
 
+  private double distanceLast;
+  private double distanceNow;
+  private double proportion;
+  private double derivative;
+  private double feedForward;
+
   public static Arm getInstance(){
     if(instance == null){
       instance = new Arm();
@@ -63,6 +69,13 @@ public class Arm extends Subsystem implements RobotMap {
     upLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 
     upRight.follow(upLeft);
+
+    proportion = 0;
+    derivative = 0;
+    distanceLast = 0;
+    feedForward = 0;
+
+
   }
 
   public void controlArm(){
@@ -120,6 +133,31 @@ public class Arm extends Subsystem implements RobotMap {
     timer.start();
     lastEncoder = currentEncoder;
   }
+
+  public void PIDControl(double targetDistance, double maxSpeed){
+
+    //update proportion and derivative
+    deltaTime = timer.get();
+    distanceNow = (targetDistance - distanceLast);
+    proportion = distanceNow*ARM_P;
+    derivative = ARM_D * ((distanceNow - distanceLast )/ deltaTime);
+    feedForward = ARM_FF*Math.cos(upLeft.getSelectedSensorPosition()*ARM_ANGLE_ENCODER_CONVERSION);
+
+    //If the pid is setting the arm to move faster than the max speed, move the max speed in the direction that the pid was going to move.
+
+    if (Math.abs(proportion+derivative) < maxSpeed){
+      upLeft.set(ControlMode.PercentOutput, proportion + derivative + feedForward);
+    }
+    else{
+      upLeft.set(ControlMode.PercentOutput, feedForward + maxSpeed*((proportion+derivative)/Math.abs(proportion+derivative)));
+    }
+
+    //update constants for the next time the loop runs.
+    distanceLast = distanceNow;
+    timer.reset();
+    timer.start();
+  }
+
   
   
   public void resetTime(){

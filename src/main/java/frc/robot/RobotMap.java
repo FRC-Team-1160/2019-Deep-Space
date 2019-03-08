@@ -58,13 +58,22 @@ public interface RobotMap {
       //achieving said accuracy
   public static final double GYRO_CAP = 0.4; //max speed of the turn during TurnAngles
   public static final double GYRO_KI_CAP = 0.1;
-  
 
 
-  //Arm Control Constants
+  //Lift PID Constants
+
+  public static final double LIFT_P = 0; //Proportional to the error
+  public static final double LIFT_D = 0; //Proportional to the derivative of the error
+  public static final double LIFT_FF = 0; 
+
+  //Arm PID Constants
+
+  public static final double ARM_P = 0;
+  public static final double ARM_D = 0;
+  public static final double ARM_FF = 0; // Proportional to the cosine of the angle the arm makes
+  public static final double ARM_ANGLE_ENCODER_CONVERSION = 0;
   public static final double ARM_SLOWYDOWNY = .00009;
 
-  //Lift Control Constants
 
   /*
   // --- IGNORE ---
