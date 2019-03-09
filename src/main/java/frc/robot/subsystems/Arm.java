@@ -165,7 +165,7 @@ public class Arm extends Subsystem implements RobotMap {
   }
 
   public void setIn(double input){
-    inLeft.set(input);
+    inLeft.set(-input);
     inRight.set(-input);
   }
   

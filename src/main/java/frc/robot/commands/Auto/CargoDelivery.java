@@ -19,7 +19,7 @@ public class CargoDelivery extends CommandGroup {
   public CargoDelivery(double input, double strength) {
 
     addSequential(new BangBangArmFramework(input, 0.4));
-    addSequential(new SetInArm(-strength));
+    addSequential(new SetInArm(strength));
     
     //addSequential(new ArmWait(.5));
     addSequential(new holdArm(1));
