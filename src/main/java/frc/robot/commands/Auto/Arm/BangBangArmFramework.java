@@ -25,12 +25,14 @@ public class BangBangArmFramework extends Command implements RobotMap{
         this.speedCap = speedCap;
         this.setpoint = setpoint;
         this.realsetpoint = setpoint;
+
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
         setpoint = realsetpoint + Robot.am.getPosition();
     	
+
     }
 
     // Called repeatedly when this Command is scheduled to run
