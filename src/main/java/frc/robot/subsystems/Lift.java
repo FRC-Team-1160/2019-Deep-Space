@@ -42,6 +42,12 @@ public class Lift extends Subsystem implements RobotMap{
 
   private DoubleSolenoid led;
 
+  private double deltaTime;
+  private double distanceLast;
+  private double distanceNow;
+  private double proportion;
+  private double derivative;
+
   public static Lift getInstance(){
     if(instance == null){
       instance = new Lift();
@@ -59,6 +65,12 @@ public class Lift extends Subsystem implements RobotMap{
 
     timer = new Timer();
     timer.start();
+
+    //Initiallizing PID Constant
+    distanceLast = 0;
+    distanceNow = 0;
+
+
   }
 
   public void controlLift(){
@@ -66,6 +78,20 @@ public class Lift extends Subsystem implements RobotMap{
     SmartDashboard.putNumber("Lift Encoder",leftMotor.getSelectedSensorPosition());
 
     
+  }
+
+  public void PIDControl(double targetDistance, double maxSpeed){
+    deltaTime = timer.get();
+    distanceNow = (targetDistance -distanceLast);
+    proportion = distanceNow*LIFT_P;
+    derivative = LIFT_D * ((distanceNow-distanceLast)/deltaTime);
+    
+    if (Math.abs(proportion+derivative) < maxSpeed){
+      leftMotor.set(ControlMode.PercentOutput, proportion + derivative);
+    }
+    else{
+      leftMotor.set(ControlMode.PercentOutput, maxSpeed*((proportion+derivative)/Math.abs(proportion+derivative)));
+    }
   }
 
   /*
