@@ -45,7 +45,7 @@ private double movetopoint;
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (Math.abs(Robot.am.getMaster().getClosedLoopError()) < 100);
   }
 
   // Called once after isFinished returns true

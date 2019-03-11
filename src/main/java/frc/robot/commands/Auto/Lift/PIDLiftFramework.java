@@ -7,12 +7,23 @@
 
 package frc.robot.commands.Auto.Lift;
 
+
+import frc.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class PIDLiftFramework extends Command {
-  public PIDLiftFramework() {
+
+  private double setPoint;
+  private double maxSpeed;
+
+  public PIDLiftFramework(double setPoint, double maxSpeed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+
+    requires(Robot.lt);
+    this.setPoint = setPoint;
+    this.maxSpeed = maxSpeed;
   }
 
   // Called just before this Command runs the first time
@@ -23,12 +34,16 @@ public class PIDLiftFramework extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    Robot.lt.PIDControl(setPoint, maxSpeed);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (Math.abs(Robot.lt.getLeftTalon().getClosedLoopError()) < 100);
+    
   }
 
   // Called once after isFinished returns true

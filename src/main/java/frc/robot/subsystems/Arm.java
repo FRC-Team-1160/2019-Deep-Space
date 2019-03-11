@@ -158,6 +158,9 @@ public class Arm extends Subsystem implements RobotMap {
     timer.start();
   }
 
+  public WPI_TalonSRX getMaster(){
+    return upLeft;
+  }
   
   
   public void resetTime(){
