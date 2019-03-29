@@ -17,6 +17,7 @@ public class DriveForward extends Command implements RobotMap{
   private double leftDistance, rightDistance;
   private double oldLeftDistance, oldRightDistance;
   private double error;
+  private double maxSpeed;
   public DriveForward(double d) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -24,11 +25,27 @@ public class DriveForward extends Command implements RobotMap{
     requires(Robot.dt);
     requires(Robot.vs);
     this.leftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
-    this.rightDistance = d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
+    this.rightDistance = -d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
     this.oldLeftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
-    this.oldRightDistance = d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
+    this.oldRightDistance = -d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
 
+    maxSpeed = 1;
   }
+
+  public DriveForward(double d, double speed) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.pid);
+    requires(Robot.dt);
+    requires(Robot.vs);
+    this.leftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    this.rightDistance = -d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
+    this.oldLeftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    this.oldRightDistance = -d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
+
+    maxSpeed = speed;
+  }
+
   
   // Called just before this Command runs the first time
   @Override
@@ -40,28 +57,36 @@ public class DriveForward extends Command implements RobotMap{
     Robot.dt.resetTime();
     Robot.dt.startTime();
 
-   this.leftDistance = this.oldLeftDistance + Robot.dt.getLeftMaster().getSelectedSensorPosition();
+   this.leftDistance = this.oldLeftDistance + (Robot.dt.getLeftMaster().getSelectedSensorPosition());
    
-   this.rightDistance = this.oldRightDistance + Robot.dt.getRightMaster().getSelectedSensorPosition();
-
+   this.rightDistance = this.oldRightDistance + (Robot.dt.getRightMaster().getSelectedSensorPosition());
+   
    //System.out.println("Im Stupid");
-    //Robot.pid.goDistance(leftDistance+ Robot.dt.getLeftMaster().getSelectedSensorPosition(), rightDistance + Robot.dt.getRightMaster().getSelectedSensorPosition());
+  //Robot.pid.goDistance(leftDistance + Robot.dt.getLeftMaster().getSelectedSensorPosition(), rightDistance + Robot.dt.getRightMaster().getSelectedSensorPosition());
+  Robot.dt.PIDgoDistance(leftDistance, rightDistance, maxSpeed);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-     error = leftDistance - Robot.dt.getLeftMaster().getSelectedSensorPosition();
-    	if (error >= 0){
-        Robot.dt.getLeftMaster().set(ControlMode.PercentOutput, -0.5);
-        Robot.dt.getRightMaster().set(ControlMode.PercentOutput, 0.5);
-      }
+     //error = leftDistance - Robot.dt.getLeftMaster().getSelectedSensorPosition();
+    	//if (error >= 0){
+      //  Robot.dt.getLeftMaster().set(ControlMode.PercentOutput, -0.5);
+      //  Robot.dt.getRightMaster().set(ControlMode.PercentOutput, 0.5);
+      //}
+      Robot.dt.PIDgoDistance(leftDistance, rightDistance, maxSpeed);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (leftDistance < Robot.dt.getLeftMaster().getSelectedSensorPosition());
+    
+    if((Math.abs(leftDistance - Robot.dt.getLeftMaster().getSelectedSensorPosition()) < 25) && (Math.abs(rightDistance - Robot.dt.getRightMaster().getSelectedSensorPosition()) < 25))
+      return true;
+
+    return false;
+  
   }
 
   // Called once after isFinished returns true
@@ -74,5 +99,8 @@ public class DriveForward extends Command implements RobotMap{
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.dt.getLeftMaster().set(ControlMode.PercentOutput, 0);
+    Robot.dt.getRightMaster().set(ControlMode.PercentOutput, 0);
+
   }
 }

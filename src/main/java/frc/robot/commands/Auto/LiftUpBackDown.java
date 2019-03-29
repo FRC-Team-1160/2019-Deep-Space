@@ -38,7 +38,7 @@ public class LiftUpBackDown extends CommandGroup {
     //addSequential(new DriveForward(5));
     addSequential(new LiftWait(2));
     // addSequential(new ResetLiftEncoder());
-    addSequential(new BangBangLiftFramework(-2000, 0.3, false));
+    addSequential(new BangBangLiftFramework(-18000, 0.3, false));
     
 
   }

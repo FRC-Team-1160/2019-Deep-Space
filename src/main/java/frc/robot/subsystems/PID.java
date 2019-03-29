@@ -32,11 +32,11 @@ public class PID extends Subsystem implements RobotMap{
     	rightController.configAllowableClosedloopError(0, 75, 0);
 
 		leftController.config_kP(0, 0.09, 0);
-		leftController.config_kI(0, 0.0001, 0);
-		leftController.config_kD(0, 50, 0);
+		leftController.config_kI(0, 0.000, 0);
+		leftController.config_kD(0, 00, 0);
 		rightController.config_kP(0, 0.09, 0);
-		rightController.config_kI(0, 0.0001, 0);
-    	rightController.config_kD(0, 50, 0);
+		rightController.config_kI(0, 0.000, 0);
+    	rightController.config_kD(0, 00, 0);
 	}
 	
 	public static PID getInstance(WPI_TalonSRX lController, WPI_TalonSRX rController) {
@@ -47,13 +47,14 @@ public class PID extends Subsystem implements RobotMap{
 	}
 	
 	public void goDistance(double lTargetDistance, double rTargetDistance) {
-		SmartDashboard.putNumber("Back Left Encoder", leftController.getSelectedSensorPosition());
-		SmartDashboard.putNumber("Back Right Encoder", rightController.getSelectedSensorPosition());
-		SmartDashboard.putNumber("Back Left Error", leftController.getClosedLoopError());
-		SmartDashboard.putNumber("Back Right Error", rightController.getClosedLoopError());
-	
-		leftController.set(ControlMode.Position, (lTargetDistance));
+	//	SmartDashboard.putNumber("Back Left Encoder", leftController.getSelectedSensorPosition());
+	//	SmartDashboard.putNumber("Back Right Encoder", rightController.getSelectedSensorPosition());
+		SmartDashboard.putNumber("lTargetDistance", lTargetDistance);
+		SmartDashboard.putNumber("rTargetDistance", rTargetDistance);
+
+		leftController.set(ControlMode.Position,(lTargetDistance));
 		rightController.set(ControlMode.Position,(rTargetDistance));
+		
  	}
 	
     public void initDefaultCommand() {

@@ -7,34 +7,24 @@
 
 package frc.robot.commands.Auto;
 
+
 import frc.robot.commands.Auto.Arm.*;
 import frc.robot.commands.Arm.*;
 
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CargoDelivery extends CommandGroup {
+public class intakeCargoPosition extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public CargoDelivery(double input, double strength) {
+  public intakeCargoPosition() {
 
-    addSequential(new PIDArmFramework(input, .45),1);
-    
-    //addSequential(new ArmWait(.1));
-
+    addSequential(new PIDArmFramework(-200, .5));
     //addSequential(new SetInArm(strength));
-    addParallel(new holdArm());
+    
     //addSequential(new ArmWait(.5));
-    //addSequential(new holdArm(5));
-    //addSequential(new SetInArm(strength));
-    
-    //addSequential(new ArmWait(0.15));
-    //addSequ(new holdArm());
-
-    //addSequential(new SetInArm(strength));
-    
-    //addSequential(new ArmWait(1));
-
+    //addSequential(new holdArm());
     //addSequential(new SetInArm(0));
     // Add Commands here:
     // e.g. addSequential(new Command1());

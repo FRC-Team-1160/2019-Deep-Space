@@ -77,7 +77,7 @@ public class Robot extends TimedRobot implements RobotMap {
     table = inst.getTable("datatable");
     xEntry = table.getEntry("X");
     yEntry = table.getEntry("Y");
-
+    
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     //SmartDashboard.putData("Auto mode", m_chooser);

@@ -5,37 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Auto;
-
-import frc.robot.commands.Auto.Arm.*;
-import frc.robot.commands.Arm.*;
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CargoDelivery extends CommandGroup {
+public class restartManualArm extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public CargoDelivery(double input, double strength) {
-
-    addSequential(new PIDArmFramework(input, .45),1);
-    
-    //addSequential(new ArmWait(.1));
-
-    //addSequential(new SetInArm(strength));
-    addParallel(new holdArm());
-    //addSequential(new ArmWait(.5));
-    //addSequential(new holdArm(5));
-    //addSequential(new SetInArm(strength));
-    
-    //addSequential(new ArmWait(0.15));
-    //addSequ(new holdArm());
-
-    //addSequential(new SetInArm(strength));
-    
-    //addSequential(new ArmWait(1));
-
-    //addSequential(new SetInArm(0));
+  public restartManualArm() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

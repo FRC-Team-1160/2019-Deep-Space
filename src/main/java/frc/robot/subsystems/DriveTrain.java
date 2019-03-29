@@ -45,6 +45,16 @@ public class DriveTrain extends Subsystem implements RobotMap {
 	private double proportion;
 	private double integral; 
 
+	//PID variables
+	private double distanceNowLeft;
+	private double distanceNowRight;
+	private double distanceLastLeft;
+	private double distanceLastRight;
+	private double proportionLeft;
+	private double proportionRight;
+	private double derivativeLeft;
+	private double derivativeRight;
+
 
   private AHRS gyro;
 
@@ -87,7 +97,13 @@ public class DriveTrain extends Subsystem implements RobotMap {
     table = inst.getTable("datatable");
     //xEntry = table.getEntry("X");
     //yEntry = table.getEntry("Y");
-    setFollower();
+		setFollower();
+		
+		distanceNowLeft = 0;
+		distanceNowRight = 0;
+		distanceLastLeft = 0;
+		distanceLastRight = 0;
+
   }
 
   public void setFollower(){
@@ -100,8 +116,8 @@ public class DriveTrain extends Subsystem implements RobotMap {
   public void manualDrive(){
 
     
-    backLeft.set(ControlMode.PercentOutput, 1*(Math.pow((Robot.oi.getMainStick().getY()), 3) - (Math.pow(Robot.oi.getMainStick().getZ(),3) )));
-    backRight.set(ControlMode.PercentOutput, -0.94*(Math.pow((Robot.oi.getMainStick().getY()), 3) + (Math.pow(Robot.oi.getMainStick().getZ(),3))));
+    backLeft.set(ControlMode.PercentOutput, .69*(Math.pow((Robot.oi.getMainStick().getY()), 3) - (Math.pow(Robot.oi.getMainStick().getZ(),3) ))); //1
+    backRight.set(ControlMode.PercentOutput, -0.685*(Math.pow((Robot.oi.getMainStick().getY()), 3) + (Math.pow(Robot.oi.getMainStick().getZ(),3)))); //-.94
     SmartDashboard.putNumber("Angle", gyro.getAngle());
     SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
     SmartDashboard.putNumber("Accel Y", gyro.getWorldLinearAccelY());
@@ -173,7 +189,46 @@ public class DriveTrain extends Subsystem implements RobotMap {
  		//printYaw();
  		resetTime();
  		startTime();
- 	}
+	 }
+	 
+	 public void PIDgoDistance(double lDistance,double rDistance,double maxSpeed){
+		deltaTime = timer.get();
+
+		//Constants for the left side of the drivetrain
+    distanceNowLeft = (lDistance - backLeft.getSelectedSensorPosition());
+    proportionLeft = distanceNowLeft*DT_LEFT_P;
+    derivativeLeft = DT_LEFT_D * ((distanceNowLeft - distanceLastLeft )/ deltaTime);
+			
+		distanceNowRight = (rDistance - backRight.getSelectedSensorPosition());
+		proportionRight = distanceNowRight*DT_RIGHT_P;
+		derivativeRight = DT_RIGHT_D * ((distanceNowRight - distanceLastRight )/ deltaTime);
+
+		//Set the value for the left side
+		if(Math.abs(proportionLeft + derivativeLeft) > maxSpeed){
+			backLeft.set(ControlMode.PercentOutput, maxSpeed*((proportionLeft+derivativeLeft)/(Math.abs(proportionLeft+derivativeLeft))));
+		}
+		else{
+		backLeft.set(ControlMode.PercentOutput, proportionLeft + derivativeLeft);
+		}
+
+		//set the value for the right side
+		if(Math.abs(proportionRight + derivativeRight) > maxSpeed){
+			backRight.set(ControlMode.PercentOutput, maxSpeed*((proportionRight + derivativeRight)/(Math.abs(proportionRight + derivativeRight))));
+		}
+		else{
+		backRight.set(ControlMode.PercentOutput, proportionLeft + derivativeLeft);
+		}
+
+
+		SmartDashboard.putNumber("LeftError DT", proportionLeft);
+		SmartDashboard.putNumber("RightError DT", proportionRight);
+
+    //update constants for the next time the loop runs.
+		distanceLastLeft = distanceNowLeft;
+		distanceLastRight = distanceNowRight;
+    timer.reset();
+    timer.start();
+	 }
 	
 	public void turnAngleCheck(double targetAngle) {
 		resetTimeCheck();

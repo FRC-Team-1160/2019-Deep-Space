@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.Robot;
 import frc.robot.commands.Arm.controlArm;
+import frc.robot.commands.Auto.Arm.PIDArmFramework;
+import frc.robot.commands.Auto.Arm.holdArm;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -32,8 +34,7 @@ public class Arm extends Subsystem implements RobotMap {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static Arm instance;
-  private WPI_TalonSRX upLeft, inLeft, inRight;
-  private WPI_TalonSRX upRight;
+  private WPI_TalonSRX upLeft, inLeft, inRight, upRight;
   private Timer timer;
 
   private double deltaTime;
@@ -85,8 +86,9 @@ public class Arm extends Subsystem implements RobotMap {
 
     deltaTime = timer.get();
     currentEncoder = upLeft.getSelectedSensorPosition();
-
+    
     //Trying to dampen the falling of the arm.
+    //*
     double derivative = 0;
     if(currentEncoder < lastEncoder){
       derivative = ARM_SLOWYDOWNY*((currentEncoder - lastEncoder)/deltaTime);
@@ -98,15 +100,43 @@ public class Arm extends Subsystem implements RobotMap {
       derivative = 0.3;
     }
     //derivative = 0;
-
-
-    upLeft.set(ControlMode.PercentOutput, (0.5*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + derivative);
+    feedForward = (Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION))*ARM_90_HOLD;  
+    upLeft.set(ControlMode.PercentOutput, (0.4*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + derivative);
+   //upLeft.set(ControlMode.PercentOutput, -0.2);
 
     timer.reset();
     timer.start();
     lastEncoder = currentEncoder;
   }
+  public void controlArmWithFF(){
+    SmartDashboard.putNumber("Arm Encoder",upLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Timer: ", timer.get());
+    SmartDashboard.putNumber("doneTimer: ", doneTimer.get());
 
+    deltaTime = timer.get();
+    currentEncoder = upLeft.getSelectedSensorPosition();
+    
+    //Trying to dampen the falling of the arm.
+    //*
+    double derivative = 0;
+    if(currentEncoder < lastEncoder){
+      derivative = ARM_SLOWYDOWNY*((currentEncoder - lastEncoder)/deltaTime);
+    }
+    if(derivative < -0.3){
+      derivative = -0.3;
+    }
+    if(derivative > 0.3){
+      derivative = 0.3;
+    }
+    //derivative = 0;
+    feedForward = (Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION))*ARM_90_HOLD;  
+    upLeft.set(ControlMode.PercentOutput, (0.5*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + feedForward);
+   //upLeft.set(ControlMode.PercentOutput, -0.2);
+
+    timer.reset();
+    timer.start();
+    lastEncoder = currentEncoder;
+  }
   	/*
 	 * Timer Methods
 	 */
@@ -116,6 +146,7 @@ public class Arm extends Subsystem implements RobotMap {
     currentEncoder = upLeft.getSelectedSensorPosition();
 
     //Trying to hold the the arm.
+    /*
     double derivative = 0;
     if(currentEncoder < lastEncoder){
       derivative = 0.003*((currentEncoder - lastEncoder)/deltaTime);
@@ -126,27 +157,31 @@ public class Arm extends Subsystem implements RobotMap {
     if(derivative > 0.2){
       derivative = 0.2;
     }
-    
-
-    upLeft.set(ControlMode.PercentOutput, derivative);
+    */
+    upLeft.set(ControlMode.PercentOutput,(Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION))*ARM_90_HOLD);
     timer.reset();
     timer.start();
-    lastEncoder = currentEncoder;
+    //lastEncoder = currentEncoder;
   }
 
+  //the priciple behind this is that we use a PID loop to move the arm to a position and use the cosine of the angle times a constant (ARM_90_HOLD) to hold it)
+  // cos 0 (straight) = 1; cos 90 (directly up) = 0;
   public void PIDControl(double targetDistance, double maxSpeed){
+    SmartDashboard.putNumber("target distance", targetDistance);
 
     //update proportion and derivative
     deltaTime = timer.get();
-    distanceNow = (targetDistance - distanceLast);
+    distanceNow = (targetDistance - upLeft.getSelectedSensorPosition());
     proportion = distanceNow*ARM_P;
     derivative = ARM_D * ((distanceNow - distanceLast )/ deltaTime);
-    feedForward = ARM_FF*Math.cos(upLeft.getSelectedSensorPosition()*ARM_ANGLE_ENCODER_CONVERSION);
-
+    feedForward = (Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION))*ARM_90_HOLD;
+    //Math.cos is for radians
+    SmartDashboard.putNumber("Cosine stuff", Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION));
     //If the pid is setting the arm to move faster than the max speed, move the max speed in the direction that the pid was going to move.
-
+    SmartDashboard.putNumber("P ARM", proportion);
+    SmartDashboard.putNumber("D ARM", derivative);
     if (Math.abs(proportion+derivative) < maxSpeed){
-      upLeft.set(ControlMode.PercentOutput, proportion + derivative + feedForward);
+      upLeft.set(ControlMode.PercentOutput, proportion + derivative + feedForward);//make proportion pos or neg dep. on robot 
     }
     else{
       upLeft.set(ControlMode.PercentOutput, feedForward + maxSpeed*((proportion+derivative)/Math.abs(proportion+derivative)));
@@ -162,11 +197,10 @@ public class Arm extends Subsystem implements RobotMap {
     return upLeft;
   }
   
-  
   public void resetTime(){
 		timer.reset();
 	}
-	
+	 
 	public void startTime(){
 		timer.start();
 	}
@@ -207,7 +241,7 @@ public class Arm extends Subsystem implements RobotMap {
   }
 
   public void setIn(double input){
-    inLeft.set(input);
+    inLeft.set(-input);
     inRight.set(-input);
   }
   

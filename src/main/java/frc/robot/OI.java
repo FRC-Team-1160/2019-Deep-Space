@@ -18,6 +18,11 @@ import frc.robot.commands.Auto.CargoDelivery;
 import frc.robot.commands.Auto.HatchPanelDelivery;
 import frc.robot.commands.Auto.LiftUpBackDown;
 import frc.robot.commands.Auto.AutoAllign;
+import frc.robot.commands.Auto.holdCargo;
+import frc.robot.commands.Auto.CargoLevel2;
+import frc.robot.commands.Auto.intakeCargoPosition;
+
+
 import frc.robot.commands.Auto.Arm.*;
 import frc.robot.commands.Auto.Lift.*;
 import frc.robot.commands.Auto.Drivetrain.*;
@@ -35,10 +40,10 @@ public class OI implements RobotMap{
     Joystick liftStick;
     JoystickButton 
      sendData, runVision, setOn, setOff, resetEncoderYaw, breakoutMain,
-     driveForward, turnAngle, hatchIntake, cargoHold,
+     driveForward, turnAngle, hatchIntake, cargoHold, cargoIntakePosition,
 
      ArmUp,ArmDown, ArmIn, ArmOut, breakoutArm,
-     ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery, resetArm,
+     ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery, resetArm, manualArm,
 
      LiftUp, LiftDown, PistonOut, PistonIn, ResetLift, breakoutLift,
      LiftLevel1,  LiftLevel2, LiftLevel3;
@@ -62,8 +67,8 @@ public class OI implements RobotMap{
       //MainStick Commands
       runVision = new JoystickButton(mainStick,1); 
 
-      setOn = new JoystickButton(mainStick, 5); //High Gear
-      setOff = new JoystickButton(mainStick, 6); //Low Gear
+      //setOn = new JoystickButton(mainStick, 5); //High Gear
+      //setOff = new JoystickButton(mainStick, 6); //Low Gear
       breakoutMain = new JoystickButton(mainStick, 9);
 
       driveForward = new JoystickButton(mainStick , 4); //Drive Forward Auto Command
@@ -71,7 +76,10 @@ public class OI implements RobotMap{
       resetEncoderYaw = new JoystickButton(mainStick, 10); // Resets the encoders
       //sendData = new JoystickButton(mainStick, 9);
       hatchIntake = new JoystickButton(mainStick, 7);
-      //cargoHold = new JoystickButton(mainStick,6);
+      cargoHold = new JoystickButton(mainStick,6);
+      cargoIntakePosition = new JoystickButton(mainStick, 5);
+
+
       //Arm Commands
       //ArmUp = new JoystickButton(armStick, 6);
       //ArmDown = new JoystickButton(armStick, 7);
@@ -84,6 +92,9 @@ public class OI implements RobotMap{
       ArmIn = new JoystickButton(mainStick, 8);
       ArmOut = new JoystickButton(armStick, 1);
       breakoutArm = new JoystickButton(armStick, 6);
+      manualArm = new JoystickButton(armStick, 9);
+
+      
 
 
       //Lift commands
@@ -106,31 +117,44 @@ public class OI implements RobotMap{
       //MainStick Buttons
       runVision.whenPressed(new runVision());
 
-      setOn.whenPressed(new SetDrive(true)); //only works on final
-      setOff.whenPressed(new SetDrive(false));
-      breakoutMain.whenPressed(new Breakout()); //not tested, should cancel any command
+      //setOn.whenPressed(new SetDrive(true)); //only works on final
+      //setOff.whenPressed(new SetDrive(false));
+      breakoutMain.whenPressed(new Breakout()); //cancel any command
 
       driveForward.whenPressed(new AutoAllign()); //distance in inches
       turnAngle.whenPressed(new TurnAngle(10));
       resetEncoderYaw.whenPressed(new ResetEncoderYaw());
       hatchIntake.whenPressed(new LiftUpBackDown());
-      //cargoHold.whenPressed(new HoldCargo());
+      cargoHold.whenPressed(new holdCargo());
+      cargoIntakePosition.whenPressed((new intakeCargoPosition()));
+
+
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1));
-      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-500,0.35));//temporary value - needs to be tuned.
-      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-360,0.4));//good for practice robot.
-      ArmRocketLevel2Delivery.whenPressed(new CargoDelivery(-610,0.60));
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-535, 0.42));//temporary value - needs to be tuned. -500, 0.35
+      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-370, 0.45));//good for practice robot.
+      ArmRocketLevel2Delivery.whenPressed(new CargoLevel2(-610, 0.455));
+
+      //arm PID const too weak, bump up
+      //arm intake const too weak
+
+      /*
+      This what the code looked like for practice.
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(520,0.45));
+      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(410,0.45));
+      ArmRocketLevel2Delivery.whenPressed(new CargoLevel2(670,0.455));
+      */
 
       resetArm.whenPressed(new resetArm());
 
-      ArmIn.whileHeld(new SetInArmTele(-.3)); //intakes the cargo //PRACTICE - 0.2
-      ArmOut.whileHeld(new SetInArmTele(.7)); //spits the cargo //PRACTICE - -1
+      ArmIn.whileHeld(new SetInArmTele(-.4)); //intakes the cargo //PRACTICE - 0.2
+      ArmOut.whileHeld(new SetInArmTele(.45)); //spits the cargo //PRACTICE - -1
       breakoutArm.whenPressed(new Breakout());
-                               
-      
+      manualArm.whenPressed(new manualArm());
+
       //Lift Buttons
-      //LiftUp.whileHeld(new SetLift(1));
+      //LiftUp.whileHeld(new SetLift(1));s
       //LiftDown.whileHeld(new SetLift(-1));
       //LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
       LiftLevel1.whenPressed(new BangBangLiftFramework(-1000,0.15,false));//temporary value - needs to be tuned.
@@ -154,6 +178,8 @@ public class OI implements RobotMap{
     public Joystick getArmStick(){
       return armStick;
     }
+
+    
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.

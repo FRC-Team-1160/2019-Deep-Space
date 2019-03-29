@@ -37,18 +37,19 @@ public interface RobotMap {
   //comments are Prac[Ti]ce ports; Galac[Ti]c s solenoid wiring is not inverse ie 0-7, 1-6
   public static final int DT_SOLENOID_0 = 7; //1
   public static final int DT_SOLENOID_1 = 5; //6
-  public static final int PISTON_SOLENOID_1 = 6; //0
-  public static final int PISTON_SOLENOID_2 = 4; //7
+  public static final int PISTON_SOLENOID_1 = 6; //7
+  public static final int PISTON_SOLENOID_2 = 4; //0
 
-  public static final int LED_SOLENOID_1 = 2; //7
-  public static final int LED_SOLENOID_2 = 1; //7
+  public static final int LED_SOLENOID_1 = 1; //7
+  public static final int LED_SOLENOID_2 = 2; //7
 
   public static int CHOOSER_TESTER = 0;//Temporary
 
   //Drivetrain Control Constants
   public static final double WHEEL_DIAMETER = 6;
   public static final double CONTROLLER_CONSTANT_L = 2239/(WHEEL_DIAMETER*Math.PI);
-  public static final double CONTROLLER_CONSTANT_R = 2261*.98/(WHEEL_DIAMETER*Math.PI);
+  public static final double CONTROLLER_CONSTANT_R = 2261*0.9224/(WHEEL_DIAMETER*Math.PI);//might be .98?
+  //public static final double CONTROLLER_CONSTANT_R = 2261*1.08/(WHEEL_DIAMETER*Math.PI);  This is for final
     //Turnangle Constant
   public static final double GYRO_KP_2 = 0.016; 
   public static final double GYRO_KI = 0.01;
@@ -58,7 +59,12 @@ public interface RobotMap {
       //achieving said accuracy
   public static final double GYRO_CAP = 0.4; //max speed of the turn during TurnAngles
   public static final double GYRO_KI_CAP = 0.1;
+  //Drivetraing PID Constants
 
+  public static final double DT_LEFT_P = 0.0003;
+  public static final double DT_LEFT_D = -0.0000001;
+  public static final double DT_RIGHT_P = -0.00095;
+  public static final double DT_RIGHT_D = 0.0000001;
 
   //Lift PID Constants
 
@@ -68,13 +74,13 @@ public interface RobotMap {
 
   //Arm PID Constants
 
-  public static final double ARM_P = 0;
-  public static final double ARM_D = 0;
+  public static final double ARM_P = 0.0015;
+  public static final double ARM_D = 0.0;
   public static final double ARM_FF = 0; // Proportional to the cosine of the angle the arm makes
-  public static final double ARM_ANGLE_ENCODER_CONVERSION = 0;
+  public static final double ARM_ANGLE_ENCODER_CONVERSION = 1/7.81875 * Math.PI /180;
   public static final double ARM_SLOWYDOWNY = .00009;
 
-
+  public static final double ARM_90_HOLD = -0.15;
   /*
   // --- IGNORE ---
   // Drive Train Encoder Value

@@ -10,6 +10,7 @@ package frc.robot.commands.Auto.Arm;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class holdArm extends Command {
   private double time;
@@ -18,6 +19,11 @@ public class holdArm extends Command {
     // eg. requires(chassis);
     requires(Robot.am);
     time = finishTime;
+  }
+
+  public holdArm(){
+    requires(Robot.am);
+    time = 10000000;
   }
 
   // Called just before this Command runs the first time
@@ -31,6 +37,7 @@ public class holdArm extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    SmartDashboard.putNumber("Time of Hold", time);
     Robot.am.holdArm();
   }
 

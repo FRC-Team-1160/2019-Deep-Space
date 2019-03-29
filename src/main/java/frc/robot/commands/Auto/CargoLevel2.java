@@ -7,35 +7,50 @@
 
 package frc.robot.commands.Auto;
 
-import frc.robot.commands.Auto.Arm.*;
-import frc.robot.commands.Arm.*;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.Breakout;
+import frc.robot.commands.Auto.Drivetrain.*;
+import frc.robot.commands.Arm.*;
+import frc.robot.commands.Auto.Arm.*;
 
-public class CargoDelivery extends CommandGroup {
+public class CargoLevel2 extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public CargoDelivery(double input, double strength) {
+  public CargoLevel2(double level,double output) {
 
-    addSequential(new PIDArmFramework(input, .45),1);
-    
-    //addSequential(new ArmWait(.1));
 
+    addParallel(new DriveForward(-27,0.5));
+
+    //addParallel(new PIDArmFramework(850, .5));
     //addSequential(new SetInArm(strength));
-    addParallel(new holdArm());
+    
     //addSequential(new ArmWait(.5));
-    //addSequential(new holdArm(5));
-    //addSequential(new SetInArm(strength));
     
-    //addSequential(new ArmWait(0.15));
-    //addSequ(new holdArm());
-
-    //addSequential(new SetInArm(strength));
-    
-    //addSequential(new ArmWait(1));
-
+    addParallel(new holdArm(1));
     //addSequential(new SetInArm(0));
+  
+    
+    //addSequential(new Breakout());
+    addSequential(new ArmWait(0.1));
+    
+    addSequential(new PIDArmFramework(level, .5));
+    
+    addSequential(new ArmWait(0.05));
+    addSequential(new holdArm(.3));
+
+    addSequential(new SetInArm(output));
+    
+    addSequential(new ArmWait(.25));
+    //addSequential(new holdArm(5));
+    addSequential(new SetInArm(-.3));
+    
+    addSequential(new ArmWait(1));
+
+    addSequential(new SetInArm(0));
+    
+    
+    
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

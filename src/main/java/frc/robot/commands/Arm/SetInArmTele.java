@@ -8,6 +8,7 @@
 package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class SetInArmTele extends Command {
@@ -29,6 +30,7 @@ public class SetInArmTele extends Command {
   @Override
   protected void execute() {
     Robot.am.setIn(input);
+    SmartDashboard.putNumber("is the input running?", Robot.am.getDoneTime());
   }
 
   // Make this return true when this Command no longer needs to run execute()

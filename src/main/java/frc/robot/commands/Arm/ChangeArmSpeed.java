@@ -5,30 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Auto.Arm;
-
-import frc.robot.Robot;
-
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ArmWait extends Command {
-  private double time;
-  private boolean waitForButton;
-  public ArmWait(double finishTime) {
+public class ChangeArmSpeed extends Command {
+  public ChangeArmSpeed() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.am);
-    time = finishTime;
-    waitForButton = false;
-
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.am.resetDoneTime();
-    Robot.am.startDoneTime();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -39,9 +28,7 @@ public class ArmWait extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    //if(!waitForButton)
-      return Robot.am.done(time);
-
+    return false;
   }
 
   // Called once after isFinished returns true
