@@ -135,7 +135,7 @@ public class OI implements RobotMap{
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1));
-      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-535, 0.42));//temporary value - needs to be tuned. -500, 0.35
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-555, 0.42));//temporary value - needs to be tuned. -500, 0.35
       ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-430, 0.45));//good for practice robot.
       ArmRocketLevel2Delivery.whenPressed(new CargoLevel2(-610, 0.455));
 
