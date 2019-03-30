@@ -39,7 +39,9 @@ public class LiftUpBackDown extends CommandGroup {
     addSequential(new LiftWait(2));
     // addSequential(new ResetLiftEncoder());
     addSequential(new BangBangLiftFramework(-18000, 0.3, false));
-    
-
   }
 }
+
+///SWITCH BTWN FULL AND 50
+//STOP/RESTART MANUAL CONTROL OF LIFT
+//tune bottom stopping

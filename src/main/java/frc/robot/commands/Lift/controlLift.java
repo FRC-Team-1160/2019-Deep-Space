@@ -34,6 +34,7 @@ public class controlLift extends Command {
   @Override
   protected boolean isFinished() {
     return false;
+    //return MagicalButton.isPressed();
   }
 
   // Called once after isFinished returns true

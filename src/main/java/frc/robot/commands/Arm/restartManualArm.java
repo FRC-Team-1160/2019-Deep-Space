@@ -14,6 +14,8 @@ public class restartManualArm extends CommandGroup {
    * Add your docs here.
    */
   public restartManualArm() {
+    addSequential(new killManualArm());
+    addSequential(new manualArm());
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

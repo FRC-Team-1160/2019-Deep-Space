@@ -19,12 +19,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
-
-
 
 /**
  * Add your docs here.
@@ -48,6 +44,8 @@ public class Lift extends Subsystem implements RobotMap{
   private double proportion;
   private double derivative;
 
+  private boolean isControlled;
+
   public static Lift getInstance(){
     if(instance == null){
       instance = new Lift();
@@ -70,14 +68,24 @@ public class Lift extends Subsystem implements RobotMap{
     distanceLast = 0;
     distanceNow = 0;
 
-
+    isControlled = true;
   }
 
   public void controlLift(){
     leftMotor.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getLiftStick().getY()), 1)));
     SmartDashboard.putNumber("Lift Encoder",leftMotor.getSelectedSensorPosition());
+  }
 
-    
+  public void dontControlLift(){
+
+  }
+
+  public void toggleIsConntrolled(){
+    isControlled = !isControlled;
+  }
+
+  public boolean isControlled(){
+    return isControlled;
   }
 
   public void PIDControl(double targetDistance, double maxSpeed){
@@ -93,6 +101,7 @@ public class Lift extends Subsystem implements RobotMap{
       leftMotor.set(ControlMode.PercentOutput, maxSpeed*((proportion+derivative)/Math.abs(proportion+derivative)));
     }
   }
+
 
   /*
 	 * Timer Methods
@@ -154,6 +163,7 @@ public class Lift extends Subsystem implements RobotMap{
   public void resetLiftEncoder(){
     leftMotor.setSelectedSensorPosition(0,0,100);
   }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

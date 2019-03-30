@@ -54,11 +54,12 @@ public class BangBangLiftFramework extends Command implements RobotMap{
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
        // return ((Math.abs(error) < 500))  ; //arbitrary ceiling
+      
        if(driveDirection){
         return (Robot.lt.getLeftTalon().getSelectedSensorPosition() < setpoint);
        }
        else if(!driveDirection){
-        return (Robot.lt.getLeftTalon().getSelectedSensorPosition() > setpoint);
+        return (Robot.lt.getLeftTalon().getSelectedSensorPosition() > -10000);
        }
 
        return false;

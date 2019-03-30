@@ -85,8 +85,7 @@ public class Robot extends TimedRobot implements RobotMap {
     m_chooser.addOption("Backwards", new SetChooser(-1));
     SmartDashboard.putData("Test", m_chooser);
   }
-  double x = 0;
-  double y = 0;
+
   /**
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,

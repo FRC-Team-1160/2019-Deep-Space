@@ -5,39 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Arm;
-
-import edu.wpi.first.wpilibj.command.Command;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+package frc.robot.commands.Lift;
 
 import frc.robot.Robot;
 
-public class manualArm extends Command {
-  public manualArm() {
+
+import edu.wpi.first.wpilibj.command.Command;
+
+public class dontControlLift extends Command {
+  public dontControlLift() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.am);
+    requires(Robot.lt);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.am.switchIsRunning(true);
-    //Robot.am.getMaster().set(ControlMode.PercentOutput, (1*-(Math.pow((Robot.oi.getArmStick().getY()), 1))));;
-    Robot.am.controlArmWithFF();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //Robot.am.getMaster().set(ControlMode.PercentOutput, (1*-(Math.pow((Robot.oi.getArmStick().getY()), 1))));
-    Robot.am.controlArmWithFF();
+    Robot.lt.dontControlLift();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(!Robot.am.getIsRunning()) return true;
     return false;
   }
 

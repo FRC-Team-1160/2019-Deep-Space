@@ -44,9 +44,10 @@ public class OI implements RobotMap{
 
      ArmUp,ArmDown, ArmIn, ArmOut, breakoutArm,
      ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery, resetArm, manualArm,
+     manualArmFast, manualArmSlow,
 
      LiftUp, LiftDown, PistonOut, PistonIn, ResetLift, breakoutLift,
-     LiftLevel1,  LiftLevel2, LiftLevel3;
+     LiftLevel1,  LiftLevel2, LiftLevel3, switchLift;
 
     public static OI getInstance(){
       if(instance == null){
@@ -94,7 +95,8 @@ public class OI implements RobotMap{
       breakoutArm = new JoystickButton(armStick, 6);
       manualArm = new JoystickButton(armStick, 9);
 
-      
+      manualArmFast = new JoystickButton(armStick, 4);
+      manualArmSlow = new JoystickButton(armStick, 5);
 
 
       //Lift commands
@@ -109,6 +111,7 @@ public class OI implements RobotMap{
       PistonOut = new JoystickButton(liftStick, 1);
       PistonIn = new JoystickButton(liftStick, 3);
 
+      switchLift = new JoystickButton(liftStick, 9);
       //testButton = new JoystickButton(altStick, 1);
       tieButtons();
     }
@@ -133,14 +136,14 @@ public class OI implements RobotMap{
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1));
       ArmCargoShipDelivery.whenPressed(new CargoDelivery(-535, 0.42));//temporary value - needs to be tuned. -500, 0.35
-      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-370, 0.45));//good for practice robot.
+      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-430, 0.45));//good for practice robot.
       ArmRocketLevel2Delivery.whenPressed(new CargoLevel2(-610, 0.455));
 
       //arm PID const too weak, bump up
       //arm intake const too weak
 
       /*
-      This what the code looked like for practice.
+      This what the code looked like for practice.0
       ArmCargoShipDelivery.whenPressed(new CargoDelivery(520,0.45));
       ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(410,0.45));
       ArmRocketLevel2Delivery.whenPressed(new CargoLevel2(670,0.455));
@@ -149,7 +152,7 @@ public class OI implements RobotMap{
       resetArm.whenPressed(new resetArm());
 
       ArmIn.whileHeld(new SetInArmTele(-.4)); //intakes the cargo //PRACTICE - 0.2
-      ArmOut.whileHeld(new SetInArmTele(.45)); //spits the cargo //PRACTICE - -1
+      ArmOut.whileHeld(new SetInArmTele(.50)); //spits the cargo //PRACTICE - -1
       breakoutArm.whenPressed(new Breakout());
       manualArm.whenPressed(new manualArm());
 
@@ -159,12 +162,15 @@ public class OI implements RobotMap{
       //LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
       LiftLevel1.whenPressed(new BangBangLiftFramework(-1000,0.15,false));//temporary value - needs to be tuned.
       LiftLevel2.whenPressed(new HatchPanelDelivery(-120000));//temporary value - needs to be tuned.
-      LiftLevel3.whenPressed(new HatchPanelDelivery(-245000));//temporary value - needs to be tuned.
+      LiftLevel3.whenPressed(new HatchPanelDelivery(-220000));//temporary value - needs to be tuned.
       PistonOut.whenPressed(new SetPiston(false)); //delivers the hatch panel
       PistonIn.whenPressed(new SetPiston(true)); //resets the pistons
       breakoutLift.whenPressed(new Breakout());
 
+      manualArmFast.whenPressed(new speedUp(true));
+      manualArmSlow.whenPressed(new speedUp(false));
       //sendData.whenPressed(new sendData());
+      switchLift.whenPressed(new ToggleLiftControl());
     }
 
     public Joystick getMainStick(){

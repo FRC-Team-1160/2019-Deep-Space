@@ -48,7 +48,12 @@ public class Arm extends Subsystem implements RobotMap {
   private double proportion;
   private double derivative;
   private double feedForward;
+  
+  private double armspeed;
 
+  private double changex = 1.0;
+
+  private boolean isManualWithFFRunning;
   public static Arm getInstance(){
     if(instance == null){
       instance = new Arm();
@@ -76,7 +81,8 @@ public class Arm extends Subsystem implements RobotMap {
     distanceLast = 0;
     feedForward = 0;
 
-
+    armspeed = 0.5;
+    isManualWithFFRunning = false;
   }
 
   public void controlArm(){
@@ -101,7 +107,7 @@ public class Arm extends Subsystem implements RobotMap {
     }
     //derivative = 0;
     feedForward = (Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION))*ARM_90_HOLD;  
-    upLeft.set(ControlMode.PercentOutput, (0.4*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + derivative);
+    upLeft.set(ControlMode.PercentOutput, (armspeed*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + derivative);
    //upLeft.set(ControlMode.PercentOutput, -0.2);
 
     timer.reset();
@@ -130,7 +136,7 @@ public class Arm extends Subsystem implements RobotMap {
     }
     //derivative = 0;
     feedForward = (Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION))*ARM_90_HOLD;  
-    upLeft.set(ControlMode.PercentOutput, (0.5*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + feedForward);
+    upLeft.set(ControlMode.PercentOutput, (armspeed*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + feedForward);
    //upLeft.set(ControlMode.PercentOutput, -0.2);
 
     timer.reset();
@@ -241,8 +247,8 @@ public class Arm extends Subsystem implements RobotMap {
   }
 
   public void setIn(double input){
-    inLeft.set(-input);
-    inRight.set(-input);
+    inLeft.set(-input*changex);
+    inRight.set(-input*changex);
   }
   
   public void stopUp(){
@@ -261,6 +267,21 @@ public class Arm extends Subsystem implements RobotMap {
 
   public void resetPosition(){
     upLeft.setSelectedSensorPosition(0, 0, 10);
+  }
+
+  public void speedUp(boolean yes){
+    if(yes){
+      changex = 1.0;
+    }else{
+      changex = 1000.0;
+    }
+  }
+  public void switchIsRunning(boolean x){
+    isManualWithFFRunning = x;
+  }
+
+  public boolean getIsRunning(){
+    return isManualWithFFRunning;
   }
 
   @Override

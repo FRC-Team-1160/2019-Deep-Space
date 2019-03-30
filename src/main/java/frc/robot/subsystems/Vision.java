@@ -42,12 +42,12 @@ public class Vision extends Subsystem {
 
 		//Initialize Usb Camera
 		usbCamera = CameraServer.getInstance().startAutomaticCapture();
-
-		camera = cs.getVideo();
-		matrix = new Mat();
-		angleindegrees = 0;
-		distanceToTarget = 0;
-		switchButtonPressed = 0;
+		usbCamera.setResolution(160, 120);
+		
+		//matrix = new Mat();
+		//angleindegrees = 0;
+		//distanceToTarget = 0;
+		//switchButtonPressed = 0;
 		//camera.grabFrame(matrix);
 		/*
 		for(Point p: Points) {
@@ -56,8 +56,9 @@ public class Vision extends Subsystem {
 		*/
 
 		//Create videoSink
-		videoSink = CameraServer.getInstance().getServer();
-		videoSink.setSource(camera.getSource());//default camera is set to axis camera
+		//videoSink = CameraServer.getInstance().getServer();		
+		//videoSink.setSource(camera.getSource());//default camera is set to axis camera
+		
 
 		
 		
