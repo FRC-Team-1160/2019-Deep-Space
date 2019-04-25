@@ -25,7 +25,7 @@ public interface RobotMap {
   public static int LIFT_LEFT = 7;//Talon
   public static int LIFT_RIGHT = 8;//Victor
   public static int ARM_UP_LEFT = 9;//Talon
-  public static int ARM_UP_RIGHT = 10;//Talon
+  public static int ARM_UP_RIGHT = 10;//Victor
   public static int ARM_IN_LEFT = 11;//Talon
   public static int ARM_IN_RIGHT = 12;//Talon
 
@@ -35,10 +35,10 @@ public interface RobotMap {
   
   //Solenoid ports on PCM
   //comments are Prac[Ti]ce ports; Galac[Ti]c s solenoid wiring is not inverse ie 0-7, 1-6
-  public static final int DT_SOLENOID_0 = 7; //1
-  public static final int DT_SOLENOID_1 = 5; //6
-  public static final int PISTON_SOLENOID_1 = 6; //7
-  public static final int PISTON_SOLENOID_2 = 4; //0
+  public static final int DT_SOLENOID_0 = 1; //1      //7
+  public static final int DT_SOLENOID_1 = 6; //6      //5
+  public static final int PISTON_SOLENOID_1 = 7; //7  //6
+  public static final int PISTON_SOLENOID_2 = 0; //0  //4
 
   public static final int LED_SOLENOID_1 = 1; //7
   public static final int LED_SOLENOID_2 = 2; //7
@@ -54,7 +54,7 @@ public interface RobotMap {
   public static final double GYRO_KP_2 = 0.016; 
   public static final double GYRO_KI = 0.01;
   public static final double GYRO_KD = 0.00000;
-  public static final double GYRO_TOLERANCE = 2;//Smaller value means higher accuracy but more time spent
+  public static final double GYRO_TOLERANCE = 11;//Smaller value means higher accuracy but more time spent
   public static final double TURN_TIMEOUT = 2.5;
       //achieving said accuracy
   public static final double GYRO_CAP = 0.4; //max speed of the turn during TurnAngles

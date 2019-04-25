@@ -56,10 +56,10 @@ public class Lift extends Subsystem implements RobotMap{
     leftMotor = new WPI_TalonSRX(LIFT_LEFT);
     rightMotor = new WPI_VictorSPX(LIFT_RIGHT);
     piston = new DoubleSolenoid(PCM, PISTON_SOLENOID_1, PISTON_SOLENOID_2);
-    led = new DoubleSolenoid(PCM, LED_SOLENOID_1, LED_SOLENOID_2);
+    //led = new DoubleSolenoid(PCM, LED_SOLENOID_1, LED_SOLENOID_2);
 
     rightMotor.follow(leftMotor);
-    leftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+    leftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0); 
 
     timer = new Timer();
     timer.start();

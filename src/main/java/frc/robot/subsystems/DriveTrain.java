@@ -22,7 +22,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -39,6 +39,7 @@ public class DriveTrain extends Subsystem implements RobotMap {
 
   //turnangle variables
 	private double deltaTime;
+	private double final_angle;
 	private double angle_difference_now;
 	private double angle_difference;
 	private double derivative;
@@ -91,7 +92,8 @@ public class DriveTrain extends Subsystem implements RobotMap {
     timer = new Timer();
     timerCheck = new Timer();
 
-    driveSwitch = new DoubleSolenoid(PCM, DT_SOLENOID_0, DT_SOLENOID_1);
+		driveSwitch = new DoubleSolenoid(PCM, DT_SOLENOID_0, DT_SOLENOID_1);
+		//matthew changed this from serial to I2C in the imports on 12 april 2019 because serial is super inconsistent
     gyro = new AHRS(Port.kMXP);
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     table = inst.getTable("datatable");
@@ -116,9 +118,10 @@ public class DriveTrain extends Subsystem implements RobotMap {
   public void manualDrive(){
 
     
-    backLeft.set(ControlMode.PercentOutput, .69*(Math.pow((Robot.oi.getMainStick().getY()), 3) - (Math.pow(Robot.oi.getMainStick().getZ(),3) ))); //1
-    backRight.set(ControlMode.PercentOutput, -0.685*(Math.pow((Robot.oi.getMainStick().getY()), 3) + (Math.pow(Robot.oi.getMainStick().getZ(),3)))); //-.94
-    SmartDashboard.putNumber("Angle", gyro.getAngle());
+    backLeft.set(ControlMode.PercentOutput, .3*(Math.pow((Robot.oi.getMainStick().getY()), 3) - (Math.pow(Robot.oi.getMainStick().getRawAxis(4),3) ))); //1
+    backRight.set(ControlMode.PercentOutput, -0.3*(Math.pow((Robot.oi.getMainStick().getY()), 3) + (Math.pow(Robot.oi.getMainStick().getRawAxis(4),3)))); //-.94
+		SmartDashboard.putNumber("Angle", gyro.getAngle());
+		SmartDashboard.putNumber("Yaw", gyro.getYaw());
     SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
     SmartDashboard.putNumber("Accel Y", gyro.getWorldLinearAccelY());
     SmartDashboard.putNumber("Accel Z", gyro.getWorldLinearAccelZ());
@@ -134,11 +137,19 @@ public class DriveTrain extends Subsystem implements RobotMap {
 	}
 
 	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor 
+		/*
 		double current_angle = gyro.getYaw();
 		angle_difference_now = (-targetAngle + current_angle);
 		SmartDashboard.putNumber("Yaw", gyro.getYaw());
+		*/
+
+		double current_angle = gyro.getAngle();
+		final_angle = targetAngle;
+		angle_difference_now = targetAngle - current_angle;
+		//SmartDashboard.putNumber("Angle in turnangle", current_angle);
+		//SmartDashboard.putNumber("difference in turnangle", angle_difference_now);
 		//if ((Math.abs(angle_difference_now) > 5))
-			proportion = GYRO_KP_2 * angle_difference_now;
+	  proportion = GYRO_KP_2 * angle_difference_now;
 		
 		if(proportion > 0.3){
 			proportion = 0.3;

@@ -125,11 +125,11 @@ public class OI implements RobotMap{
       breakoutMain.whenPressed(new Breakout()); //cancel any command
 
       driveForward.whenPressed(new AutoAllign()); //distance in inches
-      turnAngle.whenPressed(new TurnAngle(10));
+      turnAngle.whenPressed(new TurnAngle(270));
       resetEncoderYaw.whenPressed(new ResetEncoderYaw());
       hatchIntake.whenPressed(new LiftUpBackDown());
       cargoHold.whenPressed(new holdCargo());
-      cargoIntakePosition.whenPressed((new intakeCargoPosition()));
+      cargoIntakePosition.whenPressed((new ResetEncoderYaw()));
 
 
       //Arm Buttons

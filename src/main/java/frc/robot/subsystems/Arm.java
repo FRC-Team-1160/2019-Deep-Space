@@ -34,7 +34,8 @@ public class Arm extends Subsystem implements RobotMap {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static Arm instance;
-  private WPI_TalonSRX upLeft, inLeft, inRight, upRight;
+  private WPI_TalonSRX upLeft, inLeft, inRight;
+  private WPI_VictorSPX upRight;
   private Timer timer;
 
   private double deltaTime;
@@ -64,7 +65,7 @@ public class Arm extends Subsystem implements RobotMap {
   private Arm(){
     
     upLeft = new WPI_TalonSRX(ARM_UP_LEFT);
-    upRight = new WPI_TalonSRX(ARM_UP_RIGHT);
+    upRight = new WPI_VictorSPX(ARM_UP_RIGHT);
     inLeft = new WPI_TalonSRX(ARM_IN_LEFT);
     inRight = new WPI_TalonSRX(ARM_IN_RIGHT);
     timer = new Timer();

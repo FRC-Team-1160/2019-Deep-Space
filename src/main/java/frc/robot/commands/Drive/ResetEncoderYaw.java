@@ -21,6 +21,7 @@ public class ResetEncoderYaw extends Command {
   @Override
   protected void initialize() {
     Robot.dt.resetPosition();
+    Robot.dt.resetGyro();;
   }
 
   // Called repeatedly when this Command is scheduled to run
