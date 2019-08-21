@@ -67,7 +67,6 @@ public class Robot extends TimedRobot implements RobotMap {
     lt = Lift.getInstance();
     t = Tester.getInstance();
     pid = PID.getInstance(dt.getLeftMaster(), dt.getRightMaster());
-    vs = Vision.getInstance();
     comp = new Compressor(15);
     comp.start();
    // mm = Minimap.getInstance();

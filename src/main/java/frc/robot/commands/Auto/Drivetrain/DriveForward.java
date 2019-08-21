@@ -23,7 +23,7 @@ public class DriveForward extends Command implements RobotMap{
     // eg. requires(chassis);
     requires(Robot.pid);
     requires(Robot.dt);
-    requires(Robot.vs);
+    //requires(Robot.vs);
     this.leftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
     this.rightDistance = -d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
     this.oldLeftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
@@ -37,7 +37,7 @@ public class DriveForward extends Command implements RobotMap{
     // eg. requires(chassis);
     requires(Robot.pid);
     requires(Robot.dt);
-    requires(Robot.vs);
+    //requires(Robot.vs);
     this.leftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();
     this.rightDistance = -d*(CONTROLLER_CONSTANT_R);// + Robot.dt.getRightMaster().getSelectedSensorPosition();
     this.oldLeftDistance = -d*CONTROLLER_CONSTANT_L;// + Robot.dt.getLeftMaster().getSelectedSensorPosition();

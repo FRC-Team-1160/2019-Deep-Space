@@ -25,8 +25,8 @@ public class TurnAngle extends Command implements RobotMap{
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
       requires(Robot.dt);
-      requires(Robot.vs);
-      this.targetAngle = Vision.angleindegrees;
+      //requires(Robot.vs);
+      //this.targetAngle = Vision.angleindegrees;
     	//this.targetAngle = target;
     }
 
@@ -42,7 +42,7 @@ public class TurnAngle extends Command implements RobotMap{
         //System.err.println("The reset method lies");
         //Robot.dt.resetGyro();
       
-      this.targetAngle = Vision.angleindegrees + Robot.dt.getGyro().getYaw();
+      //this.targetAngle = Vision.angleindegrees + Robot.dt.getGyro().getYaw();
       
 
     	

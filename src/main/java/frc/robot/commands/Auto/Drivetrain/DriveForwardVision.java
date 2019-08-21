@@ -18,7 +18,7 @@ public class DriveForwardVision extends Command implements RobotMap{
     // eg. requires(chassis);
     requires(Robot.pid);
     requires(Robot.dt);
-    requires(Robot.vs);
+    //requires(Robot.vs);
     this.lDistance = Robot.dt.getLeftMaster().getSelectedSensorPosition();
     this.rDistance = Robot.dt.getRightMaster().getSelectedSensorPosition();
   }
@@ -35,7 +35,7 @@ public class DriveForwardVision extends Command implements RobotMap{
     this.rDistance = Robot.dt.getRightMaster().getSelectedSensorPosition();
 
     //System.out.println("Im Stupid");
-    Robot.pid.goDistance(((Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_L) + lDistance - (6*CONTROLLER_CONSTANT_L)), ((-Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_R) + rDistance) + (6*CONTROLLER_CONSTANT_R));
+    //Robot.pid.goDistance(((Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_L) + lDistance - (6*CONTROLLER_CONSTANT_L)), ((-Robot.vs.distanceToTarget*CONTROLLER_CONSTANT_R) + rDistance) + (6*CONTROLLER_CONSTANT_R));
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -66,19 +66,19 @@ public class OI implements RobotMap{
     private void createButtons(){ 
 
       //MainStick Commands
-      runVision = new JoystickButton(mainStick,1); 
+      //runVision = new JoystickButton(mainStick,2); // Changed 1 to 2
 
       //setOn = new JoystickButton(mainStick, 5); //High Gear
       //setOff = new JoystickButton(mainStick, 6); //Low Gear
-      breakoutMain = new JoystickButton(mainStick, 9);
+      breakoutMain = new JoystickButton(mainStick, 7);
 
-      driveForward = new JoystickButton(mainStick , 4); //Drive Forward Auto Command
-      turnAngle = new JoystickButton(mainStick,2);
+      driveForward = new JoystickButton(mainStick , 9); //Drive Forward Auto Command
+      turnAngle = new JoystickButton(mainStick,3);//Changed 2 to 3
       resetEncoderYaw = new JoystickButton(mainStick, 10); // Resets the encoders
       //sendData = new JoystickButton(mainStick, 9);
-      hatchIntake = new JoystickButton(mainStick, 7);
-      cargoHold = new JoystickButton(mainStick,6);
-      cargoIntakePosition = new JoystickButton(mainStick, 5);
+      hatchIntake = new JoystickButton(mainStick, 5);// back button
+      cargoHold = new JoystickButton(mainStick,1);//right bumper Changed 3 to 1
+      cargoIntakePosition = new JoystickButton(mainStick, 4);//left bumper
 
 
       //Arm Commands
@@ -90,7 +90,7 @@ public class OI implements RobotMap{
 
       resetArm = new JoystickButton(armStick,8);
 
-      ArmIn = new JoystickButton(mainStick, 8);
+      ArmIn = new JoystickButton(mainStick, 6);
       ArmOut = new JoystickButton(armStick, 1);
       breakoutArm = new JoystickButton(armStick, 6);
       manualArm = new JoystickButton(armStick, 9);
@@ -118,7 +118,7 @@ public class OI implements RobotMap{
 
     private void tieButtons(){
       //MainStick Buttons
-      runVision.whenPressed(new runVision());
+      //runVision.whenPressed(new runVision());
 
       //setOn.whenPressed(new SetDrive(true)); //only works on final
       //setOff.whenPressed(new SetDrive(false));

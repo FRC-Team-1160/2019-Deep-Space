@@ -17,7 +17,7 @@ public class Breakout extends Command {
     requires(Robot.dt);
     requires(Robot.lt);
     requires(Robot.am);
-    requires(Robot.vs);
+    //requires(Robot.vs);
     requires(Robot.pid);
     
   }
