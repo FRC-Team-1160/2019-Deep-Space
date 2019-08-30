@@ -27,7 +27,7 @@ import frc.robot.subsystems.Minimap;
 import frc.robot.commands.SetChooser;
 import edu.wpi.first.wpilibj.Compressor;
 
-
+//C:\Users\Titanium Robotics\Desktop\VS_workspace\2019-Deep-Space\src\main\java\frc\robot\subsystems\PID.java
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -66,6 +66,7 @@ public class Robot extends TimedRobot implements RobotMap {
     dt = DriveTrain.getInstance();
     lt = Lift.getInstance();
     t = Tester.getInstance();
+    vs = Vision.getInstance();
     pid = PID.getInstance(dt.getLeftMaster(), dt.getRightMaster());
     comp = new Compressor(15);
     comp.start();
