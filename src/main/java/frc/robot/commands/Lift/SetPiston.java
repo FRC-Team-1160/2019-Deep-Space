@@ -15,7 +15,7 @@ public class SetPiston extends Command {
   public SetPiston(boolean In_or_out) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.In_or_out = In_or_out;
+    this.In_or_out = !In_or_out;
     requires(Robot.lt);
   }
 

@@ -41,9 +41,9 @@ public class Vision extends Subsystem {
 		cs.addServer("axis");
 
 		//Initialize Usb Camera
-		usbCamera = CameraServer.getInstance().startAutomaticCapture();
+		usbCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		usbCamera.setResolution(160, 120);
-		
+		CameraServer.getInstance().startAutomaticCapture(1);
 		//matrix = new Mat();
 		//angleindegrees = 0;
 		//distanceToTarget = 0;

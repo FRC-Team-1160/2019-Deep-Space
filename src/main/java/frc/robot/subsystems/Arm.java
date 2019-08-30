@@ -135,8 +135,9 @@ public class Arm extends Subsystem implements RobotMap {
       derivative = 0.3;
     }
     //derivative = 0;
+
     feedForward = (Math.cos((upLeft.getSelectedSensorPosition()+247)*ARM_ANGLE_ENCODER_CONVERSION))*ARM_90_HOLD;  
-    upLeft.set(ControlMode.PercentOutput, (armspeed*-(Math.pow((Robot.oi.getArmStick().getY()), 1))) + feedForward);
+    upLeft.set(ControlMode.PercentOutput, (armspeed*-(Math.pow(Robot.oi.getMainStick().getRawAxis(3) -Robot.oi.getMainStick().getRawAxis(2), 1))) + feedForward);
    //upLeft.set(ControlMode.PercentOutput, -0.2);
 
     timer.reset();
