@@ -44,7 +44,7 @@ public class OI implements RobotMap{
 
      ArmUp,ArmDown, ArmIn, ArmOut, breakoutArm,
      ArmCargoShipDelivery, ArmRocketLevel1Delivery, ArmRocketLevel2Delivery, resetArm, manualArm,
-     manualArmFast, manualArmSlow,
+     manualArmFast, manualArmSlow, ArmOutFast,
 
      LiftUp, LiftDown, PistonOut, PistonIn, ResetLift, breakoutLift,
      LiftLevel1,  LiftLevel2, LiftLevel3, switchLift;
@@ -91,6 +91,7 @@ public class OI implements RobotMap{
 
       ArmIn = new JoystickButton(mainStick, 6);
       ArmOut = new JoystickButton(armStick, 1);
+      ArmOutFast = new JoystickButton(armStick, 3);
       breakoutArm = new JoystickButton(armStick, 6);
       manualArm = new JoystickButton(armStick, 9);
 
@@ -140,8 +141,9 @@ public class OI implements RobotMap{
       //Arm Buttons
       //ArmUp.whileHeld(new SetUpArm(1));
       //ArmDown.whileHeld(new SetUpArm(-1));
-      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-555, 0.42));//temporary value - needs to be tuned. -500, 0.35
-      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-430, 0.45));//good for practice robot.
+      ArmCargoShipDelivery.whenPressed(new CargoDelivery(-590, 0.52));//temporary value - needs to be tuned. -500, 0.35
+                                                                      // -565, 0.52
+      ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-430, 0.55));//good for practice robot.
       //ArmRocketLevel2Delivery.whenPressed(new CargoLevel2(-610, 0.455));
 
       //arm PID const too weak, bump up
@@ -156,8 +158,12 @@ public class OI implements RobotMap{
 
       resetArm.whenPressed(new resetArm());
 
-      ArmIn.whileHeld(new SetInArmTele(-.4)); //intakes the cargo //PRACTICE - 0.2
-      ArmOut.whileHeld(new SetInArmTele(.50)); //spits the cargo //PRACTICE - -1
+      ArmIn.whileHeld(new SetInArmTele(-.5)); //intakes the cargo //PRACTICE - 0.2
+      ArmOut.whileHeld(new SetInArmTele(.40)); //spits the cargo //PRACTICE - -1
+      ArmOutFast.whileHeld(new SetInArmTele(0.55));
+     //Wheels spin faster in case cargo is overinflated and can't shoot.
+      
+
       breakoutArm.whenPressed(new Breakout());
       manualArm.whenPressed(new manualArm());
 
@@ -165,7 +171,7 @@ public class OI implements RobotMap{
       //LiftUp.whileHeld(new SetLift(1));s
       //LiftDown.whileHeld(new SetLift(-1));
       //LiftLevel1.whenPressed(new BangBangLiftFramework(0, 0.5, false));
-      LiftLevel1.whenPressed(new BangBangLiftFramework(-10000,0.15,true));//temporary value - needs to be tuned.
+      LiftLevel1.whenPressed(new BangBangLiftFramework(-16000,0.15,true));//temporary value - needs to be tuned.
       LiftLevel2.whenPressed(new HatchPanelDelivery(-120000));//temporary value - needs to be tuned.
       LiftLevel3.whenPressed(new HatchPanelDelivery(-220000));//temporary value - needs to be tuned.
       PistonOut.whenPressed(new SetPiston(false)); //delivers the hatch panel
