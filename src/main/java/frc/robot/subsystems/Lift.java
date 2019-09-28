@@ -72,7 +72,11 @@ public class Lift extends Subsystem implements RobotMap{
   }
 
   public void controlLift(){
-    leftMotor.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getLiftStick().getY()), 1)));
+    if(Math.abs(Robot.oi.getLiftStick().getY()) < 0.3){
+      leftMotor.set(ControlMode.PercentOutput, (Math.pow(0, 1)));
+    }else{
+      leftMotor.set(ControlMode.PercentOutput, (Math.pow((Robot.oi.getLiftStick().getY()), 1))/2);
+    }
     SmartDashboard.putNumber("Lift Encoder",leftMotor.getSelectedSensorPosition());
   }
 
@@ -157,7 +161,7 @@ public class Lift extends Subsystem implements RobotMap{
     led.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public int getPosition(){
+  public double getPosition(){
     return leftMotor.getSelectedSensorPosition();
   }
   public void resetLiftEncoder(){

@@ -34,11 +34,11 @@ public class LiftUpBackDown extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new BangBangLiftFramework(-20000, 0.8, true));
+    addSequential(new BangBangLiftFramework(-60000, 0.8, true));
     //addSequential(new DriveForward(5));
     addSequential(new LiftWait(2));
     // addSequential(new ResetLiftEncoder());
-    addSequential(new BangBangLiftFramework(-18000, 0.3, false));
+    addSequential(new BangBangLiftFramework(-26000, 0.23, false));
   }
 }
 

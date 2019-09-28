@@ -29,7 +29,7 @@ import frc.robot.commands.Auto.Drivetrain.*;
 import frc.robot.commands.Minimap.sendData;
 
 
-/**
+/**C:\Users\Titanium Robotics\Desktop\VS_workspace\2019-Deep-Space\src\main\java\frc\robot\commands\Arm\ChangeArmSpeed.java
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
@@ -49,6 +49,7 @@ public class OI implements RobotMap{
      LiftUp, LiftDown, PistonOut, PistonIn, ResetLift, breakoutLift,
      LiftLevel1,  LiftLevel2, LiftLevel3, switchLift;
 
+
     public static OI getInstance(){
       if(instance == null){
         instance = new OI();
@@ -66,7 +67,7 @@ public class OI implements RobotMap{
     private void createButtons(){ 
 
       //MainStick Commands
-      //runVision = new JoystickButton(mainStick,2); // Changed 1 to 2
+      runVision = new JoystickButton(mainStick,2); // Changed 1 to 2
 
       //setOn = new JoystickButton(mainStick, 5); //High Gear
       //setOff = new JoystickButton(main(mainStick, 7);
@@ -124,7 +125,7 @@ public class OI implements RobotMap{
 
     private void tieButtons(){
       //MainStick Buttons
-      //runVision.whenPressed(new runVision());
+      runVision.whenPressed(new Turn());
 
       //setOn.whenPressed(new SetDrive(true)); //only works on final
       //setOff.whenPressed(new SetDrive(false));
@@ -145,7 +146,6 @@ public class OI implements RobotMap{
                                                                       // -565, 0.52
       ArmRocketLevel1Delivery.whenPressed(new CargoDelivery(-430, 0.55));//good for practice robot.
       //ArmRocketLevel2Delivery.whenPressed(new CargoLevel2(-610, 0.455));
-
       //arm PID const too weak, bump up
       //arm intake const too weak
 

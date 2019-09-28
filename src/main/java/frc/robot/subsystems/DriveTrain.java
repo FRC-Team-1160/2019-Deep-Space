@@ -60,12 +60,9 @@ public class DriveTrain extends Subsystem implements RobotMap {
 
   private DoubleSolenoid driveSwitch;
 
-  public static NetworkTable table;
-
   private Timer timer,timerCheck;
 
-  NetworkTableEntry xEntry;
-  NetworkTableEntry yEntry;
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
   double x = 0;
   double y = 0;
@@ -114,8 +111,6 @@ public class DriveTrain extends Subsystem implements RobotMap {
   }
 
   public void manualDrive(){
-
-    
     backLeft.set(ControlMode.PercentOutput, .69*(Math.pow((Robot.oi.getMainStick().getY()), 3) - (Math.pow(Robot.oi.getMainStick().getRawAxis(4),3) ))); //1
     backRight.set(ControlMode.PercentOutput, -0.685*(Math.pow((Robot.oi.getMainStick().getY()), 3) + (Math.pow(Robot.oi.getMainStick().getRawAxis(4),3)))); //-.94
     SmartDashboard.putNumber("Angle", gyro.getAngle());
@@ -125,6 +120,23 @@ public class DriveTrain extends Subsystem implements RobotMap {
     SmartDashboard.putNumber("Right Drivetrain Encoder",backRight.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Drivetrain Encoder",backLeft.getSelectedSensorPosition());
   }
+
+	public void controlledDrive(double left, double right){
+    backLeft.set(left);
+		backRight.set(right);
+		SmartDashboard.putNumber("Angle", gyro.getAngle());
+    SmartDashboard.putNumber("Right Drivetrain Encoder",backRight.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Drivetrain Encoder",backLeft.getSelectedSensorPosition());
+  }
+
+	public double getDisplacement(){
+		NetworkTableEntry tx = table.getEntry("tx");
+		return tx.getDouble(0.0);
+	}
+
+	public double getAngle(){
+		return gyro.getAngle();
+	}
 
   public void resetAngleDifference() {
 		angle_difference = 0;
